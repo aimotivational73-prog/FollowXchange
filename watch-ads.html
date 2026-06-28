@@ -438,7 +438,7 @@
             <div class="desktop-ad-card">
                 <div class="ad-label"><i class="fa-solid fa-ad"></i> Advertisement</div>
                 <div style="display:flex; justify-content:center;">
-                    <!-- New Banner Ad Replace -->
+
                     <script>
                       atOptions = {
                         'key' : 'bcb9a00eead65ee1b8261d2f5c9f4e5e',
@@ -508,12 +508,12 @@
             doc, getDoc, setDoc, writeBatch, increment, serverTimestamp 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Constants
+
         const MAX_ADS_PER_DAY = 50;
         const POINTS_PER_AD = 10;
-        const AD_DURATION = 30; // Seconds
+        const AD_DURATION = 30; 
 
-        // DOM Elements
+
         const totalPointsEl = document.getElementById('totalPoints');
         const pointsBadge = document.getElementById('pointsBadge');
         const progressBar = document.getElementById('progressBar');
@@ -521,7 +521,7 @@
         const statsText = document.getElementById('statsText');
         const watchBtn = document.getElementById('watchBtn');
         
-        // Timers
+
         const floatingTimer = document.getElementById('floatingTimer');
         const floatTime = document.getElementById('floatTime');
         
@@ -530,7 +530,7 @@
         const historyList = document.getElementById('historyList');
         const instructionText = document.getElementById('instructionText');
         
-        // Modal DOM
+
         const instructionModal = document.getElementById('instructionModal');
         const startTimerBtn = document.getElementById('startTimerBtn');
         const dontShowAgainCheckbox = document.getElementById('dontShowAgain');
@@ -539,7 +539,7 @@
         let todayCount = 0;
         let isWatching = false;
 
-        // Initialize Page
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -549,12 +549,12 @@
             }
         });
 
-        // Get Today's Date String
+
         function getTodayString() {
             return new Date().toLocaleDateString('en-CA'); 
         }
 
-        // Load and Sync User Data
+
         async function loadUserData() {
             try {
                 const userDoc = await getDoc(doc(db, "users", currentUser.uid));
@@ -583,7 +583,7 @@
             }
         }
 
-        // Update Progress UI
+
         function updateUI() {
             const percentage = (todayCount / MAX_ADS_PER_DAY) * 100;
             progressBar.style.width = `${percentage}%`;
@@ -604,7 +604,7 @@
             }
         }
 
-        // Main Watch Button Clicked
+
         watchBtn.addEventListener('click', () => {
             if (isWatching || todayCount >= MAX_ADS_PER_DAY) return;
             
@@ -616,7 +616,7 @@
             }
         });
 
-        // Modal Start Button Clicked
+
         startTimerBtn.addEventListener('click', () => {
             if(dontShowAgainCheckbox.checked) {
                 localStorage.setItem('hideAdInstructions', 'true');
@@ -632,10 +632,10 @@
             instructionText.style.fontWeight = '600';
             instructionText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Ad opened in new tab. Please wait here until timer finishes...';
             
-            // Show floating top right timer
+
             floatingTimer.style.display = 'flex';
             
-            // OPEN ADSTERRA DIRECT LINK SECURELY IN A NEW TAB (New Smartlink Replace)
+
             const AD_LINK = 'https://www.effectivecpmnetwork.com/sxukxa3e?key=35a8a5808cc7d8a985ba0776162aeb95'; 
             window.open(AD_LINK, '_blank');
             
@@ -656,18 +656,18 @@
         async function finishAd() {
             isWatching = false;
             
-            // Hide Timer
+
             floatingTimer.style.display = 'none';
             
             instructionText.style.color = 'var(--text-muted)';
             instructionText.style.fontWeight = 'normal';
             
-            // Show +10 animation
+
             floatingPoints.style.animation = 'none';
             void floatingPoints.offsetWidth; 
             floatingPoints.style.animation = 'floatUp 1.5s ease-out forwards';
 
-            // Bump badge
+
             pointsBadge.classList.add('bump');
             setTimeout(() => pointsBadge.classList.remove('bump'), 300);
 
@@ -734,7 +734,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !adLoaded) {
                         adLoaded = true;
-                        // New Native Banner Replace
+
                         nativeAdWrapper.innerHTML = '<div id="container-731db7d21cf17540b5c4ef9ff0a87aba"></div>';
                         
                         const script = document.createElement('script');
@@ -752,7 +752,7 @@
         });
     </script>
 
-    <!-- New Social Bar Replace -->
+
     <script src="https://pl30108021.effectivecpmnetwork.com/29/3c/d7/293cd78bcdab5c8f4fcc0245925202d6.js"></script>
 
 </body>

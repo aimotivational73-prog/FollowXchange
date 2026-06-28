@@ -36,7 +36,7 @@
             padding-bottom: calc(var(--nav-height) + 2rem);
         }
 
-        /* Top Navbar */
+        /* */
         .top-bar {
             display: flex;
             justify-content: space-between;
@@ -360,10 +360,8 @@
 
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
 
-        /* Desktop Layout Adjustments */
+
         @media (min-width: 768px) {
             .stats-grid { grid-template-columns: repeat(4, 1fr); }
             .actions-grid { grid-template-columns: repeat(4, 1fr); }
@@ -372,7 +370,7 @@
             body { padding-bottom: 2rem; }
         }
 
-        /* ================== NEW COMPONENTS CSS ================== */
+
         
         /* Universal Footer Styles */
         .universal-footer { background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; margin-top: 4rem; font-family: 'Poppins', sans-serif; }
@@ -569,7 +567,7 @@
             doc, getDoc, collection, query, where, orderBy, limit, getDocs, getCountFromServer
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // DOM Elements
+
         const topPoints = document.getElementById('topPoints');
         const userAvatar = document.getElementById('userAvatar');
         const statPoints = document.getElementById('statPoints');
@@ -587,12 +585,12 @@
 
         let currentUser = null;
 
-        // Initialize
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 
-                // Fetch all dashboard data concurrently for speed
+
                 await Promise.all([
                     loadProfileData(),
                     loadAdProgress(),
@@ -605,7 +603,7 @@
             }
         });
 
-        // 1. Load Profile & Stats
+
         async function loadProfileData() {
             try {
                 const docRef = doc(db, "users", currentUser.uid);
@@ -614,7 +612,7 @@
                 if(snap.exists()) {
                     const data = snap.data();
                     
-                    // Remove skeletons and set text
+
                     [topPoints, statPoints, statReceived, statDone, statEarnings, userAvatar].forEach(el => el.classList.remove('skeleton'));
                     
                     const points = data.points || 0;
@@ -626,12 +624,11 @@
                     const followsDone = data.total_follows_done || 0;
                     statDone.textContent = followsDone.toLocaleString();
                     
-                    // Mock calculation for earnings: Assume 1 follow = 8 points. 100 points = ₹10 (₹0.1/pt).
-                    // So 1 follow = ₹0.80
+
                     const estEarnings = (followsDone * 0.8).toFixed(1);
                     statEarnings.textContent = `₹${estEarnings}`;
 
-                    // Set Avatar Initials
+
                     const name = data.username || "?";
                     userAvatar.textContent = name.charAt(0);
                 }
@@ -640,7 +637,7 @@
             }
         }
 
-        // 2. Load Ad Progress
+
         async function loadAdProgress() {
             try {
                 const adsDocRef = doc(db, "ads_watched", currentUser.uid);
@@ -669,7 +666,7 @@
             }
         }
 
-        // 3. Load Recent Activity
+
         async function loadRecentActivity() {
             try {
                 const historyRef = collection(db, "points_history");
@@ -691,7 +688,7 @@
                 snapshot.forEach(docSnap => {
                     const data = docSnap.data();
                     
-                    // Determine Icon & Color
+
                     let iconClass = "fa-star";
                     let bgClass = "icon-ad";
                     const reasonLower = data.reason.toLowerCase();
@@ -704,14 +701,14 @@
                         iconClass = "fa-user-check"; bgClass = "icon-follow";
                     }
 
-                    // Format Date
+
                     let timeStr = "Recently";
                     if(data.created_at) {
                         const d = data.created_at.toDate();
                         timeStr = `${d.getDate()}/${d.getMonth()+1} ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
                     }
 
-                    // Value
+
                     const isPos = data.points_change > 0;
                     const amountClass = isPos ? "amount-pos" : "amount-neg";
                     const sign = isPos ? "+" : "";
@@ -736,7 +733,7 @@
             }
         }
 
-        // 4. Load Leaderboard
+
         async function loadLeaderboard() {
             try {
                 const usersRef = collection(db, "users");
@@ -769,15 +766,14 @@
                     rank++;
                 });
 
-                // Calculate User Rank if not in top 5
+
                 myRank.classList.remove('skeleton');
                 if (userInTop5) {
-                    // We already know they are in top 5, but we didn't save the exact number loop.
-                    // Doing a quick UI loop to find it:
+
                     const rankIdx = Array.from(snapshot.docs).findIndex(d => d.id === currentUser.uid) + 1;
                     myRank.textContent = `#${rankIdx}`;
                 } else {
-                    // Count users with MORE points than current user
+
                     const higherPointsQuery = query(usersRef, where("points", ">", userPoints));
                     const countSnap = await getCountFromServer(higherPointsQuery);
                     const exactRank = countSnap.data().count + 1;
@@ -792,12 +788,12 @@
             }
         }
 
-        // UI Helpers
+
         window.toggleDropdown = function() {
             document.getElementById('profileDropdown').classList.toggle('show');
         }
 
-        // Close dropdown when clicking outside
+
         window.onclick = function(event) {
             if (!event.target.matches('.avatar')) {
                 const dropdowns = document.getElementsByClassName("dropdown");
@@ -810,7 +806,7 @@
             }
         }
 
-        // Logout
+
         document.getElementById('logoutBtn').addEventListener('click', async (e) => {
             e.preventDefault();
             try {

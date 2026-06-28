@@ -30,13 +30,13 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
-            /* Footer layout fixes */
+
             display: flex;
             flex-direction: column;
             min-height: 100vh;
         }
 
-        /* Navbar */
+
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -67,7 +67,7 @@
             width: 100%;
         }
 
-        /* Cards General */
+
         .card {
             background: var(--white);
             border-radius: 20px;
@@ -85,7 +85,7 @@
             gap: 10px;
         }
 
-        /* Balance Card (Prominent) */
+
         .balance-card {
             background: var(--ig-gradient);
             color: var(--white);
@@ -120,7 +120,7 @@
             text-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        /* Earn Quick Links */
+
         .earn-links {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -161,7 +161,7 @@
             box-shadow: 0 5px 15px rgba(225, 48, 108, 0.1);
         }
 
-        /* Buy Points Packages */
+
         .package-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -195,7 +195,7 @@
         }
 
         .btn-buy {
-            background: #0088cc; /* Telegram Blue */
+            background: #0088cc; 
             color: white;
             border: none;
             padding: 10px;
@@ -215,7 +215,7 @@
             background: #0077b3;
         }
 
-        /* Referral Section */
+
         .referral-box {
             display: flex;
             gap: 10px;
@@ -248,7 +248,7 @@
             opacity: 0.9;
         }
 
-        /* History Table */
+
         .history-list {
             list-style: none;
         }
@@ -296,9 +296,7 @@
             .btn-copy { padding: 12px; }
         }
 
-        /* ================== NEW COMPONENTS CSS ================== */
-        
-        /* Universal Footer Styles */
+
         .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
         .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
         .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
@@ -450,11 +448,11 @@
             doc, getDoc, collection, query, where, orderBy, limit, getDocs 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Admin Telegram Username (REPLACE THIS WITH YOUR ACTUAL TELEGRAM USERNAME)
-        const ADMIN_TELEGRAM = "YOUR_TELEGRAM_USERNAME"; 
-        const DOMAIN_URL = "https://followxchange.netlify.app/register";
 
-        // DOM Elements
+        const ADMIN_TELEGRAM = "YOUR_TELEGRAM_USERNAME"; 
+        const DOMAIN_URL = "https://followxchange.store/register";
+
+
         const pointsDisplay = document.getElementById('pointsDisplay');
         const referralInput = document.getElementById('referralInput');
         const copyBtn = document.getElementById('copyBtn');
@@ -464,7 +462,7 @@
         let currentUser = null;
         let userData = null;
 
-        // Animate Number Logic
+
         function animateValue(obj, start, end, duration) {
             let startTimestamp = null;
             const step = (timestamp) => {
@@ -478,7 +476,7 @@
             window.requestAnimationFrame(step);
         }
 
-        // Initialize
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -489,7 +487,7 @@
             }
         });
 
-        // Load User Profile Data
+
         async function loadUserProfile() {
             try {
                 const docRef = doc(db, "users", currentUser.uid);
@@ -498,15 +496,14 @@
                 if (docSnap.exists()) {
                     userData = docSnap.data();
                     
-                    // 1. Animate Points
+
                     animateValue(pointsDisplay, 0, userData.points, 1500);
 
-                    // 2. Setup Referral Link
-                    // Using their instagram username or standard username as the referral code
+
                     const refCode = userData.instagram_username || userData.username.replace(/\s+/g, '').toLowerCase();
                     referralInput.value = `${DOMAIN_URL}?ref=${refCode}`;
 
-                    // 3. Setup Telegram Buy Links
+
                     setupTelegramLinks();
                 }
             } catch (error) {
@@ -515,7 +512,7 @@
             }
         }
 
-        // Setup Telegram Dynamic Links
+
         function setupTelegramLinks() {
             const safeUsername = userData.instagram_username || userData.username;
             
@@ -523,17 +520,17 @@
                 const packageAmount = link.getAttribute('data-pkg');
                 const message = `Hi, I want to buy ${packageAmount} points for FollowXchange. My username is: ${safeUsername}.`;
                 
-                // Encode the message for URL
+
                 const encodedMessage = encodeURIComponent(message);
                 link.href = `https://t.me/${ADMIN_TELEGRAM}?text=${encodedMessage}`;
                 link.target = "_blank";
             });
         }
 
-        // Copy Referral Link Logic
+
         copyBtn.addEventListener('click', () => {
             referralInput.select();
-            referralInput.setSelectionRange(0, 99999); // For mobile devices
+            referralInput.setSelectionRange(0, 99999); 
             navigator.clipboard.writeText(referralInput.value);
             
             const originalText = copyBtn.innerHTML;
@@ -543,11 +540,10 @@
             }, 2000);
         });
 
-        // Load Transaction History
+
         async function loadTransactionHistory() {
             try {
-                // Note: Ordering by created_at and filtering by uid requires a Firestore Index!
-                // If you get an error in the console, click the link Firebase provides in the error to build the index.
+
                 const historyRef = collection(db, "points_history");
                 const q = query(
                     historyRef, 
@@ -558,7 +554,7 @@
 
                 const querySnapshot = await getDocs(q);
                 
-                historyList.innerHTML = ''; // Clear loading text
+                historyList.innerHTML = ''; 
 
                 if (querySnapshot.empty) {
                     historyList.innerHTML = '<li class="loading-text">No recent transactions found.</li>';
@@ -568,14 +564,14 @@
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
                     
-                    // Format Date
+
                     let dateStr = "Just now";
                     if(data.created_at) {
                         const dateObj = data.created_at.toDate();
                         dateStr = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                     }
 
-                    // Format Points display
+
                     const isPositive = data.points_change > 0;
                     const sign = isPositive ? '+' : '';
                     const colorClass = isPositive ? 'positive' : 'negative';
@@ -597,7 +593,7 @@
             } catch (error) {
                 console.error("Error loading history:", error);
                 
-                // Fallback display if index is missing
+
                 if(error.message.includes("index")) {
                     historyList.innerHTML = '<li class="loading-text" style="color: var(--danger);">Database index building. History will appear shortly. Check console for index link.</li>';
                 } else {

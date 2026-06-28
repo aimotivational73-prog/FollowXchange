@@ -25,22 +25,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Favicon / App Icon Setup (Added Here) -->
     <link rel="icon" type="image/webp" sizes="32x32" href="/FollowXchange.webp">
     <link rel="icon" type="image/webp" sizes="192x192" href="/FollowXchange.webp">
     <link rel="apple-touch-icon" sizes="180x180" href="/FollowXchange.webp">
 
-    <!-- Microsoft Tiles & Colors -->
     <meta name="msapplication-TileImage" content="/FollowXchange.webp">
     <meta name="msapplication-TileColor" content="#E1306C">
     <meta name="msapplication-config" content="/browserconfig.xml">
     <meta name="theme-color" content="#E1306C">
 
-    <!-- PWA Manifest File -->
     <link rel="manifest" href="/manifest.json">
     
     <style>
-        /* CSS Variables */
+
         :root {
             --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             --bg-color: #f8f9fa;
@@ -48,7 +45,6 @@
             --text-light: #fff;
         }
 
-        /* Global Reset */
         * {
             margin: 0;
             padding: 0;
@@ -67,7 +63,6 @@
             text-decoration: none;
         }
 
-        /* Navbar */
         nav {
             display: flex;
             justify-content: space-between;
@@ -119,7 +114,6 @@
             box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
         }
 
-        /* Navbar Dropdown Styles */
         .nav-dropdown { position: relative; display: inline-block; margin-right: 15px; }
         .dropdown-trigger { color: var(--text-dark); text-decoration: none; font-weight: 600; font-size: 0.95rem; cursor: pointer; padding: 10px 0; }
         .dropdown-content { display: none; position: absolute; right: 0; top: 100%; background-color: white; min-width: 200px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden; z-index: 1001; border: 1px solid #e2e8f0; }
@@ -127,7 +121,6 @@
         .dropdown-content a:hover { background-color: #f8f9fa; color: #E1306C; }
         .nav-dropdown:hover .dropdown-content { display: block; }
 
-        /* Hero Section */
         .hero {
             background: var(--ig-gradient);
             padding: 160px 5% 100px;
@@ -167,7 +160,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
         }
 
-        /* How It Works Section */
         .how-it-works {
             padding: 80px 5%;
             text-align: center;
@@ -212,7 +204,6 @@
             margin-bottom: 15px;
         }
 
-        /* Stats Section */
         .stats {
             background: #fff;
             padding: 60px 5%;
@@ -237,15 +228,11 @@
             font-weight: 600;
         }
 
-        /* Animations */
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ================== NEW COMPONENTS CSS ================== */
-        
-        /* Universal Footer Styles */
         .universal-footer { background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; margin-top: 4rem; font-family: 'Poppins', sans-serif; }
         .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; }
         .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
@@ -261,7 +248,6 @@
         .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
         .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; }
 
-        /* Age Gate */
         .age-gate-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 99999; }
         .age-gate-card { background: white; padding: 2.5rem 2rem; border-radius: 20px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
         .age-gate-card h2 { margin-bottom: 10px; color: #1a1a2e; }
@@ -269,7 +255,6 @@
         .btn-confirm-age { background: linear-gradient(135deg, #E1306C, #833AB4); color: white; border: none; padding: 12px 20px; width: 100%; border-radius: 50px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: transform 0.2s; }
         .btn-confirm-age:hover { transform: scale(0.97); }
 
-        /* Cookie Banner */
         .cookie-banner { position: fixed; bottom: -100%; left: 0; width: 100%; background: #ffffff; box-shadow: 0 -5px 25px rgba(0,0,0,0.1); z-index: 9999; padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; gap: 20px; transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border-top: 3px solid #E1306C; }
         .cookie-banner.show { bottom: 0; }
         .cookie-content h4 { font-size: 1.1rem; margin-bottom: 5px; color: #2d3436; }
@@ -279,7 +264,7 @@
         .btn-cookie-outline { padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; text-decoration: none; color: #2d3436; border: 1px solid #e2e8f0; display: inline-block; }
         .btn-cookie-solid { padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer; background: linear-gradient(135deg, #E1306C, #833AB4); color: white; }
 
-        /* Mobile Responsiveness */
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
             .nav-buttons .btn { padding: 8px 16px; font-size: 0.9rem; }
@@ -433,7 +418,7 @@
 
             if (!localStorage.getItem("ageVerified")) {
                 ageGate.style.display = "flex";
-                document.body.style.overflow = "hidden"; // Prevent scrolling
+                document.body.style.overflow = "hidden"; 
             }
 
             confirmAgeBtn.addEventListener("click", function() {
@@ -441,11 +426,11 @@
                 ageGate.style.display = "none";
                 document.body.style.overflow = "auto";
                 
-                // Check cookie banner AFTER age is verified
+  
                 checkCookieConsent();
             });
 
-            // Cookie Banner Logic
+  
             const cookieBanner = document.getElementById("cookieBanner");
             const acceptCookiesBtn = document.getElementById("acceptCookiesBtn");
 
@@ -455,7 +440,7 @@
                 }
             }
 
-            // If age is already verified on page load, check cookies immediately
+    
             if (localStorage.getItem("ageVerified")) {
                 checkCookieConsent();
             }

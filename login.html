@@ -404,7 +404,7 @@
             getDoc 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // DOM Elements
+
         const loginForm = document.getElementById('loginForm');
         const googleBtn = document.getElementById('googleBtn');
         const submitBtn = document.getElementById('submitBtn');
@@ -414,7 +414,7 @@
         const forgotPasswordLink = document.getElementById('forgotPassword');
         const emailInput = document.getElementById('email');
 
-        // Show Message Helper
+
         function showMessage(msg, type) {
             messageBox.textContent = msg;
             messageBox.className = `message-box message-${type}`;
@@ -433,7 +433,7 @@
             }
         }
 
-        // Validate Profile & Redirect Route
+
         async function handleSuccessfulLogin(user) {
             try {
                 const docRef = doc(db, "users", user.uid);
@@ -441,15 +441,15 @@
 
                 if (docSnap.exists()) {
                     const userData = docSnap.data();
-                    // Check if instagram_username exists and is not empty
+
                     if (userData.instagram_username && userData.instagram_username.trim() !== "") {
                         window.location.href = "dashboard.html";
                     } else {
-                        // Incomplete profile (e.g. from Google Auth)
+
                         window.location.href = "profile-setup.html";
                     }
                 } else {
-                    // Just in case user auth exists but Firestore document doesn't
+
                     window.location.href = "profile-setup.html";
                 }
             } catch (error) {
@@ -459,7 +459,7 @@
             }
         }
 
-        // Handle Email/Password Login
+
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -470,14 +470,14 @@
             toggleLoading(true);
 
             try {
-                // Set persistence based on "Remember Me" checkbox
+
                 const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
                 await setPersistence(auth, persistenceType);
 
-                // Sign in
+
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 
-                // Show success and route them
+
                 showMessage("Login successful! Redirecting...", "success");
                 await handleSuccessfulLogin(userCredential.user);
 
@@ -485,7 +485,7 @@
                 console.error(error);
                 let errorMessage = "An error occurred during login.";
                 
-                // Firebase modern security groups wrong password & user not found into invalid-credential
+
                 if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
                     errorMessage = "Invalid email or password.";
                 } else if (error.code === 'auth/too-many-requests') {
@@ -497,7 +497,7 @@
             }
         });
 
-        // Handle Google Sign-In
+
         googleBtn.addEventListener('click', async () => {
             const provider = new GoogleAuthProvider();
             
@@ -513,7 +513,7 @@
             }
         });
 
-        // Handle Forgot Password
+
         forgotPasswordLink.addEventListener('click', async () => {
             const email = emailInput.value.trim();
             

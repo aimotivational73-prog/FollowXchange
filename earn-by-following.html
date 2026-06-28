@@ -376,19 +376,16 @@
     </footer>
 
     <script type="module">
-        // NO FIREBASE STORAGE IMPORTS NEEDED
+
         import { auth, db } from './js/firebase-config.js';
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
             collection, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, orderBy 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // ==========================================
-        // CLOUDINARY SETTINGS - UPDATE THESE!
-        // ==========================================
+
         const CLOUDINARY_CLOUD_NAME = "dhlhljjdb"; 
         const CLOUDINARY_UPLOAD_PRESET = "followxchange_proofs"; 
-        // ==========================================
 
         const POINTS_PER_FOLLOW = 8;
 
@@ -563,9 +560,7 @@
             }
         });
 
-        // --------------------------------------------------
-        // CLOUDINARY UPLOAD LOGIC
-        // --------------------------------------------------
+
         confirmUploadBtn.addEventListener('click', async () => {
             if (!selectedFile || !selectedOrderId) return;
 
@@ -578,12 +573,12 @@
             confirmUploadBtn.disabled = true;
 
             try {
-                // 1. Prepare form data for Cloudinary Unsigned Upload
+
                 const formData = new FormData();
                 formData.append('file', selectedFile);
                 formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
 
-                // 2. Upload to Cloudinary via REST API
+
                 const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
                 
                 const response = await fetch(cloudinaryUrl, {
@@ -596,9 +591,8 @@
                 }
 
                 const data = await response.json();
-                const downloadURL = data.secure_url; // Cloudinary automatically gives a secure HTTPS link
-
-                // 3. Save record to Firestore 'follow_proofs'
+                const downloadURL = data.secure_url; 
+                
                 const proofId = `${selectedOrderId}_${currentUser.uid}`;
                 const proofDocRef = doc(db, "follow_proofs", proofId);
                 

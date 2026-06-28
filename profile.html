@@ -287,7 +287,7 @@
             max-width: 400px; width: 90%; text-align: center;
         }
 
-        /* ================== NEW COMPONENTS CSS ================== */
+
         
         /* Universal Footer Styles */
         .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
@@ -536,7 +536,7 @@
             doc, getDoc, updateDoc, collection, query, where, getDocs, writeBatch, deleteDoc
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // DOM Elements
+
         const navPoints = document.getElementById('navPoints');
         const displayAvatar = document.getElementById('displayAvatar');
         const displayName = document.getElementById('displayName');
@@ -544,13 +544,13 @@
         const displayDate = document.getElementById('displayDate');
         const premiumBadge = document.getElementById('premiumBadge');
         
-        // Stats
+
         const statTotalPoints = document.getElementById('statTotalPoints');
         const statFollowers = document.getElementById('statFollowers');
         const statDone = document.getElementById('statDone');
         const statReferrals = document.getElementById('statReferrals');
 
-        // Forms
+
         const profileForm = document.getElementById('profileForm');
         const inputName = document.getElementById('inputName');
         const inputIg = document.getElementById('inputIg');
@@ -559,20 +559,20 @@
         const profileMsg = document.getElementById('profileMsg');
         const btnSaveProfile = document.getElementById('btnSaveProfile');
 
-        // Password
+
         const passwordForm = document.getElementById('passwordForm');
         const currentPwd = document.getElementById('currentPwd');
         const newPwd = document.getElementById('newPwd');
         const confirmPwd = document.getElementById('confirmPwd');
         const pwdMsg = document.getElementById('pwdMsg');
 
-        // Toggles
+
         const prefToggles = document.querySelectorAll('.pref-toggle');
 
         let currentUser = null;
         let userData = null;
 
-        // Init
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -582,7 +582,7 @@
             }
         });
 
-        // Helper: Show Message
+
         function showMsg(element, msg, type) {
             element.textContent = msg;
             element.className = `msg-box msg-${type}`;
@@ -590,7 +590,7 @@
             setTimeout(() => { element.style.display = 'none'; }, 5000);
         }
 
-        // 1. Load Profile
+
         async function loadUserProfile() {
             try {
                 const docRef = doc(db, "users", currentUser.uid);
@@ -599,7 +599,7 @@
                 if (docSnap.exists()) {
                     userData = docSnap.data();
 
-                    // Map UI
+
                     navPoints.textContent = (userData.points || 0).toLocaleString();
                     displayName.textContent = userData.username || "User";
                     displayAvatar.textContent = (userData.username || "?").charAt(0);
@@ -614,21 +614,19 @@
 
                     if(userData.is_premium) premiumBadge.style.display = 'flex';
 
-                    // Stats
-                    // Note: 'total_points_earned' is calculated dynamically here based on points spent/earned
-                    // For simplicity, we show current points + spent (mock calculation) or just lifetime if tracked.
+
                     statTotalPoints.textContent = (userData.points || 0).toLocaleString(); 
                     statFollowers.textContent = (userData.total_followers_received || 0).toLocaleString();
                     statDone.textContent = (userData.total_follows_done || 0).toLocaleString();
                     statReferrals.textContent = (userData.referrals_made || 0).toLocaleString();
 
-                    // Form Data
+
                     inputName.value = userData.username || "";
                     inputIg.value = userData.instagram_username || "";
                     inputCategory.value = userData.category || "Personal";
                     inputBio.value = userData.bio || "";
 
-                    // Notification Toggles
+
                     const prefs = userData.notifications || { order: true, points: true, daily: false };
                     document.getElementById('notifOrder').checked = prefs.order;
                     document.getElementById('notifPoints').checked = prefs.points;
@@ -639,7 +637,7 @@
             }
         }
 
-        // 2. Update Profile Form
+
         profileForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             btnSaveProfile.disabled = true;
@@ -655,7 +653,7 @@
                 });
                 
                 showMsg(profileMsg, "Profile updated successfully!", "success");
-                await loadUserProfile(); // Refresh header
+                await loadUserProfile(); 
 
             } catch (error) {
                 console.error(error);
@@ -666,7 +664,7 @@
             }
         });
 
-        // 3. Update Preferences (Auto-save on toggle)
+
         prefToggles.forEach(toggle => {
             toggle.addEventListener('change', async () => {
                 try {
@@ -682,7 +680,7 @@
             });
         });
 
-        // 4. Change Password
+
         passwordForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -691,11 +689,11 @@
             }
 
             try {
-                // Re-authenticate first
+
                 const credential = EmailAuthProvider.credential(currentUser.email, currentPwd.value);
                 await reauthenticateWithCredential(currentUser, credential);
 
-                // Update Password
+
                 await updatePassword(currentUser, newPwd.value);
                 
                 showMsg(pwdMsg, "Password updated successfully!", "success");
@@ -713,7 +711,7 @@
             }
         });
 
-        // 5. Delete Account Logic
+
         const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
         
         confirmDeleteBtn.addEventListener('click', async () => {
@@ -723,7 +721,7 @@
             confirmDeleteBtn.textContent = 'Processing...';
 
             try {
-                // 1. Re-authenticate if password provided (Skip if Google Auth, but may fail if recent login required)
+
                 if (pwdInput) {
                     const credential = EmailAuthProvider.credential(currentUser.email, pwdInput);
                     await reauthenticateWithCredential(currentUser, credential);
@@ -731,26 +729,26 @@
 
                 const batch = writeBatch(db);
                 
-                // 2. Clean up Orders (Set status to cancelled so queue doesn't get stuck)
+
                 const ordersRef = collection(db, "follow_orders");
                 const q = query(ordersRef, where("buyer_uid", "==", currentUser.uid));
                 const orderSnaps = await getDocs(q);
                 
                 orderSnaps.forEach(docSnap => {
-                    batch.delete(docSnap.ref); // Simply delete the orders
+                    batch.delete(docSnap.ref); 
                 });
 
-                // 3. Delete User Document
+
                 const userRef = doc(db, "users", currentUser.uid);
                 batch.delete(userRef);
 
-                // Commit DB changes
+
                 await batch.commit();
 
-                // 4. Delete Auth User
+
                 await deleteUser(currentUser);
 
-                // Redirect handles automatically by onAuthStateChanged, but force it just in case
+
                 window.location.href = 'login.html';
 
             } catch (error) {

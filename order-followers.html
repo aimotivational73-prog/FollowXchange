@@ -499,7 +499,7 @@
             writeBatch, serverTimestamp, deleteDoc 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Pricing Structure
+
         const PRICING = {
             10: 100,
             25: 240,
@@ -508,7 +508,7 @@
             250: 2000
         };
 
-        // DOM Elements
+
         const navPoints = document.getElementById('navPoints');
         const orderForm = document.getElementById('orderForm');
         const targetIg = document.getElementById('targetIg');
@@ -518,13 +518,13 @@
         const pointsWarning = document.getElementById('pointsWarning');
         const placeOrderBtn = document.getElementById('placeOrderBtn');
         
-        // Orders List DOM
+
         const activeOrdersList = document.getElementById('activeOrdersList');
         const completedOrdersList = document.getElementById('completedOrdersList');
         const tabActive = document.getElementById('tabActive');
         const tabCompleted = document.getElementById('tabCompleted');
 
-        // Modal DOM
+
         const confirmModal = document.getElementById('confirmModal');
         const modalCard = document.getElementById('modalCard');
         const modalCost = document.getElementById('modalCost');
@@ -536,7 +536,7 @@
         let currentPoints = 0;
         let currentSelection = { amount: 10, cost: 100 };
 
-        // Initialize Page
+
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -547,7 +547,7 @@
             }
         });
 
-        // 1. Load User Profile (Points & IG)
+
         async function loadUserProfile() {
             try {
                 const docRef = doc(db, "users", currentUser.uid);
@@ -559,7 +559,7 @@
                     navPoints.textContent = currentPoints.toLocaleString();
                     targetIg.value = data.instagram_username || "";
                     
-                    // Trigger UI validation
+
                     updateCostUI();
                 }
             } catch (error) {
@@ -567,7 +567,7 @@
             }
         }
 
-        // 2. Handle Form Changes (Dropdown)
+
         followerPackage.addEventListener('change', updateCostUI);
 
         function updateCostUI() {
@@ -577,12 +577,12 @@
             currentSelection = { amount, cost };
             costDisplay.textContent = cost;
 
-            // Generate fake dynamic ETA based on amount + random queue size
+
             const baseTime = Math.ceil(amount * 1.2);
             const queueDelay = Math.floor(Math.random() * 20) + 5;
             etaDisplay.innerHTML = `<i class="fa-solid fa-bolt"></i> Estimated Delivery: ~${baseTime + queueDelay} mins`;
 
-            // Validate against current points
+
             if (currentPoints < cost) {
                 pointsWarning.style.display = 'flex';
                 placeOrderBtn.disabled = true;
@@ -592,7 +592,7 @@
             }
         }
 
-        // 3. Form Submit -> Show Modal
+
         orderForm.addEventListener('submit', (e) => {
             e.preventDefault();
             if(currentPoints < currentSelection.cost) return;
@@ -605,13 +605,13 @@
             setTimeout(() => modalCard.classList.add('show'), 10);
         });
 
-        // Expose close modal to global scope for HTML inline onclick
+
         window.closeModal = function() {
             modalCard.classList.remove('show');
             setTimeout(() => confirmModal.style.display = 'none', 300);
         }
 
-        // 4. Process the Order (Batched Write)
+
         confirmOrderBtn.addEventListener('click', async () => {
             confirmOrderBtn.textContent = 'Processing...';
             confirmOrderBtn.disabled = true;
@@ -619,17 +619,17 @@
             try {
                 const batch = writeBatch(db);
                 
-                // New Order ID Document
+
                 const orderRef = doc(collection(db, "follow_orders"));
                 
-                // Subtract Points Ref
+
                 const userRef = doc(db, "users", currentUser.uid);
 
-                // Points History Ref
+
                 const txnId = `txn_order_${Date.now()}`;
                 const historyRef = doc(db, "points_history", txnId);
 
-                // Add to Batch
+
                 batch.set(orderRef, {
                     order_id: orderRef.id,
                     buyer_uid: currentUser.uid,
@@ -641,8 +641,7 @@
                     progress: 0
                 });
 
-                // IMPORTANT: Ensure your Firestore security rules allow the client to update points 
-                // in a batch, or use a Cloud Function for production safety.
+
                 batch.update(userRef, {
                     points: currentPoints - currentSelection.cost
                 });
@@ -655,18 +654,18 @@
                     created_at: serverTimestamp()
                 });
 
-                // Commit Transaction
+
                 await batch.commit();
 
-                // Success!
+
                 window.closeModal();
                 confirmOrderBtn.textContent = 'Yes, Place Order';
                 confirmOrderBtn.disabled = false;
                 
-                // Trigger Confetti
+
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
 
-                // Refresh Data
+
                 await loadUserProfile();
                 await loadOrders();
 
@@ -678,7 +677,7 @@
             }
         });
 
-        // 5. Load Active & Completed Orders
+
         async function loadOrders() {
             try {
                 const ordersRef = collection(db, "follow_orders");
@@ -720,7 +719,7 @@
             }
         }
 
-        // Helper: Build HTML for list item
+
         function buildOrderListItem(orderData, docId) {
             const li = document.createElement('li');
             li.className = 'order-item';
@@ -730,7 +729,7 @@
             
             let cancelBtnHtml = '';
             if (isPending) {
-                // Pass docId and cost to global cancel function
+
                 cancelBtnHtml = `<button class="btn-cancel" onclick="cancelOrder('${docId}', ${orderData.points_cost})">Cancel & Refund</button>`;
             }
 
@@ -748,7 +747,7 @@
             return li;
         }
 
-        // 6. Cancel Order & Refund (Global function)
+
         window.cancelOrder = async function(orderId, cost) {
             if(!confirm(`Are you sure you want to cancel this order? ${cost} points will be refunded.`)) return;
 
@@ -761,15 +760,15 @@
                 const txnId = `txn_refund_${Date.now()}`;
                 const historyRef = doc(db, "points_history", txnId);
 
-                // Delete order (or could update status to 'cancelled')
+
                 batch.delete(orderRef);
                 
-                // Refund Points
+
                 batch.update(userRef, {
                     points: currentPoints + cost
                 });
 
-                // Add History
+
                 batch.set(historyRef, {
                     txn_id: txnId,
                     uid: currentUser.uid,
@@ -780,7 +779,7 @@
 
                 await batch.commit();
                 
-                // Refresh
+
                 await loadUserProfile();
                 await loadOrders();
 
@@ -790,7 +789,7 @@
             }
         };
 
-        // Tabs Logic
+
         tabActive.addEventListener('click', () => {
             tabActive.classList.add('active');
             tabCompleted.classList.remove('active');
