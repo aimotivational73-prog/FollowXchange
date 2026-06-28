@@ -1,24 +1,22 @@
 {
   "name": "FollowXchange",
   "short_name": "FollowXchange",
-  "description": "Exchange points for real Instagram followers.",
-  "start_url": "/dashboard.html",
+  "description": "The premier platform to grow your authentic Instagram following safely and securely.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#f8f9fa",
+  "background_color": "#833AB4",
   "theme_color": "#E1306C",
-  "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/assets/icons/icon-192x192.png",
+      "src": "/FollowXchange.webp",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/webp",
       "purpose": "any maskable"
     },
     {
-      "src": "/assets/icons/icon-512x512.png",
+      "src": "/FollowXchange.webp",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/webp"
     }
   ]
 }
