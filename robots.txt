@@ -11,4 +11,4 @@ Disallow: /earn-by-following.html
 Disallow: /watch-ads.html
 Disallow: /admin.html
 
-Sitemap: https://followxchange.netlify.app/sitemap.xml
+Sitemap: https://followxchange.store/sitemap.xml
