@@ -126,7 +126,7 @@
 
         /* Action Area (Button & Timer) */
         .action-area {
-            min-height: 200px;
+            min-height: 120px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -162,49 +162,29 @@
             transform: none;
         }
 
-        /* Circular Timer */
-        .timer-container {
-            display: none; /* Hidden initially */
-            position: relative;
-            width: 120px;
-            height: 120px;
-        }
-
-        .timer-svg {
-            transform: rotate(-90deg);
-        }
-
-        .timer-bg {
-            fill: none;
-            stroke: #e2e8f0;
-            stroke-width: 8;
-        }
-
-        .timer-progress {
-            fill: none;
-            stroke: url(#gradient);
-            stroke-width: 8;
-            stroke-linecap: round;
-            stroke-dasharray: 314; /* 2 * pi * r (50) */
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 1s linear;
-        }
-
-        .timer-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5rem;
+        /* Floating Top Right Timer */
+        .floating-timer {
+            position: fixed;
+            top: 85px; /* Below navbar */
+            right: 5%;
+            background: var(--ig-gradient);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 50px;
             font-weight: 700;
-            color: var(--text-dark);
+            font-size: 1.2rem;
+            box-shadow: 0 5px 20px rgba(225, 48, 108, 0.5);
+            display: none;
+            z-index: 1000;
+            align-items: center;
+            gap: 10px;
+            animation: pulse 1.5s infinite;
         }
 
-        .timer-msg {
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 500;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         /* Floating Points Animation */
@@ -255,7 +235,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 0;
-            border-bottom: #f1f5f9;
+            border-bottom: 1px solid #f1f5f9;
         }
 
         .history-item:last-child {
@@ -272,8 +252,95 @@
             font-weight: 700;
         }
 
-        /* ================== NEW COMPONENTS CSS ================== */
-        
+        /* Modals (Instruction Popup) */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .modal-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+        }
+
+        /* New Ad Placement Styles */
+        .ad-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        /* Desktop Only Ad Card (Inside History) */
+        .desktop-ad-card {
+            background: #f8f9fa;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: block; 
+        }
+
+        /* Sponsored Native Ad Card (Bottom) */
+        .sponsored-ad-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0,0,0,0.02);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 2rem;
+            min-height: 100px;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-ad-card {
+                display: none; 
+            }
+        }
+
         /* Universal Footer Styles */
         .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
         .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
@@ -298,15 +365,32 @@
 </head>
 <body>
 
-    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
-      <defs>
-        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#E1306C" />
-          <stop offset="50%" stop-color="#833AB4" />
-          <stop offset="100%" stop-color="#F77737" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <div class="floating-timer" id="floatingTimer">
+        <i class="fa-solid fa-clock" style="animation: spin 2s linear infinite;"></i> 
+        <span id="floatTime">30</span>s
+    </div>
+
+    <div class="modal-overlay" id="instructionModal">
+        <div class="modal-card">
+            <i class="fa-solid fa-circle-play" style="font-size: 3.5rem; color: #E1306C; margin-bottom: 15px;"></i>
+            <h2 style="margin-bottom: 10px; color: var(--text-dark);">How to earn points?</h2>
+            <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px; text-align: left; padding: 0 10px;">
+                1. Click <b>"Okay, Start"</b>.<br>
+                2. Ad ek naye tab me open hoga.<br>
+                3. Is page par vapas aayein, top-right pe <b>Timer</b> chalega.<br>
+                4. Timer 0 hote hi aapko 10 points mil jayenge!
+            </p>
+            
+            <label class="checkbox-container">
+                <input type="checkbox" id="dontShowAgain">
+                Don't show this instruction again
+            </label>
+            
+            <button class="btn-watch" id="startTimerBtn" style="width: 100%; justify-content: center; margin-top: 10px;">
+                Okay, Start
+            </button>
+        </div>
+    </div>
 
     <nav class="navbar">
         <a href="dashboard.html" class="logo"><i class="fa-solid fa-arrow-left"></i> Back</a>
@@ -316,6 +400,7 @@
     </nav>
 
     <div class="container">
+
         <div class="card">
             <div class="progress-header">
                 <span>Today's Progress</span>
@@ -329,8 +414,8 @@
 
         <div class="card">
             <h2>Watch & Earn</h2>
-            <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 0.9rem;">
-                Watch a short ad for 30 seconds to earn 10 points!
+            <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 0.9rem;" id="instructionText">
+                Click below to open ad in a new tab and stay on this page for 30 seconds to earn 10 points!
             </p>
 
             <div class="action-area" id="actionArea">
@@ -343,25 +428,38 @@
                 <div class="limit-msg" id="limitMsg">
                     <i class="fa-solid fa-circle-check"></i> Daily Limit Reached (50/50)! Come back tomorrow.
                 </div>
-
-                <div id="timerWrapper" style="display: none; flex-direction: column; align-items: center;">
-                    <div class="timer-container" id="timerContainer">
-                        <svg class="timer-svg" width="120" height="120">
-                            <circle class="timer-bg" cx="60" cy="60" r="50"></circle>
-                            <circle class="timer-progress" id="timerProgress" cx="60" cy="60" r="50"></circle>
-                        </svg>
-                        <div class="timer-text" id="timerText">30</div>
-                    </div>
-                    <p class="timer-msg">Stay on this page until the timer finishes!</p>
-                </div>
             </div>
         </div>
 
         <div class="card history-card">
             <h3><i class="fa-solid fa-clock-rotate-left"></i> Today's History</h3>
+            
+            <div class="desktop-ad-card">
+                <div class="ad-label"><i class="fa-solid fa-ad"></i> Advertisement</div>
+                <div style="display:flex; justify-content:center;">
+                    <script>
+                      atOptions = {
+                        'key' : '9eaad8305f42cd512469c3d6cc852f0b',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                      };
+                    </script>
+                    <script src="https://www.highperformanceformat.com/9eaad8305f42cd512469c3d6cc852f0b/invoke.js"></script>
+                </div>
+            </div>
+
             <ul class="history-list" id="historyList">
             </ul>
         </div>
+        
+        <div class="sponsored-ad-card" id="lazyNativeAd">
+            <div class="ad-label"><i class="fa-solid fa-bullhorn"></i> Sponsored</div>
+            <div id="nativeAdWrapper" style="min-height: 50px;">
+                </div>
+        </div>
+
     </div>
 
     <footer class="universal-footer">
@@ -420,13 +518,20 @@
         const progressText = document.getElementById('progressText');
         const statsText = document.getElementById('statsText');
         const watchBtn = document.getElementById('watchBtn');
-        const timerWrapper = document.getElementById('timerWrapper');
-        const timerContainer = document.getElementById('timerContainer');
-        const timerText = document.getElementById('timerText');
-        const timerProgress = document.getElementById('timerProgress');
+        
+        // Timers
+        const floatingTimer = document.getElementById('floatingTimer');
+        const floatTime = document.getElementById('floatTime');
+        
         const floatingPoints = document.getElementById('floatingPoints');
         const limitMsg = document.getElementById('limitMsg');
         const historyList = document.getElementById('historyList');
+        const instructionText = document.getElementById('instructionText');
+        
+        // Modal DOM
+        const instructionModal = document.getElementById('instructionModal');
+        const startTimerBtn = document.getElementById('startTimerBtn');
+        const dontShowAgainCheckbox = document.getElementById('dontShowAgain');
 
         let currentUser = null;
         let todayCount = 0;
@@ -442,35 +547,32 @@
             }
         });
 
-        // Get Today's Date String (Local timezone)
+        // Get Today's Date String
         function getTodayString() {
-            return new Date().toLocaleDateString('en-CA'); // e.g., "2026-06-27"
+            return new Date().toLocaleDateString('en-CA'); 
         }
 
         // Load and Sync User Data
         async function loadUserData() {
             try {
-                // Fetch User Profile (for points)
                 const userDoc = await getDoc(doc(db, "users", currentUser.uid));
                 if (userDoc.exists()) {
                     totalPointsEl.textContent = userDoc.data().points;
                 }
 
-                // Fetch Ads Watched logic
                 const adsDocRef = doc(db, "ads_watched", currentUser.uid);
                 const adsDoc = await getDoc(adsDocRef);
                 const todayStr = getTodayString();
 
                 if (adsDoc.exists()) {
                     const data = adsDoc.data();
-                    // Midnight Reset Logic
                     if (data.last_watched_date !== todayStr) {
                         todayCount = 0;
                     } else {
                         todayCount = data.today_count || 0;
                     }
                 } else {
-                    todayCount = 0; // First time ever
+                    todayCount = 0; 
                 }
 
                 updateUI();
@@ -489,46 +591,58 @@
             if (todayCount >= MAX_ADS_PER_DAY) {
                 watchBtn.style.display = 'none';
                 limitMsg.style.display = 'block';
+                instructionText.style.display = 'none';
             } else {
-                watchBtn.style.display = 'flex';
+                if(!isWatching) {
+                    watchBtn.style.display = 'flex';
+                    instructionText.style.display = 'block';
+                    instructionText.textContent = 'Click below to open ad in a new tab and stay on this page for 30 seconds to earn 10 points!';
+                }
                 limitMsg.style.display = 'none';
             }
         }
 
-        // Watch Ad Logic
+        // Main Watch Button Clicked
         watchBtn.addEventListener('click', () => {
             if (isWatching || todayCount >= MAX_ADS_PER_DAY) return;
             
-            // 1. OPEN ADSTERRA LINK (Popup in new tab)
-            // ADSTERRA_AD_CODE_HERE
-            window.open('YOUR_ADSTERRA_DIRECT_LINK', '_blank');
+            const hideInstructions = localStorage.getItem('hideAdInstructions');
+            if (hideInstructions === 'true') {
+                startCountdown();
+            } else {
+                instructionModal.style.display = 'flex';
+            }
+        });
 
-            // 2. Start UI Timer
+        // Modal Start Button Clicked
+        startTimerBtn.addEventListener('click', () => {
+            if(dontShowAgainCheckbox.checked) {
+                localStorage.setItem('hideAdInstructions', 'true');
+            }
+            instructionModal.style.display = 'none';
             startCountdown();
         });
 
         function startCountdown() {
             isWatching = true;
             watchBtn.style.display = 'none';
-            timerWrapper.style.display = 'flex';
-            timerContainer.style.display = 'block';
+            instructionText.style.color = '#E1306C';
+            instructionText.style.fontWeight = '600';
+            instructionText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Ad opened in new tab. Please wait here until timer finishes...';
+            
+            // Show floating top right timer
+            floatingTimer.style.display = 'flex';
+            
+            // OPEN ADSTERRA DIRECT LINK SECURELY IN A NEW TAB (No Iframe Ban Risk!)
+            const AD_LINK = 'https://www.effectivecpmnetwork.com/gws1d70a8e?key=dc9c748e8042c4dbc68b1d977e0719ab'; 
+            window.open(AD_LINK, '_blank');
             
             let timeLeft = AD_DURATION;
-            timerText.textContent = timeLeft;
-            
-            // Circumference of r=50 circle is ~314
-            timerProgress.style.transition = 'none';
-            timerProgress.style.strokeDashoffset = '0';
-            
-            // Trigger reflow to restart transition
-            void timerProgress.offsetWidth; 
-            
-            timerProgress.style.transition = `stroke-dashoffset ${AD_DURATION}s linear`;
-            timerProgress.style.strokeDashoffset = '314';
+            floatTime.textContent = timeLeft;
 
             const interval = setInterval(() => {
                 timeLeft--;
-                timerText.textContent = timeLeft;
+                floatTime.textContent = timeLeft;
 
                 if (timeLeft <= 0) {
                     clearInterval(interval);
@@ -539,47 +653,46 @@
 
         async function finishAd() {
             isWatching = false;
-            timerWrapper.style.display = 'none';
+            
+            // Hide Timer
+            floatingTimer.style.display = 'none';
+            
+            instructionText.style.color = 'var(--text-muted)';
+            instructionText.style.fontWeight = 'normal';
             
             // Show +10 animation
             floatingPoints.style.animation = 'none';
-            void floatingPoints.offsetWidth; // Trigger reflow
+            void floatingPoints.offsetWidth; 
             floatingPoints.style.animation = 'floatUp 1.5s ease-out forwards';
 
             // Bump badge
             pointsBadge.classList.add('bump');
             setTimeout(() => pointsBadge.classList.remove('bump'), 300);
 
-            // Add to UI History instantly
             addHistoryItemUI();
 
-            // Update local state and UI
             todayCount++;
             const currentPoints = parseInt(totalPointsEl.textContent);
             totalPointsEl.textContent = currentPoints + POINTS_PER_AD;
             updateUI();
 
-            // Update Firestore securely using Batched Writes
             try {
                 const batch = writeBatch(db);
 
-                // 1. Update Points in users collection
                 const userRef = doc(db, "users", currentUser.uid);
                 batch.update(userRef, {
                     points: increment(POINTS_PER_AD)
                 });
 
-                // 2. Update Ads count
                 const adsRef = doc(db, "ads_watched", currentUser.uid);
                 batch.set(adsRef, {
                     uid: currentUser.uid,
                     ad_count: increment(1),
                     today_count: todayCount,
                     last_watched: serverTimestamp(),
-                    last_watched_date: getTodayString() // Stored for easy midnight reset check
+                    last_watched_date: getTodayString() 
                 }, { merge: true });
 
-                // 3. Log History
                 const txnId = `txn_${Date.now()}`;
                 const historyRef = doc(db, "points_history", txnId);
                 batch.set(historyRef, {
@@ -590,15 +703,10 @@
                     created_at: serverTimestamp()
                 });
 
-                // Commit all changes simultaneously
                 await batch.commit();
-
             } catch (error) {
                 console.error("Error updating database:", error);
                 alert("There was an issue saving your points. Please refresh the page.");
-                // Note: If you receive a permission error here, it means your Firestore rules
-                // strictly block users from updating the 'points' field directly. 
-                // In production, updating points should ideally be done via Firebase Cloud Functions.
             }
         }
 
@@ -610,9 +718,38 @@
                 <span>Watched Ad <span class="history-time">(${timeStr})</span></span>
                 <span class="history-amount">+${POINTS_PER_AD}</span>
             `;
-            // Add to top of list
             historyList.insertBefore(li, historyList.firstChild);
         }
     </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const lazyAdContainer = document.getElementById('lazyNativeAd');
+            const nativeAdWrapper = document.getElementById('nativeAdWrapper');
+            let adLoaded = false;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !adLoaded) {
+                        adLoaded = true;
+                        nativeAdWrapper.innerHTML = '<div id="container-797b58e57e5fab53dd6d771231b0345b"></div>';
+                        
+                        const script = document.createElement('script');
+                        script.async = true;
+                        script.dataset.cfasync = "false";
+                        script.src = "https://pl30104450.effectivecpmnetwork.com/797b58e57e5fab53dd6d771231b0345b/invoke.js";
+                        document.body.appendChild(script);
+                        
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            observer.observe(lazyAdContainer);
+        });
+    </script>
+
+    <script type='text/javascript' src='//pl30104076.effectivecpmnetwork.com/4e/3d/47/4e3d47bf8511956a3958eb619dcf133f.js'></script>
+
 </body>
 </html>
