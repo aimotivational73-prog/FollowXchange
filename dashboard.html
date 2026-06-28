@@ -360,7 +360,8 @@
 
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
-
+            100% { transform: translateX(100%); }
+        }
 
         @media (min-width: 768px) {
             .stats-grid { grid-template-columns: repeat(4, 1fr); }
@@ -402,8 +403,9 @@
             <i class="fa-solid fa-coins"></i> <span id="topPoints" class="skeleton" style="width: 40px;">0</span>
         </div>
         <div class="user-menu">
-            <div class="avatar skeleton skeleton-circle" id="userAvatar" onclick="toggleDropdown()">?</div>
+            <div class="avatar skeleton skeleton-circle" id="userAvatar" onclick="toggleDropdown(event)">?</div>
             <div class="dropdown" id="profileDropdown">
+                <a href="profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
                 <a href="wallet.html"><i class="fa-solid fa-wallet"></i> My Wallet</a>
                 <a href="#"><i class="fa-solid fa-gear"></i> Settings</a>
                 <a href="#" class="text-danger" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
@@ -555,7 +557,7 @@
         <a href="wallet.html" class="nav-item">
             <i class="fa-solid fa-wallet"></i> Wallet
         </a>
-        <a href="#" class="nav-item" onclick="window.scrollTo(0,0); toggleDropdown(); return false;">
+        <a href="#" class="nav-item" onclick="window.scrollTo(0,0); toggleDropdown(event); return false;">
             <i class="fa-solid fa-user"></i> Profile
         </a>
     </nav>
@@ -789,7 +791,10 @@
         }
 
 
-        window.toggleDropdown = function() {
+        window.toggleDropdown = function(event) {
+            if (event) {
+                event.stopPropagation();
+            }
             document.getElementById('profileDropdown').classList.toggle('show');
         }
 

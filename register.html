@@ -277,7 +277,7 @@
         .legal-modal-card { background: white; padding: 2rem; border-radius: 15px; max-width: 450px; width: 100%; }
         .key-terms-list { background: #f8f9fa; padding: 15px 15px 15px 30px; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; color: #2d3436; }
         .key-terms-list li { margin-bottom: 8px; }
-        .legal-checkbox-group { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: #2d3436; }
+        .legal-checkbox-group { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: #2d3436; margin-top: 15px;}
         .legal-checkbox-group input { margin-top: 3px; cursor: pointer; }
         .legal-checkbox-group a { color: #E1306C; text-decoration: none; font-weight: 600; }
         .btn-cancel { flex: 1; padding: 12px; border: none; border-radius: 50px; background: #e2e8f0; font-weight: 600; cursor: pointer; color: #2d3436; }
@@ -395,6 +395,35 @@
         </div>
     </div>
 
+    <div class="legal-modal-overlay" id="googleSetupModal">
+        <div class="legal-modal-card">
+            <h3 style="margin-bottom: 10px;"><i class="fa-brands fa-google" style="color: #E1306C;"></i> Complete Setup</h3>
+            <p style="font-size: 0.85rem; color: #636e72; margin-bottom: 1.5rem;">Please provide your Instagram username and agree to our terms to continue.</p>
+
+            <div class="form-group" style="text-align: left;">
+                <label>Full Name</label>
+                <i class="fa-regular fa-user"></i>
+                <input type="text" id="googleFullName" required>
+            </div>
+
+            <div class="form-group" style="text-align: left;">
+                <label>Instagram Username (without @)</label>
+                <i class="fa-brands fa-instagram"></i>
+                <input type="text" id="googleIgUsername" placeholder="johndoe_ig" required>
+            </div>
+
+            <div class="legal-checkbox-group">
+                <input type="checkbox" id="googleAgreeToTerms">
+                <label for="googleAgreeToTerms">I have read and agree to the <a href="terms-conditions.html" target="_blank">Terms & Conditions</a>.</label>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                <button class="btn-cancel" id="googleCancelBtn">Cancel</button>
+                <button class="btn-confirm-reg" id="googleConfirmBtn" disabled>Complete Account</button>
+            </div>
+        </div>
+    </div>
+
     <footer class="universal-footer">
         <div class="footer-container">
             <div class="footer-brand">
@@ -437,7 +466,8 @@
         import { 
             createUserWithEmailAndPassword, 
             GoogleAuthProvider, 
-            signInWithPopup 
+            signInWithPopup,
+            signOut // Added signOut import
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
             doc, 
@@ -454,13 +484,21 @@
         const spinner = document.getElementById('spinner');
         const messageBox = document.getElementById('messageBox');
         
-
+        // Modal Elements
         const registerLegalModal = document.getElementById('registerLegalModal');
         const agreeToTerms = document.getElementById('agreeToTerms');
         const finalRegisterBtn = document.getElementById('finalRegisterBtn');
         
-        let pendingRegistrationData = {}; 
+        // NEW Google Modal Elements
+        const googleSetupModal = document.getElementById('googleSetupModal');
+        const googleFullName = document.getElementById('googleFullName');
+        const googleIgUsername = document.getElementById('googleIgUsername');
+        const googleAgreeToTerms = document.getElementById('googleAgreeToTerms');
+        const googleConfirmBtn = document.getElementById('googleConfirmBtn');
+        const googleCancelBtn = document.getElementById('googleCancelBtn');
 
+        let pendingRegistrationData = {}; 
+        let pendingGoogleUser = null; // Store google user temporarily
   
         function showMessage(msg, type) {
             messageBox.textContent = msg;
@@ -468,7 +506,9 @@
             messageBox.style.display = 'block';
         }
 
-
+        /* -----------------------------------------------------
+           STANDARD EMAIL REGISTRATION LOGIC
+           ----------------------------------------------------- */
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -478,7 +518,6 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
 
-  
             if (password !== confirmPassword) {
                 return showMessage("Passwords do not match!", "error");
             }
@@ -486,32 +525,26 @@
                 return showMessage("Password must be at least 6 characters.", "error");
             }
 
-
             pendingRegistrationData = { fullName, igUsername, email, password };
             registerLegalModal.style.display = 'flex';
         });
 
-
         agreeToTerms.addEventListener('change', function() {
             finalRegisterBtn.disabled = !this.checked;
         });
-
 
         finalRegisterBtn.addEventListener('click', async () => {
             registerLegalModal.style.display = 'none'; 
             
             const { fullName, igUsername, email, password } = pendingRegistrationData;
 
-
             btnText.textContent = "Creating...";
             spinner.style.display = "block";
             submitBtn.disabled = true;
 
             try {
-
                 const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredential.user;
-
 
                 await setDoc(doc(db, "users", user.uid), {
                     username: fullName,
@@ -524,7 +557,6 @@
                     is_premium: false
                 });
 
-  
                 handleSuccess();
 
             } catch (error) {
@@ -539,7 +571,6 @@
 
                 showMessage(errorMessage, "error");
                 
-
                 btnText.textContent = "Create Account";
                 spinner.style.display = "none";
                 submitBtn.disabled = false;
@@ -547,6 +578,9 @@
         });
 
 
+        /* -----------------------------------------------------
+           GOOGLE SIGN-UP LOGIC (WITH NEW MODAL)
+           ----------------------------------------------------- */
         googleBtn.addEventListener('click', async () => {
             const provider = new GoogleAuthProvider();
             
@@ -554,25 +588,18 @@
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
 
-
                 const docRef = doc(db, "users", user.uid);
                 const docSnap = await getDoc(docRef);
 
                 if (!docSnap.exists()) {
-
-                    await setDoc(docRef, {
-                        username: user.displayName || "New User",
-                        instagram_username: "", 
-                        email: user.email,
-                        points: 50, 
-                        total_followers_received: 0,
-                        total_follows_done: 0,
-                        created_at: serverTimestamp(),
-                        is_premium: false
-                    });
+                    // NEW USER: Show setup modal before saving to DB
+                    pendingGoogleUser = user;
+                    googleFullName.value = user.displayName || "";
+                    googleSetupModal.style.display = 'flex';
+                } else {
+                    // EXISTING USER: Log them in directly
+                    handleSuccess();
                 }
-
-                handleSuccess();
 
             } catch (error) {
                 console.error(error);
@@ -580,18 +607,64 @@
             }
         });
 
+        // Enable Google Confirm button when checkbox is checked
+        googleAgreeToTerms.addEventListener('change', function() {
+            googleConfirmBtn.disabled = !this.checked;
+        });
 
+        // Cancel Google Registration
+        googleCancelBtn.addEventListener('click', () => {
+            signOut(auth); // Log them out so they can try again
+            googleSetupModal.style.display = 'none';
+            pendingGoogleUser = null;
+        });
+
+        // Confirm Google Registration
+        googleConfirmBtn.addEventListener('click', async () => {
+            const igUsername = googleIgUsername.value.trim();
+            const fullName = googleFullName.value.trim();
+
+            if (!igUsername || !fullName) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            googleSetupModal.style.display = 'none';
+
+            try {
+                const docRef = doc(db, "users", pendingGoogleUser.uid);
+                await setDoc(docRef, {
+                    username: fullName,
+                    instagram_username: igUsername.replace('@', ''), 
+                    email: pendingGoogleUser.email,
+                    points: 50, 
+                    total_followers_received: 0,
+                    total_follows_done: 0,
+                    created_at: serverTimestamp(),
+                    is_premium: false
+                });
+
+                handleSuccess();
+
+            } catch (error) {
+                console.error(error);
+                showMessage("Error saving Google account setup.", "error");
+            }
+        });
+
+
+        /* -----------------------------------------------------
+           SUCCESS HANDLER
+           ----------------------------------------------------- */
         function handleSuccess() {
             showMessage("Account created successfully! Enjoy your 50 points bonus.", "success");
             
-
             confetti({
                 particleCount: 150,
                 spread: 70,
                 origin: { y: 0.6 },
                 colors: ['#E1306C', '#833AB4', '#F77737']
             });
-
 
             setTimeout(() => {
                 window.location.href = "dashboard.html";
