@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /login.html
+Allow: /register.html
+Disallow: /dashboard.html
+Disallow: /wallet.html
+Disallow: /profile.html
+Disallow: /order-followers.html
+Disallow: /earn-by-following.html
+Disallow: /watch-ads.html
+Disallow: /admin.html
+
+Sitemap: https://followxchange.netlify.app/sitemap.xml

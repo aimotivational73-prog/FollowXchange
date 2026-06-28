@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Document | FollowXchange</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { color: var(--text-dark); text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 1200px; margin: 2rem auto; padding: 0 1.5rem; display: grid; grid-template-columns: 280px 1fr; gap: 2.5rem; align-items: start; }
+
+        /* ================= SIDEBAR ================= */
+        .sidebar { background: var(--white); padding: 1.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); position: sticky; top: 90px; }
+        .sidebar h3 { font-size: 1.1rem; margin-bottom: 1rem; color: var(--text-dark); padding-bottom: 10px; border-bottom: 2px solid var(--border); }
+        .sidebar ul { list-style: none; }
+        .sidebar li { margin-bottom: 8px; }
+        .sidebar a { text-decoration: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 500; display: block; padding: 8px 12px; border-radius: 8px; transition: all 0.2s; }
+        .sidebar a:hover, .sidebar a.active { background: rgba(225, 48, 108, 0.05); color: var(--pink); font-weight: 600; }
+
+        .mobile-menu-btn { display: none; width: 100%; background: var(--white); border: 1px solid var(--border); padding: 12px; border-radius: 10px; font-weight: 600; color: var(--text-dark); text-align: left; cursor: pointer; margin-bottom: 1rem; }
+
+        /* ================= MAIN CONTENT ================= */
+        .content-card { background: var(--white); padding: 3rem; border-radius: 20px; box-shadow: 0 5px 25px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+        .doc-title { font-size: 2.5rem; font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.3; }
+        
+        .doc-meta { display: flex; flex-wrap: wrap; gap: 15px; font-size: 0.9rem; color: var(--text-muted); font-weight: 500; margin-bottom: 1.5rem; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 12px; border-radius: 50px; }
+
+        /* Share Buttons */
+        .share-row { display: flex; gap: 10px; }
+        .btn-share { border: none; padding: 8px 15px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; color: white; transition: opacity 0.2s; }
+        .btn-whatsapp { background: #25D366; }
+        .btn-copy { background: var(--text-dark); }
+        .btn-share:hover { opacity: 0.9; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.5rem; border-radius: 12px; margin-bottom: 2.5rem; }
+        .toc-box h4 { margin-bottom: 10px; color: var(--purple); font-size: 1.1rem; }
+        .toc-list { list-style: none; padding-left: 0; }
+        .toc-list li { margin-bottom: 6px; }
+        .toc-list a { color: var(--pink); text-decoration: none; font-weight: 500; font-size: 0.95rem; }
+        .toc-list a:hover { text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.8rem; margin: 2rem 0 1rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .policy-body h3 { font-size: 1.3rem; margin: 1.5rem 0 0.8rem; color: var(--text-dark); }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); }
+        .policy-body ul, .policy-body ol { margin-bottom: 1.2rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(131, 58, 180, 0.05); border-left: 4px solid var(--purple); padding: 1.2rem 1.5rem; border-radius: 0 10px 10px 0; margin: 1.5rem 0; color: var(--text-dark); font-weight: 500; }
+        .highlight-box i { color: var(--purple); margin-right: 8px; font-size: 1.1rem; }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 3rem 5% 1.5rem; margin-top: 3rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* Back to Top */
+        .back-to-top { position: fixed; bottom: 30px; right: 30px; background: var(--gradient); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; opacity: 0; visibility: hidden; transition: 0.3s; box-shadow: 0 4px 15px rgba(225,48,108,0.3); z-index: 99; }
+        .back-to-top.visible { opacity: 1; visibility: visible; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 900px) {
+            .container { grid-template-columns: 1fr; gap: 1rem; }
+            .sidebar { display: none; margin-bottom: 1rem; position: static; }
+            .sidebar.show { display: block; }
+            .mobile-menu-btn { display: block; }
+            .nav-links { display: none; /* Can add hamburger for main nav if needed */ }
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2rem; }
+        }
+
+        /* ================= PRINT STYLES ================= */
+        @media print {
+            .navbar, .sidebar, .mobile-menu-btn, .share-row, .back-to-top, footer, .toc-box { display: none !important; }
+            body, .content-card { background: white !important; color: black !important; box-shadow: none !important; margin: 0; padding: 0; }
+            .container { display: block; max-width: 100%; margin: 0; }
+            .doc-title, .policy-body h2 { -webkit-text-fill-color: black; color: black; background: none; }
+            .highlight-box { border-left-color: black; background: #f9f9f9; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="watch-ads.html">Watch Ads</a>
+            <a href="order-followers.html">Get Followers</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div>
+            <button class="mobile-menu-btn" onclick="document.getElementById('legalSidebar').classList.toggle('show')">
+                <i class="fa-solid fa-bars" style="margin-right: 8px;"></i> Legal Navigation
+            </button>
+            <aside class="sidebar" id="legalSidebar">
+                <h3>Legal Documents</h3>
+                <ul>
+                    <li><a href="privacy-policy.html" class="active">Privacy Policy</a></li> <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                    <li><a href="disclaimer.html">Disclaimer</a></li>
+                    <li><a href="copyright-policy.html">Copyright Policy</a></li>
+                    <li><a href="cookie-policy.html">Cookie Policy</a></li>
+                    <li><a href="dmca-policy.html">DMCA Policy</a></li>
+                    <li><a href="refund-policy.html">Refund Policy</a></li>
+                    <li><a href="community-guidelines.html">Community Guidelines</a></li>
+                </ul>
+            </aside>
+        </div>
+
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">Privacy Policy</h1>
+                
+                <div class="doc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> Last Updated: Jan 15, 2026</span>
+                    <span><i class="fa-regular fa-clock"></i> <span id="readTimeText">Calculating...</span></span>
+                </div>
+
+                <div class="share-row">
+                    <button class="btn-share btn-whatsapp" onclick="shareWhatsApp()">
+                        <i class="fa-brands fa-whatsapp"></i> Share
+                    </button>
+                    <button class="btn-share btn-copy" onclick="copyLink(this)">
+                        <i class="fa-solid fa-link"></i> Copy Link
+                    </button>
+                </div>
+            </div>
+
+            <div class="toc-box" id="tocBox" style="display: none;">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list" id="tocList"></ul>
+            </div>
+
+            <div class="policy-body" id="policyContent">
+                
+                [CONTENT_HERE]
+                
+                <h2>1. Introduction</h2>
+                <p>Welcome to FollowXchange. This Privacy Policy explains how we collect, use, and protect your information when you use our website and platform. By using FollowXchange, you agree to the practices described in this policy.</p>
+
+                <div class="highlight-box">
+                    <i class="fa-solid fa-circle-info"></i> <strong>Important:</strong> We never ask for your Instagram password. We only require your public Instagram username to facilitate the follow exchange.
+                </div>
+
+                <h2>2. Information We Collect</h2>
+                <h3>Personal Information</h3>
+                <p>When you register for an account, we collect the following:</p>
+                <ul>
+                    <li>Your full name</li>
+                    <li>Email address</li>
+                    <li>Public Instagram username</li>
+                </ul>
+
+                <h3>Usage Data</h3>
+                <p>We automatically collect certain information when you visit, use, or navigate the site, including your device type, IP address, and browser characteristics.</p>
+
+                <h2>3. How We Use Your Information</h2>
+                <p>We use the collected information for various purposes, including:</p>
+                <ol>
+                    <li>To provide and maintain our Service</li>
+                    <li>To notify you about changes to our Service</li>
+                    <li>To allow you to participate in interactive features</li>
+                    <li>To provide customer support</li>
+                </ol>
+
+                <p>If you have any questions about this policy, please <a href="mailto:admin@followxchange.com">contact us</a>.</p>
+                </div>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca-policy.html">DMCA Policy</a>
+                <a href="copyright-policy.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <a href="mailto:YOUR_EMAIL@gmail.com"><i class="fa-solid fa-envelope"></i> YOUR_EMAIL@gmail.com</a>
+                <a href="https://t.me/YOUR_TELEGRAM" target="_blank"><i class="fa-brands fa-telegram"></i> @YOUR_TELEGRAM</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <a href="#" class="back-to-top" id="backToTop"><i class="fa-solid fa-arrow-up"></i></a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const contentDiv = document.getElementById('policyContent');
+            
+            // 1. Calculate Reading Time
+            const text = contentDiv.innerText || contentDiv.textContent;
+            const wordCount = text.trim().split(/\s+/).length;
+            const readTimeMinutes = Math.max(1, Math.ceil(wordCount / 200)); // 200 words per minute
+            document.getElementById('readTimeText').textContent = `${readTimeMinutes} min read`;
+
+            // 2. Auto-Generate Table of Contents
+            const headings = contentDiv.querySelectorAll('h2');
+            const tocBox = document.getElementById('tocBox');
+            const tocList = document.getElementById('tocList');
+            
+            if (headings.length > 0) {
+                tocBox.style.display = 'block';
+                headings.forEach((heading, index) => {
+                    // Create ID if it doesn't exist
+                    if (!heading.id) {
+                        heading.id = `section-${index + 1}`;
+                    }
+                    
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    a.href = `#${heading.id}`;
+                    a.textContent = heading.innerText;
+                    
+                    // Smooth scroll functionality
+                    a.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const target = document.getElementById(heading.id);
+                        // Offset for fixed header
+                        const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - 100;
+                        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                    });
+
+                    li.appendChild(a);
+                    tocList.appendChild(li);
+                });
+            }
+
+            // 3. Back to Top Button Logic
+            const bttBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    bttBtn.classList.add('visible');
+                } else {
+                    bttBtn.classList.remove('visible');
+                }
+            });
+
+            bttBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        // 4. Share Functions
+        function shareWhatsApp() {
+            const url = encodeURIComponent(window.location.href);
+            const title = encodeURIComponent(document.title);
+            window.open(`https://api.whatsapp.com/send?text=${title} - ${url}`, '_blank');
+        }
+
+        function copyLink(btn) {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalHtml;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earn Points | FollowXchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ig-gradient: linear-gradient(135deg, #E1306C, #833AB4, #F77737);
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --success: #00b894;
+            --danger: #d63031;
+            --border: #dfe6e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            /* Footer layout fixes */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .points-badge {
+            background: var(--ig-gradient);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(225, 48, 108, 0.2);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto 4rem auto;
+            padding: 0 1rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            background: var(--white);
+            padding: 10px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .tab-btn.active {
+            background: var(--ig-gradient);
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(225, 48, 108, 0.2);
+        }
+
+        /* Task Cards */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .task-card {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            border: 1px solid var(--border);
+            transition: transform 0.2s;
+        }
+
+        .task-card:hover {
+            transform: translateY(-2px);
+            border-color: #E1306C;
+        }
+
+        .task-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .task-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            object-fit: cover;
+            border: 2px solid #E1306C;
+            padding: 2px;
+        }
+
+        .task-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        .task-details a {
+            color: #0088cc;
+            font-size: 0.9rem;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .task-details a:hover { text-decoration: underline; }
+
+        .reward-badge {
+            background: #d1fae5;
+            color: var(--success);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 5px;
+        }
+
+        .btn-submit {
+            background: var(--ig-gradient);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            box-shadow: 0 4px 10px rgba(225, 48, 108, 0.2);
+        }
+
+        .btn-submit:hover { opacity: 0.9; }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-pending { background: #ffeaa7; color: #d35400; }
+        .status-approved { background: #d1fae5; color: var(--success); }
+        .status-rejected { background: #fee2e2; color: var(--danger); }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 3rem 0;
+        }
+
+        /* Modal for Upload */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .file-upload-box {
+            border: 2px dashed #E1306C;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            background: #fff0f5;
+            transition: background 0.3s;
+        }
+
+        .file-upload-box:hover { background: #ffe4ee; }
+
+        .file-upload-box i {
+            font-size: 2.5rem;
+            color: #E1306C;
+            margin-bottom: 10px;
+        }
+
+        #fileInput { display: none; }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-confirm { background: var(--success); color: white; }
+        .btn-close { background: #e2e8f0; color: var(--text-dark); }
+        .btn-confirm:disabled { background: #b2bec3; cursor: not-allowed; }
+
+        @media (max-width: 600px) {
+            .task-card { flex-direction: column; text-align: center; gap: 15px; }
+            .task-info { flex-direction: column; }
+        }
+
+        /* ================== NEW COMPONENTS CSS ================== */
+        
+        /* Universal Footer Styles */
+        .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
+        .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-brand p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.2rem; margin-right: 10px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { background: #E1306C; transform: translateY(-3px); }
+        .footer-links h4, .footer-contact h4 { color: #ffffff; margin-bottom: 1.2rem; font-size: 1.1rem; }
+        .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .link-grid a, .footer-contact a { color: #b2bec3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-contact a i { margin-right: 8px; color: #E1306C; }
+        .link-grid a:hover, .footer-contact a:hover { color: #E1306C; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; }
+        .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
+        .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="dashboard.html" class="navbar-brand"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+        <div class="points-badge">
+            <i class="fa-solid fa-coins"></i> <span id="navPoints">...</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="tabs">
+            <button class="tab-btn active" id="tabTasks">Available Tasks</button>
+            <button class="tab-btn" id="tabSubmissions">My Submissions</button>
+        </div>
+
+        <div id="tasksContainer" class="task-list">
+            <div class="empty-state">Loading tasks...</div>
+        </div>
+
+        <div id="submissionsContainer" class="task-list" style="display: none;">
+            <div class="empty-state">Loading submissions...</div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="uploadModal">
+        <div class="modal-card">
+            <h2>Submit Proof</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">
+                Follow <strong>@<span id="modalIgUser"></span></strong> on Instagram and upload a screenshot.
+            </p>
+
+            <div class="file-upload-box" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <p id="fileName" style="font-weight: 600; color: var(--text-dark);">Click to select screenshot</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">(JPG, PNG max 5MB)</p>
+            </div>
+            <input type="file" id="fileInput" accept="image/png, image/jpeg, image/jpg">
+
+            <div class="modal-actions">
+                <button class="modal-btn btn-close" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn btn-confirm" id="confirmUploadBtn" disabled>Upload & Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="universal-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FollowXchange</h2>
+                <p>The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <div class="link-grid">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="dmca.html">DMCA Policy</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                    <a href="community-guidelines.html">Community Guidelines</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+                <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Bot</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="ig-disclaimer"><strong>Disclaimer:</strong> FollowXchange is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms Inc.</p>
+            <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        // NO FIREBASE STORAGE IMPORTS NEEDED
+        import { auth, db } from './js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            collection, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, orderBy 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // ==========================================
+        // CLOUDINARY SETTINGS - UPDATE THESE!
+        // ==========================================
+        const CLOUDINARY_CLOUD_NAME = "dhlhljjdb"; 
+        const CLOUDINARY_UPLOAD_PRESET = "followxchange_proofs"; 
+        // ==========================================
+
+        const POINTS_PER_FOLLOW = 8;
+
+        const navPoints = document.getElementById('navPoints');
+        const tasksContainer = document.getElementById('tasksContainer');
+        const submissionsContainer = document.getElementById('submissionsContainer');
+        const tabTasks = document.getElementById('tabTasks');
+        const tabSubmissions = document.getElementById('tabSubmissions');
+        
+        const uploadModal = document.getElementById('uploadModal');
+        const modalIgUser = document.getElementById('modalIgUser');
+        const fileInput = document.getElementById('fileInput');
+        const fileName = document.getElementById('fileName');
+        const confirmUploadBtn = document.getElementById('confirmUploadBtn');
+
+        let currentUser = null;
+        let selectedOrderId = null;
+        let selectedFile = null;
+
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserProfile();
+                await loadAvailableTasks();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        async function loadUserProfile() {
+            try {
+                const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+                if (userDoc.exists()) navPoints.textContent = userDoc.data().points.toLocaleString();
+            } catch (error) {
+                console.error("Error loading user:", error);
+            }
+        }
+
+        async function loadAvailableTasks() {
+            try {
+                tasksContainer.innerHTML = '<div class="empty-state">Loading tasks...</div>';
+                
+                const ordersRef = collection(db, "follow_orders");
+                const q = query(ordersRef, where("status", "in", ["pending", "in-progress"]));
+                const snapshot = await getDocs(q);
+
+                const myProofsRef = collection(db, "follow_proofs");
+                const proofQ = query(myProofsRef, where("seller_uid", "==", currentUser.uid));
+                const proofsSnapshot = await getDocs(proofQ);
+                const completedTaskIds = new Set();
+                proofsSnapshot.forEach(doc => completedTaskIds.add(doc.data().order_id));
+
+                tasksContainer.innerHTML = '';
+                let taskCount = 0;
+
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    
+                    if (data.buyer_uid !== currentUser.uid && !completedTaskIds.has(docSnap.id)) {
+                        taskCount++;
+                        const avatarUrl = `https://ui-avatars.com/api/?name=${data.buyer_instagram}&background=random`;
+
+                        const card = document.createElement('div');
+                        card.className = 'task-card';
+                        card.innerHTML = `
+                            <div class="task-info">
+                                <img src="${avatarUrl}" class="task-avatar" alt="Avatar">
+                                <div class="task-details">
+                                    <h3>@${data.buyer_instagram}</h3>
+                                    <a href="https://instagram.com/${data.buyer_instagram}" target="_blank">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Open Instagram
+                                    </a>
+                                    <br>
+                                    <span class="reward-badge">+${POINTS_PER_FOLLOW} Points</span>
+                                </div>
+                            </div>
+                            <button class="btn-submit" onclick="openModal('${docSnap.id}', '${data.buyer_instagram}')">
+                                <i class="fa-solid fa-camera"></i> Submit Proof
+                            </button>
+                        `;
+                        tasksContainer.appendChild(card);
+                    }
+                });
+
+                if (taskCount === 0) {
+                    tasksContainer.innerHTML = '<div class="empty-state"><i class="fa-solid fa-check-double" style="font-size: 2rem; color: var(--success); margin-bottom:10px;"></i><br>You are all caught up! No new tasks available.</div>';
+                }
+
+            } catch (error) {
+                console.error("Error loading tasks:", error);
+                tasksContainer.innerHTML = '<div class="empty-state">Failed to load tasks.</div>';
+            }
+        }
+
+        async function loadSubmissions() {
+            try {
+                submissionsContainer.innerHTML = '<div class="empty-state">Loading submissions...</div>';
+                
+                const proofsRef = collection(db, "follow_proofs");
+                const q = query(proofsRef, where("seller_uid", "==", currentUser.uid), orderBy("created_at", "desc"));
+                const snapshot = await getDocs(q);
+
+                submissionsContainer.innerHTML = '';
+                
+                if (snapshot.empty) {
+                    submissionsContainer.innerHTML = '<div class="empty-state">You haven\'t submitted any proofs yet.</div>';
+                    return;
+                }
+
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    let statusClass = "status-pending";
+                    if(data.status === "approved") statusClass = "status-approved";
+                    if(data.status === "rejected") statusClass = "status-rejected";
+
+                    const card = document.createElement('div');
+                    card.className = 'task-card';
+                    card.innerHTML = `
+                        <div class="task-info">
+                            <div class="task-details">
+                                <h3>@${data.target_instagram}</h3>
+                                <p style="font-size: 0.8rem; color: var(--text-muted);">
+                                    Submitted: ${data.created_at ? data.created_at.toDate().toLocaleDateString() : 'Just now'}
+                                </p>
+                                <a href="${data.proof_url}" target="_blank" style="font-size:0.8rem;"><i class="fa-solid fa-image"></i> View Screenshot</a>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <span class="status-badge ${statusClass}">${data.status}</span>
+                            ${data.status === 'approved' ? `<div style="color:var(--success); font-size:0.85rem; font-weight:700; margin-top:5px;">+${POINTS_PER_FOLLOW} Pts</div>` : ''}
+                            ${data.status === 'pending' ? `<div style="color:var(--text-muted); font-size:0.75rem; margin-top:5px;">Awaiting verification</div>` : ''}
+                        </div>
+                    `;
+                    submissionsContainer.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Error loading submissions:", error);
+                if(error.message.includes("index")) {
+                     submissionsContainer.innerHTML = '<div class="empty-state">Database index building. Please refresh in a minute.</div>';
+                }
+            }
+        }
+
+        window.openModal = function(orderId, igUsername) {
+            selectedOrderId = orderId;
+            modalIgUser.textContent = igUsername;
+            
+            fileInput.value = '';
+            selectedFile = null;
+            fileName.textContent = "Click to select screenshot";
+            confirmUploadBtn.disabled = true;
+
+            uploadModal.style.display = 'flex';
+        }
+
+        window.closeModal = function() {
+            uploadModal.style.display = 'none';
+        }
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) { 
+                    alert("File is too large. Max size is 5MB.");
+                    fileInput.value = '';
+                    return;
+                }
+                selectedFile = file;
+                fileName.innerHTML = `<i class="fa-solid fa-file-image" style="font-size:1.2rem; margin-right:5px; color:#333;"></i> ${file.name}`;
+                confirmUploadBtn.disabled = false;
+            }
+        });
+
+        // --------------------------------------------------
+        // CLOUDINARY UPLOAD LOGIC
+        // --------------------------------------------------
+        confirmUploadBtn.addEventListener('click', async () => {
+            if (!selectedFile || !selectedOrderId) return;
+
+            if (CLOUDINARY_CLOUD_NAME === "YOUR_CLOUD_NAME") {
+                alert("Please add your Cloudinary details in the code first!");
+                return;
+            }
+
+            confirmUploadBtn.textContent = 'Uploading...';
+            confirmUploadBtn.disabled = true;
+
+            try {
+                // 1. Prepare form data for Cloudinary Unsigned Upload
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+                formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+                // 2. Upload to Cloudinary via REST API
+                const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+                
+                const response = await fetch(cloudinaryUrl, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error("Cloudinary upload failed");
+                }
+
+                const data = await response.json();
+                const downloadURL = data.secure_url; // Cloudinary automatically gives a secure HTTPS link
+
+                // 3. Save record to Firestore 'follow_proofs'
+                const proofId = `${selectedOrderId}_${currentUser.uid}`;
+                const proofDocRef = doc(db, "follow_proofs", proofId);
+                
+                await setDoc(proofDocRef, {
+                    order_id: selectedOrderId,
+                    seller_uid: currentUser.uid,
+                    target_instagram: modalIgUser.textContent,
+                    proof_url: downloadURL,
+                    status: 'pending',
+                    created_at: serverTimestamp()
+                });
+
+                alert("Proof submitted successfully! You will receive points once approved.");
+                
+                closeModal();
+                confirmUploadBtn.textContent = 'Upload & Submit';
+                await loadAvailableTasks();
+
+            } catch (error) {
+                console.error("Error submitting proof:", error);
+                alert("Upload failed. Please check your internet connection and Cloudinary settings.");
+                confirmUploadBtn.textContent = 'Upload & Submit';
+                confirmUploadBtn.disabled = false;
+            }
+        });
+
+        tabTasks.addEventListener('click', () => {
+            tabTasks.classList.add('active');
+            tabSubmissions.classList.remove('active');
+            tasksContainer.style.display = 'flex';
+            submissionsContainer.style.display = 'none';
+        });
+
+        tabSubmissions.addEventListener('click', () => {
+            tabSubmissions.classList.add('active');
+            tabTasks.classList.remove('active');
+            tasksContainer.style.display = 'none';
+            submissionsContainer.style.display = 'flex';
+            loadSubmissions();
+        });
+
+    </script>
+</body>
+</html>

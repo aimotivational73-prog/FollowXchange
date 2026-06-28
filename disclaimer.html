@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disclaimer | FollowXchange</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Disclaimer | FollowXchange">
+    <meta name="description" content="Please read our disclaimer regarding Instagram affiliation, follower guarantees, advertising, and risks associated with using FollowXchange.">
+    <meta name="author" content="FollowXchange">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple));
+            --ig-gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--ig-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links a { 
+            color: var(--text-dark); text-decoration: none; font-weight: 600; 
+            font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .content-card { background: var(--white); padding: 3.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); text-align: center; }
+        .doc-title { font-size: 2.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.2; }
+        
+        .doc-meta { display: flex; justify-content: center; gap: 15px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 15px; border-radius: 50px; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.8rem; border-radius: 12px; margin-bottom: 3rem; }
+        .toc-box h4 { margin-bottom: 15px; color: var(--purple); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; display: inline-flex; gap: 8px; align-items: center;}
+        .toc-list a::before { content: '→'; color: var(--pink); font-size: 0.8rem; }
+        .toc-list a:hover { color: var(--pink); text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.6rem; margin: 2.5rem 0 1.2rem; color: var(--purple); padding-bottom: 5px; border-bottom: 1px solid var(--border); }
+        .policy-body h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: var(--text-dark); }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); text-align: justify; }
+        .policy-body ul, .policy-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(225, 48, 108, 0.05); border-left: 4px solid var(--pink); padding: 1.5rem; border-radius: 0 10px 10px 0; margin: 2rem 0; color: var(--text-dark); }
+        .highlight-box.danger { background: rgba(239, 68, 68, 0.05); border-left-color: var(--danger); }
+        .highlight-box.warning { background: rgba(245, 158, 11, 0.05); border-left-color: var(--warning); }
+        .highlight-box i { margin-right: 8px; font-size: 1.2rem; }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 4rem 5% 2rem; margin-top: 4rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2.2rem; }
+            .toc-list { grid-template-columns: 1fr; }
+            .doc-meta { flex-direction: column; align-items: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Document Content -->
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">Platform Disclaimer</h1>
+                <div class="doc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> Effective Date: June 27, 2026</span>
+                    <span><i class="fa-solid fa-globe"></i> Applicable to: followxchange.netlify.app</span>
+                </div>
+            </div>
+
+            <div class="toc-box">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#section-1">1. No Guarantee Disclaimer</a></li>
+                    <li><a href="#section-2">2. Not Affiliated with Meta/Instagram</a></li>
+                    <li><a href="#section-3">3. Results Disclaimer</a></li>
+                    <li><a href="#section-4">4. Advertisement Disclaimer</a></li>
+                    <li><a href="#section-5">5. Earnings Disclaimer</a></li>
+                    <li><a href="#section-6">6. External Links Disclaimer</a></li>
+                    <li><a href="#section-7">7. Accuracy Disclaimer</a></li>
+                    <li><a href="#section-8">8. Instagram Risk Disclaimer</a></li>
+                </ul>
+            </div>
+
+            <div class="policy-body">
+                
+                <p>The information and services provided by <strong>FollowXchange</strong> ("we," "us," or "our") on followxchange.netlify.app are for general informational and community exchange purposes only. All information on the Site is provided in good faith, however, we make no representation or warranty of any kind, express or implied, regarding the accuracy, adequacy, validity, reliability, or completeness of any information or service.</p>
+
+                <div class="highlight-box danger" id="section-2">
+                    <i class="fa-brands fa-instagram" style="color: var(--danger);"></i>
+                    <strong>NOT AFFILIATED WITH INSTAGRAM OR META:</strong> FollowXchange is an independent community platform. We are <strong>NOT</strong> affiliated with, endorsed by, sponsored by, or in any way officially connected to Instagram, Meta Platforms Inc., or any of their subsidiaries or affiliates. "Instagram" is a registered trademark of Meta Platforms Inc.
+                </div>
+
+                <h2 id="section-1">1. No Guarantee Disclaimer</h2>
+                <p>While FollowXchange provides a platform to exchange follows, we strictly do not guarantee specific outcomes:</p>
+                <ul>
+                    <li><strong>No Guaranteed Numbers:</strong> We do not guarantee that you will receive the exact number of followers you ordered. Follower delivery is entirely dependent on community participation and the willingness of other users to follow your account.</li>
+                    <li><strong>Estimated Deliveries:</strong> Any delivery times shown on the platform are purely estimates and approximations based on current server load. We do not guarantee delivery within a specific timeframe.</li>
+                    <li><strong>Follower Retention:</strong> Instagram routinely purges accounts, removes bots, and deletes inactive profiles. Furthermore, users may independently decide to unfollow you. We do not guarantee that followers gained through FollowXchange will remain permanently.</li>
+                </ul>
+
+                <h2 id="section-3">3. Results Disclaimer</h2>
+                <p>Individual results obtained through the use of FollowXchange will vary greatly. Your social media growth depends on a multitude of factors entirely outside of our control, including but not limited to: the quality of your content, your posting schedule, your niche, and your authentic engagement with your audience. Past results achieved on our platform do not guarantee future success or similar outcomes.</p>
+
+                <h2 id="section-4">4. Advertisement Disclaimer</h2>
+                <p>To provide our services for free, FollowXchange utilizes third-party advertising networks, specifically <strong>Adsterra</strong> and <strong>Monetag</strong>.</p>
+                <ul>
+                    <li>We do not endorse, verify, or guarantee the quality, safety, or legality of any products, services, or websites advertised through these third-party networks.</li>
+                    <li>We are not responsible for the content of the advertisements displayed on our platform.</li>
+                    <li>Clicking on any advertisements, downloading software from advertisers, or submitting personal information to advertiser websites is done strictly at your own risk.</li>
+                </ul>
+
+                <h2 id="section-5">5. Earnings Disclaimer</h2>
+                <p>The term "Earnings" or "Earn" on FollowXchange refers exclusively to <strong>Platform Points</strong>.</p>
+                <ul>
+                    <li>Points earned on FollowXchange have <strong>absolutely zero cash value</strong>.</li>
+                    <li>Points cannot be withdrawn to a bank account, converted to fiat currency, or traded for real-world money.</li>
+                    <li>We make no representations or warranties that watching ads or participating in the platform will result in any financial income or monetary benefit.</li>
+                    <li>The point reward values assigned to watching ads or following users may fluctuate or change at any time without prior notice.</li>
+                </ul>
+
+                <h2 id="section-6">6. External Links Disclaimer</h2>
+                <p>The Site contains links to other websites (including Instagram profiles) and content belonging to or originating from third parties. Such external links are not investigated, monitored, or checked for accuracy, adequacy, validity, reliability, availability, or completeness by us. We do not warrant, endorse, guarantee, or assume responsibility for the accuracy or reliability of any information offered by third-party websites linked through the site.</p>
+
+                <h2 id="section-7">7. Accuracy Disclaimer</h2>
+                <p>We strive to keep the platform updated and running smoothly. However, we cannot guarantee that the information on our website is entirely accurate, complete, or current. Platform features, user interfaces, point structures, and available services may change at any time without notice. Technical errors, server downtimes, and bugs may occasionally occur, and we are not liable for any inconvenience or loss caused by such interruptions.</p>
+
+                <div class="highlight-box warning" id="section-8">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: var(--warning);"></i>
+                    <strong>INSTAGRAM RISK DISCLAIMER:</strong> Using any third-party service, follow-for-follow network, or exchange platform may violate Instagram’s Terms of Service and Community Guidelines. 
+                    <br><br>
+                    <strong>You participate in FollowXchange entirely at your own risk.</strong> We are not responsible or liable if your Instagram account experiences shadow-bans, engagement drops, restrictions, suspensions, or permanent deletion. We strongly recommend building authentic engagement alongside the use of our platform and advise against using fake or bot accounts.
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca-policy.html">DMCA Policy</a>
+                <a href="copyright-policy.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> support@followxchange.com</a>
+                <a href="https://t.me/followxchange_support" target="_blank"><i class="fa-brands fa-telegram"></i> @FollowXchangeBot</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Script for TOC -->
+    <script>
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

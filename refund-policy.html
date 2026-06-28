@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refund Policy | FollowXchange</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Refund Policy | FollowXchange">
+    <meta name="description" content="Read the FollowXchange Refund Policy to understand our rules regarding manual Telegram payments, point refunds, and cash refunds.">
+    <meta name="author" content="FollowXchange">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple));
+            --ig-gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+            --info: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--ig-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links a { 
+            color: var(--text-dark); text-decoration: none; font-weight: 600; 
+            font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .content-card { background: var(--white); padding: 3.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); text-align: center; }
+        .doc-title { font-size: 2.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.2; }
+        
+        .doc-meta { display: flex; justify-content: center; gap: 15px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 15px; border-radius: 50px; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.8rem; border-radius: 12px; margin-bottom: 3rem; }
+        .toc-box h4 { margin-bottom: 15px; color: var(--purple); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; display: inline-flex; gap: 8px; align-items: center;}
+        .toc-list a::before { content: '→'; color: var(--pink); font-size: 0.8rem; }
+        .toc-list a:hover { color: var(--pink); text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.6rem; margin: 2.5rem 0 1.2rem; color: var(--purple); padding-bottom: 5px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .policy-body h2 span.num { background: var(--purple); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 700; }
+        .policy-body h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: var(--text-dark); }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); text-align: justify; }
+        .policy-body ul, .policy-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body strong { color: var(--text-dark); font-weight: 600; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(225, 48, 108, 0.05); border-left: 4px solid var(--pink); padding: 1.5rem; border-radius: 0 10px 10px 0; margin: 2rem 0; color: var(--text-dark); }
+        .highlight-box.danger { background: rgba(239, 68, 68, 0.05); border-left-color: var(--danger); }
+        .highlight-box.success { background: rgba(16, 185, 129, 0.05); border-left-color: var(--success); }
+        .highlight-box.info { background: rgba(59, 130, 246, 0.05); border-left-color: var(--info); }
+        .highlight-box i { margin-right: 8px; font-size: 1.2rem; }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 4rem 5% 2rem; margin-top: 4rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2.2rem; }
+            .toc-list { grid-template-columns: 1fr; }
+            .doc-meta { flex-direction: column; align-items: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Document Content -->
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">Refund Policy</h1>
+                <div class="doc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> Effective Date: June 27, 2026</span>
+                    <span><i class="fa-solid fa-indian-rupee-sign"></i> Payment Region: India</span>
+                </div>
+            </div>
+
+            <div class="toc-box">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#section-1">1. General Refund Policy</a></li>
+                    <li><a href="#section-2">2. When a Refund IS Available</a></li>
+                    <li><a href="#section-3">3. When a Refund is NOT Available</a></li>
+                    <li><a href="#section-4">4. Follow Order Issues (Points Refund)</a></li>
+                    <li><a href="#section-5">5. How to Request a Refund</a></li>
+                    <li><a href="#section-6">6. Refund Processing Times</a></li>
+                    <li><a href="#section-7">7. Disputes & Chargebacks</a></li>
+                </ul>
+            </div>
+
+            <div class="policy-body">
+                
+                <p>Thank you for using <strong>FollowXchange</strong>. We operate a manual payment verification system where users purchase points via Telegram (using UPI or Bank Transfer). To ensure fairness for both our platform and our community, we have established the following clear and fair refund guidelines.</p>
+
+                <h2 id="section-1"><span class="num">1</span> General Refund Policy</h2>
+                <p>FollowXchange Points are a digital, virtual currency used exclusively within our platform. Because these digital goods are delivered directly to your account upon admin confirmation, <strong>purchased points are generally non-refundable once they have been added to your FollowXchange wallet.</strong></p>
+
+                <h2 id="section-2"><span class="num">2</span> When a Refund IS Available</h2>
+                <div class="highlight-box success">
+                    <i class="fa-solid fa-check-circle" style="color: var(--success);"></i>
+                    We will gladly issue a full or partial cash refund to your original payment method under the following specific conditions:
+                </div>
+                <ul>
+                    <li><strong>Points Not Credited:</strong> You made a valid payment via UPI/Bank Transfer, provided the correct transaction reference, but the points were <strong>not added</strong> to your account within 24 hours.</li>
+                    <li><strong>Accidental Double Payment:</strong> A technical error or banking glitch caused you to accidentally pay twice for the same point package. We will refund the duplicate transaction amount.</li>
+                    <li><strong>Platform Closure:</strong> In the highly unlikely event that FollowXchange completely shuts down permanently, we will refund the value of any <em>unused, purchased</em> points remaining in your wallet.</li>
+                </ul>
+
+                <h2 id="section-3"><span class="num">3</span> When a Refund is NOT Available</h2>
+                <div class="highlight-box danger">
+                    <i class="fa-solid fa-ban" style="color: var(--danger);"></i>
+                    We cannot issue cash refunds in the following scenarios to prevent abuse of the system:
+                </div>
+                <ul>
+                    <li><strong>Points Already Used:</strong> You cannot receive a refund if you have already spent the purchased points to place follow orders on the platform.</li>
+                    <li><strong>Change of Mind:</strong> You successfully received the points in your wallet but changed your mind about using the platform.</li>
+                    <li><strong>Account Ban:</strong> Your account was suspended or permanently banned due to a violation of our Terms & Conditions (e.g., using fake accounts, submitting fraudulent proofs).</li>
+                    <li><strong>Unused After 30 Days:</strong> You purchased points but did not use them for more than 30 consecutive days.</li>
+                    <li><strong>Follower Drops:</strong> If you receive fewer followers than expected over time, or if Instagram removes followers, we do not issue cash refunds. (However, see Section 4 regarding <em>Points Adjustments</em>).</li>
+                </ul>
+
+                <h2 id="section-4"><span class="num">4</span> Follow Order Issues (Points Refund)</h2>
+                <div class="highlight-box info">
+                    <i class="fa-solid fa-circle-info" style="color: var(--info);"></i>
+                    <strong>IMPORTANT DISTINCTION:</strong> If an issue occurs with your follow order, we issue <strong>Points Refunds</strong> directly back to your FollowXchange wallet, NOT cash refunds to your bank.
+                </div>
+                <ul>
+                    <li><strong>Order Not Completed:</strong> If your follow order is not fulfilled within the promised time frame by the community, the unspent points for that order will be fully refunded to your wallet.</li>
+                    <li><strong>Partial Completion:</strong> If you ordered 100 followers but only received 50 before the order expired or was cancelled, a proportional amount of points (for the undelivered 50 followers) will be refunded to your FollowXchange wallet.</li>
+                </ul>
+
+                <h2 id="section-5"><span class="num">5</span> How to Request a Refund</h2>
+                <p>If your situation meets the criteria for a cash refund (as outlined in Section 2), you must initiate a refund request manually.</p>
+                <ol>
+                    <li>Contact our support team directly via Telegram: <strong><a href="https://t.me/[YOUR_TELEGRAM]" target="_blank">@[YOUR_TELEGRAM]</a></strong>.</li>
+                    <li>You must contact us within <strong>24 hours</strong> of the issue occurring.</li>
+                    <li>Provide the following details in your message:
+                        <ul>
+                            <li>Your FollowXchange Username / Registered Email</li>
+                            <li>The exact payment amount (in INR)</li>
+                            <li>Date and Time of the transaction</li>
+                            <li>The UPI Reference ID or Bank Transaction ID</li>
+                        </ul>
+                    </li>
+                    <li>Our administrative team will review your request and respond within <strong>24-48 business hours</strong>.</li>
+                </ol>
+
+                <h2 id="section-6"><span class="num">6</span> Refund Processing Times</h2>
+                <ul>
+                    <li><strong>Cash Refunds:</strong> If approved, a cash refund will be sent back to the exact same UPI ID or Bank Account used to make the original payment. Depending on your bank, this process takes <strong>3 to 7 business days</strong> to reflect in your account.</li>
+                    <li><strong>Points Refunds:</strong> If an order is cancelled or adjusted, points are refunded to your FollowXchange wallet <strong>instantly</strong> upon admin action or system cancellation.</li>
+                </ul>
+
+                <h2 id="section-7"><span class="num">7</span> Disputes & Chargebacks</h2>
+                <p>We aim to resolve all issues fairly and amicably. We kindly ask that you contact us directly via Telegram before raising a dispute with your bank or UPI provider. Filing fraudulent chargebacks after utilizing points is considered theft. In the event of a fraudulent chargeback or payment dispute, your FollowXchange account will be permanently banned immediately, and we may block your associated IP address and Instagram username from our network.</p>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca-policy.html">DMCA Policy</a>
+                <a href="copyright-policy.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <a href="mailto:[YOUR_EMAIL]"><i class="fa-solid fa-envelope"></i> FollowXchange@gmail.com</a>
+                <a href="https://t.me/[YOUR_TELEGRAM]" target="_blank"><i class="fa-brands fa-telegram"></i> @FollowXchangeBot</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Script for TOC -->
+    <script>
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

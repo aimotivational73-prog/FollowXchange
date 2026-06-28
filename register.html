@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | FollowXchange</title>
+    
+    <meta name="title" content="Register | FollowXchange">
+    <meta name="description" content="Create an account on FollowXchange to earn 50 free points! Watch ads, earn points, and get real Instagram followers.">
+    <meta name="keywords" content="register, sign up, instagram followers, free followers, follow exchange, earn points">
+    <meta name="author" content="FollowXchange">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://followxchange.netlify.app/register.html">
+    <meta property="og:title" content="Register | FollowXchange">
+    <meta property="og:description" content="Create an account on FollowXchange to earn 50 free points! Watch ads, earn points, and get real Instagram followers.">
+    <meta property="og:image" content="https://followxchange.netlify.app/assets/images/social-preview.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://followxchange.netlify.app/register.html">
+    <meta property="twitter:title" content="Register | FollowXchange">
+    <meta property="twitter:description" content="Create an account on FollowXchange to earn 50 free points! Watch ads, earn points, and get real Instagram followers.">
+    <meta property="twitter:image" content="https://followxchange.netlify.app/assets/images/social-preview.jpg">
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#E1306C">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <style>
+        :root {
+            --ig-gradient: linear-gradient(135deg, #E1306C, #833AB4, #F77737);
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-muted: #666666;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .auth-container {
+            background: var(--white);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top Gradient Bar */
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--ig-gradient);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--ig-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #E1306C;
+            box-shadow: 0 0 0 4px rgba(225, 48, 108, 0.1);
+        }
+
+        .form-group i {
+            position: absolute;
+            top: 38px;
+            left: 15px;
+            color: var(--text-muted);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .checkbox-group a {
+            color: #E1306C;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit {
+            background: var(--ig-gradient);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.2);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider:not(:empty)::before { margin-right: .5em; }
+        .divider:not(:empty)::after { margin-left: .5em; }
+
+        .btn-google {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-google img {
+            width: 20px;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .auth-footer a {
+            color: #833AB4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Message Box */
+        .message-box {
+            display: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .message-error {
+            background-color: #fee2e2;
+            color: var(--error);
+            border: 1px solid #fecaca;
+        }
+
+        .message-success {
+            background-color: #d1fae5;
+            color: var(--success);
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ================== NEW COMPONENTS CSS ================== */
+
+        /* Overrides to support Footer without breaking Auth box */
+        body {
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0;
+        }
+        .auth-container {
+            margin: 4rem 1rem;
+        }
+
+        /* Legal Register Modal */
+        .legal-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000; padding: 1rem; }
+        .legal-modal-card { background: white; padding: 2rem; border-radius: 15px; max-width: 450px; width: 100%; }
+        .key-terms-list { background: #f8f9fa; padding: 15px 15px 15px 30px; border-radius: 10px; margin-bottom: 1.5rem; font-size: 0.85rem; color: #2d3436; }
+        .key-terms-list li { margin-bottom: 8px; }
+        .legal-checkbox-group { display: flex; align-items: flex-start; gap: 10px; font-size: 0.85rem; color: #2d3436; }
+        .legal-checkbox-group input { margin-top: 3px; cursor: pointer; }
+        .legal-checkbox-group a { color: #E1306C; text-decoration: none; font-weight: 600; }
+        .btn-cancel { flex: 1; padding: 12px; border: none; border-radius: 50px; background: #e2e8f0; font-weight: 600; cursor: pointer; color: #2d3436; }
+        .btn-confirm-reg { flex: 2; padding: 12px; border: none; border-radius: 50px; background: linear-gradient(135deg, #E1306C, #833AB4); color: white; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-confirm-reg:disabled { background: #b2bec3; cursor: not-allowed; }
+
+        /* Universal Footer Styles */
+        .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; }
+        .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-brand p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.2rem; margin-right: 10px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { background: #E1306C; transform: translateY(-3px); }
+        .footer-links h4, .footer-contact h4 { color: #ffffff; margin-bottom: 1.2rem; font-size: 1.1rem; }
+        .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .link-grid a, .footer-contact a { color: #b2bec3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-contact a i { margin-right: 8px; color: #E1306C; }
+        .link-grid a:hover, .footer-contact a:hover { color: #E1306C; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; }
+        .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
+        .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>FollowXchange</h1>
+            <p>Create an account to get 50 Free Points!</p>
+        </div>
+
+        <div id="messageBox" class="message-box"></div>
+
+        <form id="registerForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <i class="fa-regular fa-user"></i>
+                <input type="text" id="fullName" placeholder="John Doe" required>
+            </div>
+
+            <div class="form-group">
+                <label>Instagram Username (without @)</label>
+                <i class="fa-brands fa-instagram"></i>
+                <input type="text" id="igUsername" placeholder="johndoe_ig" required>
+            </div>
+
+            <div class="form-group">
+                <label>Email Address</label>
+                <i class="fa-regular fa-envelope"></i>
+                <input type="email" id="email" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="Min 6 characters" minlength="6" required>
+            </div>
+
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <i class="fa-solid fa-shield-halved"></i>
+                <input type="password" id="confirmPassword" placeholder="Repeat your password" required>
+            </div>
+
+            <div class="checkbox-group">
+                <input type="checkbox" id="terms" required>
+                <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+            </div>
+
+            <button type="submit" class="btn btn-submit" id="submitBtn">
+                <span id="btnText">Create Account</span>
+                <div class="spinner" id="spinner"></div>
+            </button>
+        </form>
+
+        <div class="divider">OR</div>
+
+        <button class="btn btn-google" id="googleBtn">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+            Sign up with Google
+        </button>
+
+        <div class="auth-footer">
+            Already have an account? <a href="login.html">Log In</a>
+        </div>
+    </div>
+
+    <div class="legal-modal-overlay" id="registerLegalModal">
+        <div class="legal-modal-card">
+            <h3><i class="fa-solid fa-file-signature" style="color: #E1306C;"></i> Before you join...</h3>
+            <p style="font-size: 0.85rem; color: #636e72; margin-bottom: 1rem;">Please review the key rules of FollowXchange:</p>
+            
+            <ul class="key-terms-list">
+                <li><strong>1. No Fake Proofs:</strong> Submitting fake follow screenshots will result in an instant ban.</li>
+                <li><strong>2. 7-Day Rule:</strong> You must follow accounts for at least 7 days. Early unfollows cause point deductions.</li>
+                <li><strong>3. One Account Only:</strong> Multiple accounts per person are strictly prohibited.</li>
+                <li><strong>4. Points Value:</strong> Platform points have no cash value and cannot be withdrawn as money.</li>
+                <li><strong>5. No Automation:</strong> Using bots, scripts, or VPNs to watch ads or follow users is forbidden.</li>
+            </ul>
+
+            <div class="legal-checkbox-group">
+                <input type="checkbox" id="agreeToTerms">
+                <label for="agreeToTerms">I have read and agree to the <a href="terms-conditions.html" target="_blank">Terms & Conditions</a> and <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</label>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 1.5rem;">
+                <button class="btn-cancel" onclick="document.getElementById('registerLegalModal').style.display='none'">Cancel</button>
+                <button class="btn-confirm-reg" id="finalRegisterBtn" disabled>Create Account</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="universal-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FollowXchange</h2>
+                <p>The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <div class="link-grid">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="dmca.html">DMCA Policy</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                    <a href="community-guidelines.html">Community Guidelines</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+                <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Bot</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="ig-disclaimer"><strong>Disclaimer:</strong> FollowXchange is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms Inc.</p>
+            <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { 
+            createUserWithEmailAndPassword, 
+            GoogleAuthProvider, 
+            signInWithPopup 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            doc, 
+            setDoc, 
+            getDoc,
+            serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // DOM Elements
+        const registerForm = document.getElementById('registerForm');
+        const googleBtn = document.getElementById('googleBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('spinner');
+        const messageBox = document.getElementById('messageBox');
+        
+        // New Modal DOM Elements
+        const registerLegalModal = document.getElementById('registerLegalModal');
+        const agreeToTerms = document.getElementById('agreeToTerms');
+        const finalRegisterBtn = document.getElementById('finalRegisterBtn');
+        
+        let pendingRegistrationData = {}; // Stores user inputs temporarily
+
+        // Show Message Helper
+        function showMessage(msg, type) {
+            messageBox.textContent = msg;
+            messageBox.className = `message-box message-${type}`;
+            messageBox.style.display = 'block';
+        }
+
+        // STEP 1: Handle Standard Registration Button Click (Intercepted)
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value;
+            const igUsername = document.getElementById('igUsername').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Basic Validation
+            if (password !== confirmPassword) {
+                return showMessage("Passwords do not match!", "error");
+            }
+            if (password.length < 6) {
+                return showMessage("Password must be at least 6 characters.", "error");
+            }
+
+            // Save data and show the Legal Modal instead of submitting directly
+            pendingRegistrationData = { fullName, igUsername, email, password };
+            registerLegalModal.style.display = 'flex';
+        });
+
+        // STEP 2: Enable "Create Account" modal button only when checkbox is checked
+        agreeToTerms.addEventListener('change', function() {
+            finalRegisterBtn.disabled = !this.checked;
+        });
+
+        // STEP 3: Execute the Actual Firebase Registration on Modal Confirm
+        finalRegisterBtn.addEventListener('click', async () => {
+            registerLegalModal.style.display = 'none'; // Hide modal
+            
+            const { fullName, igUsername, email, password } = pendingRegistrationData;
+
+            // Start Loading state on the main form button
+            btnText.textContent = "Creating...";
+            spinner.style.display = "block";
+            submitBtn.disabled = true;
+
+            try {
+                // Create User in Firebase Auth
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Save User Data to Firestore 'users' collection
+                await setDoc(doc(db, "users", user.uid), {
+                    username: fullName,
+                    instagram_username: igUsername.replace('@', ''), // Strip @
+                    email: email,
+                    points: 50, // Welcome Bonus!
+                    total_followers_received: 0,
+                    total_follows_done: 0,
+                    created_at: serverTimestamp(),
+                    is_premium: false
+                });
+
+                // Success state
+                handleSuccess();
+
+            } catch (error) {
+                console.error(error);
+                let errorMessage = "An error occurred during registration.";
+                
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = "This email is already registered.";
+                } else if (error.code === 'auth/weak-password') {
+                    errorMessage = "Password is too weak.";
+                }
+
+                showMessage(errorMessage, "error");
+                
+                // Reset Button
+                btnText.textContent = "Create Account";
+                spinner.style.display = "none";
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Handle Google Sign-In
+        googleBtn.addEventListener('click', async () => {
+            const provider = new GoogleAuthProvider();
+            
+            try {
+                const result = await signInWithPopup(auth, provider);
+                const user = result.user;
+
+                // Check if user already exists in Firestore
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (!docSnap.exists()) {
+                    // New Google User - Create their profile
+                    await setDoc(docRef, {
+                        username: user.displayName || "New User",
+                        instagram_username: "", 
+                        email: user.email,
+                        points: 50, // Welcome Bonus!
+                        total_followers_received: 0,
+                        total_follows_done: 0,
+                        created_at: serverTimestamp(),
+                        is_premium: false
+                    });
+                }
+
+                handleSuccess();
+
+            } catch (error) {
+                console.error(error);
+                showMessage("Google Sign-In failed. Please try again.", "error");
+            }
+        });
+
+        // Success Handler (Confetti & Redirect)
+        function handleSuccess() {
+            showMessage("Account created successfully! Enjoy your 50 points bonus.", "success");
+            
+            // Fire Confetti Animation
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#E1306C', '#833AB4', '#F77737']
+            });
+
+            // Redirect after 2 seconds
+            setTimeout(() => {
+                window.location.href = "dashboard.html";
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel | FollowXchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --accent: #E1306C;
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --success: #00b894;
+            --warning: #f1c40f;
+            --danger: #d63031;
+            --border: #dfe6e9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-dark); 
+            /* Footer layout fixes */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .admin-nav {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-nav h1 { font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .btn-logout { background: rgba(255,255,255,0.1); color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; }
+
+        /* Tab Navigation */
+        .tab-menu {
+            display: flex;
+            background: var(--white);
+            padding: 0 5%;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+
+        .tab-btn {
+            background: none; border: none; padding: 15px 20px; font-weight: 600; color: var(--text-muted);
+            cursor: pointer; border-bottom: 3px solid transparent; transition: 0.2s;
+        }
+
+        .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        .container { 
+            max-width: 1200px; 
+            margin: 2rem auto; 
+            padding: 0 1rem; 
+            flex: 1;
+            width: 100%;
+        }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Dashboard Cards */
+        .grid-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 2rem; }
+        
+        .stat-card {
+            background: var(--white); padding: 20px; border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.02);
+            border-left: 4px solid var(--accent);
+        }
+        .stat-card h3 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px; }
+        .stat-card .value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+
+        /* Tables & Lists */
+        .card { background: var(--white); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); margin-bottom: 1.5rem; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 10px; }
+        
+        .search-box { padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; outline: none; width: 100%; max-width: 300px; }
+
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        th { background: #f8f9fa; font-weight: 600; color: var(--text-muted); }
+        tr:hover { background: #f8f9fa; }
+
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+        .bg-success { background: #d1fae5; color: var(--success); }
+        .bg-warning { background: #fef08a; color: #b45309; }
+        .bg-danger { background: #fee2e2; color: var(--danger); }
+        
+        .action-btn { background: none; border: none; cursor: pointer; padding: 5px; font-size: 1rem; margin-right: 5px; }
+        .text-primary { color: #0088cc; }
+        .text-success { color: var(--success); }
+        .text-danger { color: var(--danger); }
+
+        /* Forms */
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 5px; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; outline: none; }
+        .btn-submit { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; width: 100%; }
+
+        /* Modal */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 1rem; }
+        .modal-card { background: var(--white); padding: 1.5rem; border-radius: 12px; width: 100%; max-width: 400px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .close-modal { background: none; border: none; font-size: 1.2rem; cursor: pointer; }
+
+        /* ================== NEW COMPONENTS CSS ================== */
+        
+        /* Universal Footer Styles */
+        .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
+        .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-brand p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.2rem; margin-right: 10px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { background: #E1306C; transform: translateY(-3px); }
+        .footer-links h4, .footer-contact h4 { color: #ffffff; margin-bottom: 1.2rem; font-size: 1.1rem; }
+        .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .link-grid a, .footer-contact a { color: #b2bec3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-contact a i { margin-right: 8px; color: #E1306C; }
+        .link-grid a:hover, .footer-contact a:hover { color: #E1306C; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; }
+        .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
+        .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="admin-nav">
+        <h1><i class="fa-solid fa-shield-halved"></i> Admin Panel</h1>
+        <button class="btn-logout" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+    </nav>
+
+    <div class="tab-menu">
+        <button class="tab-btn active" onclick="switchTab('dashboard')">Dashboard</button>
+        <button class="tab-btn" onclick="switchTab('users')">Users</button>
+        <button class="tab-btn" onclick="switchTab('orders')">Orders & Proofs</button>
+        <button class="tab-btn" onclick="switchTab('transactions')">Transactions</button>
+        <button class="tab-btn" onclick="switchTab('payments')">Manual Payments</button>
+    </div>
+
+    <div class="container">
+        
+        <div id="dashboard" class="tab-content active">
+            <div class="grid-cards">
+                <div class="stat-card"><h3>Total Users</h3><div class="value" id="dashUsers">...</div></div>
+                <div class="stat-card"><h3>Total Points in Circ.</h3><div class="value" id="dashPoints">...</div></div>
+                <div class="stat-card"><h3>Pending Proofs</h3><div class="value" id="dashPending">...</div></div>
+                <div class="stat-card"><h3>Est. Ad Revenue</h3><div class="value" id="dashRev">...</div></div>
+            </div>
+            <div class="card">
+                <h3>Quick Actions</h3>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-top:10px;">Use the tabs above to manage the platform. Always verify payment references before crediting points via Telegram requests.</p>
+            </div>
+        </div>
+
+        <div id="users" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>User Management</h3>
+                    <input type="text" id="searchUser" class="search-box" placeholder="Search by Email or IG Username...">
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Name / IG</th><th>Email</th><th>Points</th><th>Joined</th><th>Actions</th></tr></thead>
+                        <tbody id="usersTableBody"><tr><td colspan="5">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="orders" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Follow Proofs (Pending Verification)</h3>
+                    <select class="search-box" id="proofFilter">
+                        <option value="pending">Pending Only</option>
+                        <option value="all">View All</option>
+                    </select>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Order ID</th><th>Seller (Worker)</th><th>Target IG</th><th>Proof</th><th>Status</th><th>Actions</th></tr></thead>
+                        <tbody id="proofsTableBody"><tr><td colspan="6">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="transactions" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Recent Point Transactions (Last 50)</h3>
+                </div>
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>Date</th><th>User UID</th><th>Reason</th><th>Change</th></tr></thead>
+                        <tbody id="txTableBody"><tr><td colspan="4">Loading...</td></tr></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="payments" class="tab-content">
+            <div class="card" style="max-width: 500px; margin: 0 auto;">
+                <h3 style="margin-bottom: 1rem;">Process Telegram Payment</h3>
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label>User's Instagram Username</label>
+                        <input type="text" id="payUsername" class="form-control" required placeholder="e.g. johndoe_ig">
+                    </div>
+                    <div class="form-group">
+                        <label>Points to Add</label>
+                        <input type="number" id="payAmount" class="form-control" required placeholder="e.g. 1000">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Reference / Txn ID</label>
+                        <input type="text" id="payRef" class="form-control" required placeholder="UPI / Bank Ref">
+                    </div>
+                    <button type="submit" class="btn-submit" id="paySubmitBtn">Credit Points to User</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="addPointsModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Add/Deduct Points</h3>
+                <button class="close-modal" onclick="closeModal('addPointsModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="addPointsForm">
+                <input type="hidden" id="apUid">
+                <p style="margin-bottom:10px; font-size:0.9rem;">User: <strong id="apName"></strong></p>
+                <div class="form-group">
+                    <label>Amount (Use negative to deduct)</label>
+                    <input type="number" id="apAmount" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Reason</label>
+                    <input type="text" id="apReason" class="form-control" value="Admin Adjustment" required>
+                </div>
+                <button type="submit" class="btn-submit">Process Adjustment</button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="universal-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FollowXchange</h2>
+                <p>The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <div class="link-grid">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="dmca.html">DMCA Policy</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                    <a href="community-guidelines.html">Community Guidelines</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+                <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Bot</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="ig-disclaimer"><strong>Disclaimer:</strong> FollowXchange is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms Inc.</p>
+            <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            collection, query, where, orderBy, limit, getDocs, getCountFromServer, 
+            doc, updateDoc, writeBatch, serverTimestamp, increment, getDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // ==========================================
+        // ADMIN SECURITY CONFIGURATION
+        // ==========================================
+        const ADMIN_EMAIL = "YOUR_ADMIN_EMAIL@gmail.com"; 
+        
+        let allUsersData = []; // Cache for search
+
+        // Authentication Guard
+        onAuthStateChanged(auth, async (user) => {
+            if (!user || user.email !== ADMIN_EMAIL) {
+                alert("Unauthorized Access. Redirecting...");
+                window.location.href = 'index.html';
+            } else {
+                initAdminPanel();
+            }
+        });
+
+        // Tab Switcher
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Initialize Data
+        async function initAdminPanel() {
+            loadDashboard();
+            loadUsers();
+            loadProofs();
+            loadTransactions();
+        }
+
+        // 1. Load Dashboard
+        async function loadDashboard() {
+            try {
+                // Total Users
+                const usersSnap = await getCountFromServer(collection(db, "users"));
+                document.getElementById('dashUsers').textContent = usersSnap.data().count;
+
+                // Pending Proofs
+                const proofsQuery = query(collection(db, "follow_proofs"), where("status", "==", "pending"));
+                const proofsSnap = await getCountFromServer(proofsQuery);
+                document.getElementById('dashPending').textContent = proofsSnap.data().count;
+
+                // Sum Points (Note: Needs fetching users, capped at 1000 for client-side perf)
+                const qUsers = query(collection(db, "users"), limit(1000));
+                const allUsers = await getDocs(qUsers);
+                let totalPoints = 0;
+                allUsers.forEach(d => totalPoints += (d.data().points || 0));
+                document.getElementById('dashPoints').textContent = totalPoints.toLocaleString() + (allUsers.size === 1000 ? '+' : '');
+
+                // Est Ad Revenue (Mock based on ads watched collection)
+                const adsCountSnap = await getCountFromServer(collection(db, "ads_watched"));
+                // Assuming roughly $1 per 1000 ads -> $0.001 per ad. 
+                const rev = (adsCountSnap.data().count * 0.001).toFixed(2);
+                document.getElementById('dashRev').textContent = `$${rev}`;
+
+            } catch(e) { console.error("Dash error", e); }
+        }
+
+        // 2. Load Users
+        async function loadUsers() {
+            try {
+                const q = query(collection(db, "users"), orderBy("created_at", "desc"), limit(100));
+                const snap = await getDocs(q);
+                allUsersData = [];
+                
+                snap.forEach(doc => {
+                    allUsersData.push({ id: doc.id, ...doc.data() });
+                });
+                renderUsersTable(allUsersData);
+            } catch(e) { 
+                console.error(e); 
+                document.getElementById('usersTableBody').innerHTML = `<tr><td colspan="5">Requires index or error occurred. Check console.</td></tr>`;
+            }
+        }
+
+        function renderUsersTable(users) {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = '';
+            users.forEach(u => {
+                const date = u.created_at ? u.created_at.toDate().toLocaleDateString() : 'N/A';
+                tbody.innerHTML += `
+                    <tr>
+                        <td><strong>${u.username}</strong><br><small class="text-primary">@${u.instagram_username}</small></td>
+                        <td>${u.email}</td>
+                        <td><strong>${u.points}</strong></td>
+                        <td>${date}</td>
+                        <td>
+                            <button class="action-btn text-success" title="Add Points" onclick="openAddPoints('${u.id}', '${u.username}')"><i class="fa-solid fa-coins"></i></button>
+                            <button class="action-btn text-danger" title="Ban User"><i class="fa-solid fa-ban"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Search Users
+        document.getElementById('searchUser').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allUsersData.filter(u => 
+                (u.email && u.email.toLowerCase().includes(term)) || 
+                (u.instagram_username && u.instagram_username.toLowerCase().includes(term))
+            );
+            renderUsersTable(filtered);
+        });
+
+        // Add Points Modal Logic
+        window.openAddPoints = function(uid, name) {
+            document.getElementById('apUid').value = uid;
+            document.getElementById('apName').textContent = name;
+            document.getElementById('addPointsModal').style.display = 'flex';
+        }
+        window.closeModal = function(id) { document.getElementById(id).style.display = 'none'; }
+
+        document.getElementById('addPointsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const uid = document.getElementById('apUid').value;
+            const amt = parseInt(document.getElementById('apAmount').value);
+            const reason = document.getElementById('apReason').value;
+
+            try {
+                const batch = writeBatch(db);
+                batch.update(doc(db, "users", uid), { points: increment(amt) });
+                batch.set(doc(db, "points_history", `txn_admin_${Date.now()}`), {
+                    uid: uid, points_change: amt, reason: reason, created_at: serverTimestamp()
+                });
+                await batch.commit();
+                alert("Points processed.");
+                closeModal('addPointsModal');
+                loadUsers(); loadTransactions();
+            } catch(err) { alert("Error"); console.error(err); }
+        });
+
+        // 3. Load Proofs
+        async function loadProofs() {
+            try {
+                const filter = document.getElementById('proofFilter').value;
+                let q;
+                if(filter === 'pending') {
+                    q = query(collection(db, "follow_proofs"), where("status", "==", "pending"), orderBy("created_at", "desc"), limit(50));
+                } else {
+                    q = query(collection(db, "follow_proofs"), orderBy("created_at", "desc"), limit(50));
+                }
+
+                const snap = await getDocs(q);
+                const tbody = document.getElementById('proofsTableBody');
+                tbody.innerHTML = '';
+
+                if(snap.empty) { tbody.innerHTML = '<tr><td colspan="6">No proofs found.</td></tr>'; return; }
+
+                snap.forEach(d => {
+                    const data = d.data();
+                    let badge = 'bg-warning';
+                    if(data.status === 'approved') badge = 'bg-success';
+                    if(data.status === 'rejected') badge = 'bg-danger';
+
+                    let actions = '';
+                    if(data.status === 'pending') {
+                        actions = `
+                            <button class="action-btn text-success" title="Approve (+8 pts)" onclick="processProof('${d.id}', '${data.seller_uid}', true)"><i class="fa-solid fa-check"></i></button>
+                            <button class="action-btn text-danger" title="Reject" onclick="processProof('${d.id}', '${data.seller_uid}', false)"><i class="fa-solid fa-xmark"></i></button>
+                        `;
+                    }
+
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><small>${data.order_id.substring(0,8)}...</small></td>
+                            <td>UID: <small>${data.seller_uid.substring(0,6)}</small></td>
+                            <td>@${data.target_instagram}</td>
+                            <td><a href="${data.proof_url}" target="_blank" class="text-primary">View Image</a></td>
+                            <td><span class="badge ${badge}">${data.status}</span></td>
+                            <td>${actions}</td>
+                        </tr>
+                    `;
+                });
+            } catch(e) { console.error(e); }
+        }
+
+        document.getElementById('proofFilter').addEventListener('change', loadProofs);
+
+        // Process Proof (Approve/Reject)
+        window.processProof = async function(proofId, sellerUid, isApprove) {
+            if(!confirm(`Are you sure you want to ${isApprove ? 'APPROVE and give 8 points' : 'REJECT'} this proof?`)) return;
+
+            try {
+                const batch = writeBatch(db);
+                const proofRef = doc(db, "follow_proofs", proofId);
+                
+                if (isApprove) {
+                    batch.update(proofRef, { status: 'approved' });
+                    batch.update(doc(db, "users", sellerUid), { points: increment(8) });
+                    batch.set(doc(db, "points_history", `txn_proof_${Date.now()}`), {
+                        uid: sellerUid, points_change: 8, reason: "Follow Proof Approved", created_at: serverTimestamp()
+                    });
+                } else {
+                    batch.update(proofRef, { status: 'rejected' });
+                }
+
+                await batch.commit();
+                loadProofs(); loadDashboard();
+            } catch(e) { alert("Error updating"); console.error(e); }
+        }
+
+        // 4. Load Transactions
+        async function loadTransactions() {
+            try {
+                const q = query(collection(db, "points_history"), orderBy("created_at", "desc"), limit(50));
+                const snap = await getDocs(q);
+                const tbody = document.getElementById('txTableBody');
+                tbody.innerHTML = '';
+
+                snap.forEach(d => {
+                    const t = d.data();
+                    const date = t.created_at ? t.created_at.toDate().toLocaleString() : 'N/A';
+                    const color = t.points_change > 0 ? 'text-success' : 'text-danger';
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><small>${date}</small></td>
+                            <td><small>${t.uid.substring(0,10)}...</small></td>
+                            <td>${t.reason}</td>
+                            <td class="${color}"><strong>${t.points_change > 0 ? '+' : ''}${t.points_change}</strong></td>
+                        </tr>
+                    `;
+                });
+            } catch(e) { console.error(e); }
+        }
+
+        // 5. Telegram Payment Form
+        document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('paySubmitBtn');
+            btn.disabled = true; btn.textContent = 'Processing...';
+
+            const igUser = document.getElementById('payUsername').value.trim().replace('@', '');
+            const amount = parseInt(document.getElementById('payAmount').value);
+            const refId = document.getElementById('payRef').value.trim();
+
+            try {
+                // Find user by IG
+                const q = query(collection(db, "users"), where("instagram_username", "==", igUser), limit(1));
+                const snap = await getDocs(q);
+
+                if(snap.empty) {
+                    alert("User not found with that Instagram username!");
+                    btn.disabled = false; btn.textContent = 'Credit Points to User';
+                    return;
+                }
+
+                const uid = snap.docs[0].id;
+                
+                const batch = writeBatch(db);
+                batch.update(doc(db, "users", uid), { points: increment(amount) });
+                batch.set(doc(db, "points_history", `txn_buy_${Date.now()}`), {
+                    uid: uid, points_change: amount, reason: `Purchased Points (Ref: ${refId})`, created_at: serverTimestamp()
+                });
+                
+                await batch.commit();
+                alert(`Success! Added ${amount} points to @${igUser}.`);
+                document.getElementById('paymentForm').reset();
+                loadUsers(); loadTransactions();
+
+            } catch(err) {
+                console.error(err); alert("Failed to process payment.");
+            } finally {
+                btn.disabled = false; btn.textContent = 'Credit Points to User';
+            }
+        });
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => window.location.href = 'login.html');
+        });
+
+    </script>
+</body>
+</html>

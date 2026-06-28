@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | FollowXchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ig-gradient: linear-gradient(135deg, #E1306C, #833AB4, #F77737);
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --success: #00b894;
+            --warning: #f1c40f;
+            --danger: #d63031;
+            --border: #dfe6e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            /* Footer layout fixes */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .points-badge {
+            background: var(--ig-gradient);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(225, 48, 108, 0.2);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        @media (max-width: 850px) {
+            .container { grid-template-columns: 1fr; }
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            margin-bottom: 2rem;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* Profile Header */
+        .profile-header {
+            text-align: center;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--ig-gradient);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            box-shadow: 0 8px 20px rgba(225, 48, 108, 0.3);
+        }
+
+        .premium-badge {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            background: var(--warning);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 3px solid var(--white);
+            font-size: 0.9rem;
+            display: none; /* Hidden by default */
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-ig {
+            color: #0088cc;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .profile-ig:hover { text-decoration: underline; }
+
+        .member-since {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        /* Stats Grid (Sidebar) */
+        .sidebar-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .stat-box {
+            background: var(--bg-color);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-box .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .stat-box .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Form Elements */
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label {
+            display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 8px;
+        }
+        .form-control {
+            width: 100%; padding: 12px 15px; border: 2px solid var(--border);
+            border-radius: 10px; font-size: 0.95rem; outline: none; transition: all 0.3s;
+        }
+        .form-control:focus { border-color: #E1306C; }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 12px auto;
+        }
+        
+        textarea.form-control { resize: vertical; min-height: 100px; }
+
+        .btn-submit {
+            background: var(--ig-gradient); color: var(--white); border: none;
+            padding: 12px 25px; border-radius: 50px; font-weight: 600; cursor: pointer;
+            transition: transform 0.2s; box-shadow: 0 4px 15px rgba(225, 48, 108, 0.2);
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-submit:hover { transform: translateY(-2px); }
+
+        /* Toggle Switches */
+        .toggle-row {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid var(--border);
+        }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-info h4 { font-size: 0.95rem; margin-bottom: 2px; }
+        .toggle-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+        .switch {
+            position: relative; display: inline-block; width: 50px; height: 26px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc; transition: .4s; border-radius: 34px;
+        }
+        .slider:before {
+            position: absolute; content: ""; height: 20px; width: 20px;
+            left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%;
+        }
+        input:checked + .slider { background-color: var(--success); }
+        input:checked + .slider:before { transform: translateX(24px); }
+
+        /* Danger Zone */
+        .danger-zone {
+            border: 2px solid #fee2e2; background: #fff5f5;
+        }
+        .danger-zone .card-title { color: var(--danger); border-bottom-color: #fecaca; }
+        .btn-danger {
+            background: var(--danger); color: white; border: none; padding: 12px 25px;
+            border-radius: 10px; font-weight: 600; cursor: pointer;
+        }
+
+        /* Message Box */
+        .msg-box {
+            padding: 10px 15px; border-radius: 8px; margin-bottom: 15px;
+            font-size: 0.9rem; font-weight: 500; display: none;
+        }
+        .msg-success { background: #d1fae5; color: var(--success); border: 1px solid #a7f3d0; }
+        .msg-error { background: #fee2e2; color: var(--danger); border: 1px solid #fecaca; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
+        }
+        .modal-card {
+            background: var(--white); padding: 2rem; border-radius: 20px;
+            max-width: 400px; width: 90%; text-align: center;
+        }
+
+        /* ================== NEW COMPONENTS CSS ================== */
+        
+        /* Universal Footer Styles */
+        .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
+        .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-brand p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.2rem; margin-right: 10px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { background: #E1306C; transform: translateY(-3px); }
+        .footer-links h4, .footer-contact h4 { color: #ffffff; margin-bottom: 1.2rem; font-size: 1.1rem; }
+        .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .link-grid a, .footer-contact a { color: #b2bec3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-contact a i { margin-right: 8px; color: #E1306C; }
+        .link-grid a:hover, .footer-contact a:hover { color: #E1306C; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; }
+        .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
+        .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="dashboard.html" class="navbar-brand"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+        <div class="points-badge">
+            <i class="fa-solid fa-coins"></i> <span id="navPoints">...</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="left-col">
+            <div class="card">
+                <div class="profile-header">
+                    <div class="avatar-container">
+                        <div class="avatar" id="displayAvatar">?</div>
+                        <div class="premium-badge" id="premiumBadge" title="Premium Member">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                    </div>
+                    <h2 class="profile-name" id="displayName">Loading...</h2>
+                    <a href="#" target="_blank" class="profile-ig" id="displayIg">
+                        <i class="fa-brands fa-instagram"></i> @username
+                    </a>
+                    <div class="member-since" id="displayDate">Member since: ...</div>
+                </div>
+
+                <div class="sidebar-stats">
+                    <div class="stat-box">
+                        <div class="value" id="statTotalPoints">0</div>
+                        <div class="label">Lifetime Pts</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="statFollowers">0</div>
+                        <div class="label">Received</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="statDone">0</div>
+                        <div class="label">Follows Done</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="value" id="statReferrals">0</div>
+                        <div class="label">Referrals</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-col">
+            
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-user-pen"></i> Edit Profile</div>
+                <div id="profileMsg" class="msg-box"></div>
+                
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input type="text" id="inputName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram Username (without @)</label>
+                        <input type="text" id="inputIg" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Profile Category</label>
+                        <select id="inputCategory" class="form-control">
+                            <option value="Personal">Personal / General</option>
+                            <option value="Fitness">Fitness & Health</option>
+                            <option value="Food">Food & Lifestyle</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Fashion">Fashion & Beauty</option>
+                            <option value="Business">Business & Brand</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bio / Description (Shown to users following you)</label>
+                        <textarea id="inputBio" class="form-control" placeholder="A short bio about your page..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="btnSaveProfile">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Profile
+                    </button>
+                </form>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-bell"></i> Notification Preferences</div>
+                
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <h4>Order Completed</h4>
+                        <p>Email me when my follower order finishes</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="notifOrder" class="pref-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <h4>Points Added</h4>
+                        <p>Email me when a follow proof is approved</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="notifPoints" class="pref-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <h4>Daily Reminder</h4>
+                        <p>Remind me to watch ads for free points</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="notifDaily" class="pref-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-shield-halved"></i> Change Password</div>
+                <div id="pwdMsg" class="msg-box"></div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">
+                    *Note: If you signed up using Google, you cannot change your password here.
+                </p>
+                
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPwd" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newPwd" class="form-control" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPwd" class="form-control" minlength="6" required>
+                    </div>
+                    <button type="submit" class="btn-submit" id="btnSavePwd" style="background: #2d3436;">
+                        <i class="fa-solid fa-key"></i> Update Password
+                    </button>
+                </form>
+            </div>
+
+            <div class="card danger-zone">
+                <div class="card-title"><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</div>
+                <p style="font-size: 0.9rem; margin-bottom: 15px; color: var(--text-dark);">
+                    Once you delete your account, there is no going back. All active orders will be cancelled.
+                </p>
+                <button class="btn-danger" onclick="document.getElementById('deleteModal').style.display='flex'">
+                    Delete My Account
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-card">
+            <i class="fa-solid fa-circle-exclamation" style="font-size: 3rem; color: var(--danger); margin-bottom: 15px;"></i>
+            <h3>Are you absolutely sure?</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 10px 0 20px;">
+                This action cannot be undone. To verify, please enter your password. (Leave blank if Google Auth).
+            </p>
+            <input type="password" id="deleteAuthPwd" class="form-control" placeholder="Enter password to confirm" style="margin-bottom: 15px;">
+            
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-submit" style="flex:1; background: #e2e8f0; color: #333;" onclick="document.getElementById('deleteModal').style.display='none'">Cancel</button>
+                <button class="btn-danger" style="flex:1;" id="confirmDeleteBtn">Yes, Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="universal-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FollowXchange</h2>
+                <p>The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <div class="link-grid">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="dmca.html">DMCA Policy</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                    <a href="community-guidelines.html">Community Guidelines</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+                <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Bot</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="ig-disclaimer"><strong>Disclaimer:</strong> FollowXchange is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms Inc.</p>
+            <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { 
+            onAuthStateChanged, 
+            EmailAuthProvider, 
+            reauthenticateWithCredential, 
+            updatePassword, 
+            deleteUser 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            doc, getDoc, updateDoc, collection, query, where, getDocs, writeBatch, deleteDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // DOM Elements
+        const navPoints = document.getElementById('navPoints');
+        const displayAvatar = document.getElementById('displayAvatar');
+        const displayName = document.getElementById('displayName');
+        const displayIg = document.getElementById('displayIg');
+        const displayDate = document.getElementById('displayDate');
+        const premiumBadge = document.getElementById('premiumBadge');
+        
+        // Stats
+        const statTotalPoints = document.getElementById('statTotalPoints');
+        const statFollowers = document.getElementById('statFollowers');
+        const statDone = document.getElementById('statDone');
+        const statReferrals = document.getElementById('statReferrals');
+
+        // Forms
+        const profileForm = document.getElementById('profileForm');
+        const inputName = document.getElementById('inputName');
+        const inputIg = document.getElementById('inputIg');
+        const inputCategory = document.getElementById('inputCategory');
+        const inputBio = document.getElementById('inputBio');
+        const profileMsg = document.getElementById('profileMsg');
+        const btnSaveProfile = document.getElementById('btnSaveProfile');
+
+        // Password
+        const passwordForm = document.getElementById('passwordForm');
+        const currentPwd = document.getElementById('currentPwd');
+        const newPwd = document.getElementById('newPwd');
+        const confirmPwd = document.getElementById('confirmPwd');
+        const pwdMsg = document.getElementById('pwdMsg');
+
+        // Toggles
+        const prefToggles = document.querySelectorAll('.pref-toggle');
+
+        let currentUser = null;
+        let userData = null;
+
+        // Init
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserProfile();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Helper: Show Message
+        function showMsg(element, msg, type) {
+            element.textContent = msg;
+            element.className = `msg-box msg-${type}`;
+            element.style.display = 'block';
+            setTimeout(() => { element.style.display = 'none'; }, 5000);
+        }
+
+        // 1. Load Profile
+        async function loadUserProfile() {
+            try {
+                const docRef = doc(db, "users", currentUser.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    userData = docSnap.data();
+
+                    // Map UI
+                    navPoints.textContent = (userData.points || 0).toLocaleString();
+                    displayName.textContent = userData.username || "User";
+                    displayAvatar.textContent = (userData.username || "?").charAt(0);
+                    
+                    const ig = userData.instagram_username || "";
+                    displayIg.innerHTML = `<i class="fa-brands fa-instagram"></i> @${ig}`;
+                    displayIg.href = `https://instagram.com/${ig}`;
+
+                    if(userData.created_at) {
+                        displayDate.textContent = `Member since: ${userData.created_at.toDate().toLocaleDateString()}`;
+                    }
+
+                    if(userData.is_premium) premiumBadge.style.display = 'flex';
+
+                    // Stats
+                    // Note: 'total_points_earned' is calculated dynamically here based on points spent/earned
+                    // For simplicity, we show current points + spent (mock calculation) or just lifetime if tracked.
+                    statTotalPoints.textContent = (userData.points || 0).toLocaleString(); 
+                    statFollowers.textContent = (userData.total_followers_received || 0).toLocaleString();
+                    statDone.textContent = (userData.total_follows_done || 0).toLocaleString();
+                    statReferrals.textContent = (userData.referrals_made || 0).toLocaleString();
+
+                    // Form Data
+                    inputName.value = userData.username || "";
+                    inputIg.value = userData.instagram_username || "";
+                    inputCategory.value = userData.category || "Personal";
+                    inputBio.value = userData.bio || "";
+
+                    // Notification Toggles
+                    const prefs = userData.notifications || { order: true, points: true, daily: false };
+                    document.getElementById('notifOrder').checked = prefs.order;
+                    document.getElementById('notifPoints').checked = prefs.points;
+                    document.getElementById('notifDaily').checked = prefs.daily;
+                }
+            } catch (error) {
+                console.error("Error loading profile:", error);
+            }
+        }
+
+        // 2. Update Profile Form
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            btnSaveProfile.disabled = true;
+            btnSaveProfile.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                const docRef = doc(db, "users", currentUser.uid);
+                await updateDoc(docRef, {
+                    username: inputName.value.trim(),
+                    instagram_username: inputIg.value.trim().replace('@', ''),
+                    category: inputCategory.value,
+                    bio: inputBio.value.trim()
+                });
+                
+                showMsg(profileMsg, "Profile updated successfully!", "success");
+                await loadUserProfile(); // Refresh header
+
+            } catch (error) {
+                console.error(error);
+                showMsg(profileMsg, "Failed to update profile.", "error");
+            } finally {
+                btnSaveProfile.disabled = false;
+                btnSaveProfile.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save Profile';
+            }
+        });
+
+        // 3. Update Preferences (Auto-save on toggle)
+        prefToggles.forEach(toggle => {
+            toggle.addEventListener('change', async () => {
+                try {
+                    const docRef = doc(db, "users", currentUser.uid);
+                    await updateDoc(docRef, {
+                        "notifications.order": document.getElementById('notifOrder').checked,
+                        "notifications.points": document.getElementById('notifPoints').checked,
+                        "notifications.daily": document.getElementById('notifDaily').checked
+                    });
+                } catch (error) {
+                    console.error("Failed to save pref:", error);
+                }
+            });
+        });
+
+        // 4. Change Password
+        passwordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (newPwd.value !== confirmPwd.value) {
+                return showMsg(pwdMsg, "New passwords do not match.", "error");
+            }
+
+            try {
+                // Re-authenticate first
+                const credential = EmailAuthProvider.credential(currentUser.email, currentPwd.value);
+                await reauthenticateWithCredential(currentUser, credential);
+
+                // Update Password
+                await updatePassword(currentUser, newPwd.value);
+                
+                showMsg(pwdMsg, "Password updated successfully!", "success");
+                passwordForm.reset();
+
+            } catch (error) {
+                console.error(error);
+                if (error.code === 'auth/invalid-credential') {
+                    showMsg(pwdMsg, "Incorrect current password.", "error");
+                } else if (error.code === 'auth/requires-recent-login') {
+                    showMsg(pwdMsg, "Please log out and log back in to change password.", "error");
+                } else {
+                    showMsg(pwdMsg, "Error updating password. (Google Auth users cannot change password here).", "error");
+                }
+            }
+        });
+
+        // 5. Delete Account Logic
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+        
+        confirmDeleteBtn.addEventListener('click', async () => {
+            const pwdInput = document.getElementById('deleteAuthPwd').value;
+            
+            confirmDeleteBtn.disabled = true;
+            confirmDeleteBtn.textContent = 'Processing...';
+
+            try {
+                // 1. Re-authenticate if password provided (Skip if Google Auth, but may fail if recent login required)
+                if (pwdInput) {
+                    const credential = EmailAuthProvider.credential(currentUser.email, pwdInput);
+                    await reauthenticateWithCredential(currentUser, credential);
+                }
+
+                const batch = writeBatch(db);
+                
+                // 2. Clean up Orders (Set status to cancelled so queue doesn't get stuck)
+                const ordersRef = collection(db, "follow_orders");
+                const q = query(ordersRef, where("buyer_uid", "==", currentUser.uid));
+                const orderSnaps = await getDocs(q);
+                
+                orderSnaps.forEach(docSnap => {
+                    batch.delete(docSnap.ref); // Simply delete the orders
+                });
+
+                // 3. Delete User Document
+                const userRef = doc(db, "users", currentUser.uid);
+                batch.delete(userRef);
+
+                // Commit DB changes
+                await batch.commit();
+
+                // 4. Delete Auth User
+                await deleteUser(currentUser);
+
+                // Redirect handles automatically by onAuthStateChanged, but force it just in case
+                window.location.href = 'login.html';
+
+            } catch (error) {
+                console.error(error);
+                if (error.code === 'auth/requires-recent-login') {
+                    alert("Security requirement: Please log out, log back in, and try deleting your account again.");
+                } else if (error.code === 'auth/invalid-credential') {
+                    alert("Incorrect password.");
+                } else {
+                    alert("An error occurred while deleting account.");
+                }
+                
+                confirmDeleteBtn.disabled = false;
+                confirmDeleteBtn.textContent = 'Yes, Delete';
+            }
+        });
+
+    </script>
+</body>
+</html>

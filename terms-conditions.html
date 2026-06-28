@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms & Conditions | FollowXchange</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple));
+            --ig-gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--ig-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links a { 
+            color: var(--text-dark); text-decoration: none; font-weight: 600; 
+            font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .content-card { background: var(--white); padding: 3.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); text-align: center; }
+        .doc-title { font-size: 2.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.2; }
+        
+        .doc-meta { display: flex; justify-content: center; gap: 15px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 15px; border-radius: 50px; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.8rem; border-radius: 12px; margin-bottom: 3rem; }
+        .toc-box h4 { margin-bottom: 15px; color: var(--purple); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; display: inline-flex; gap: 8px; align-items: center;}
+        .toc-list a::before { content: '→'; color: var(--pink); font-size: 0.8rem; }
+        .toc-list a:hover { color: var(--pink); text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.6rem; margin: 2.5rem 0 1.2rem; color: var(--purple); padding-bottom: 5px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .policy-body h2 span.num { background: var(--purple); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 700; }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); text-align: justify; }
+        .policy-body ul, .policy-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body strong { color: var(--text-dark); font-weight: 600; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(225, 48, 108, 0.05); border-left: 4px solid var(--pink); padding: 1.5rem; border-radius: 0 10px 10px 0; margin: 2rem 0; color: var(--text-dark); }
+        .highlight-box i { margin-right: 8px; font-size: 1.2rem; }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 4rem 5% 2rem; margin-top: 4rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2.2rem; }
+            .toc-list { grid-template-columns: 1fr; }
+            .doc-meta { flex-direction: column; align-items: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Document Content -->
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">Terms & Conditions</h1>
+                <div class="doc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> Effective Date: June 27, 2026</span>
+                    <span><i class="fa-solid fa-globe"></i> Applicable to: followxchange.netlify.app</span>
+                </div>
+            </div>
+
+            <div class="toc-box">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#section-1">1. Acceptance of Terms</a></li>
+                    <li><a href="#section-2">2. User Account Rules</a></li>
+                    <li><a href="#section-3">3. Points System Rules</a></li>
+                    <li><a href="#section-4">4. Follow Exchange Rules</a></li>
+                    <li><a href="#section-5">5. Advertisement Watching Rules</a></li>
+                    <li><a href="#section-6">6. Prohibited Activities</a></li>
+                    <li><a href="#section-7">7. Payment and Refund Terms</a></li>
+                    <li><a href="#section-8">8. Disclaimer of Warranties</a></li>
+                    <li><a href="#section-9">9. Limitation of Liability</a></li>
+                    <li><a href="#section-10">10. Intellectual Property</a></li>
+                    <li><a href="#section-11">11. Governing Law</a></li>
+                    <li><a href="#section-12">12. Account Termination</a></li>
+                    <li><a href="#section-13">13. Contact Information</a></li>
+                </ul>
+            </div>
+
+            <div class="policy-body">
+                
+                <p>Welcome to <strong>FollowXchange</strong>. These Terms and Conditions govern your use of the followxchange.netlify.app website and our social media exchange services. By accessing or using our platform, you agree to be bound by these rules. Please read them carefully.</p>
+
+                <h2 id="section-1"><span class="num">1</span> Acceptance of Terms</h2>
+                <p>By registering for an account on FollowXchange, you expressly agree to these terms. <strong>You must be at least 13 years old</strong> to use our platform. We reserve the right to update or modify these Terms & Conditions at any time. Significant changes will be communicated via platform notices or email. Your continued use of the platform after updates constitutes your acceptance of the revised terms.</p>
+
+                <h2 id="section-2"><span class="num">2</span> User Account Rules</h2>
+                <ul>
+                    <li><strong>One Account Policy:</strong> You are permitted to create and use only ONE (1) account per person. Creating duplicate or burner accounts will result in an immediate and permanent ban.</li>
+                    <li><strong>Accuracy:</strong> You must provide accurate and current information, especially regarding your Instagram username.</li>
+                    <li><strong>Security:</strong> You are responsible for maintaining the confidentiality of your password and are fully responsible for all activities that occur under your account.</li>
+                    <li><strong>Termination:</strong> We reserve the right to suspend or terminate any account that violates these rules or engages in suspicious activity.</li>
+                </ul>
+
+                <h2 id="section-3"><span class="num">3</span> Points System Rules</h2>
+                <div class="highlight-box">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: var(--pink);"></i>
+                    <strong>Important:</strong> Points have ZERO monetary value. They cannot be withdrawn, cashed out, or exchanged for real-world currency under any circumstances.
+                </div>
+                <ul>
+                    <li>Points can only be used within the FollowXchange platform to place follow orders.</li>
+                    <li>Points earned from watching ads are strictly non-transferable to other users.</li>
+                    <li>Purchased points are non-refundable after they have been used to place an order.</li>
+                    <li>We reserve the right to adjust point values, ad reward rates, and order costs at any time to balance the platform economy.</li>
+                    <li>Points expire after <strong>12 months</strong> of continuous account inactivity.</li>
+                </ul>
+
+                <h2 id="section-4"><span class="num">4</span> Follow Exchange Rules</h2>
+                <p>The core of FollowXchange relies on the integrity of our community. When you participate in the exchange:</p>
+                <ul>
+                    <li><strong>Genuine Actions:</strong> Users must genuinely follow the Instagram accounts they agree to follow on our platform.</li>
+                    <li><strong>No Fake Proofs:</strong> Submitting fake, reused, or manipulated proof screenshots is strictly prohibited and will result in a ban.</li>
+                    <li><strong>7-Day Retention Rule:</strong> Unfollowing a user within 7 days after receiving points for that follow voids the transaction. We regularly audit follow relationships.</li>
+                    <li><strong>No Guarantees:</strong> While we enforce community rules, we do not guarantee specific follower numbers, speed of delivery, or that every follower will engage with your content. Followers come from real community members, not automated bots.</li>
+                </ul>
+
+                <h2 id="section-5"><span class="num">5</span> Advertisement Watching Rules</h2>
+                <p>To keep the platform free, users can earn points by viewing sponsored content:</p>
+                <ul>
+                    <li>Users must genuinely watch ads for their full required duration.</li>
+                    <li><strong>VPNs and Proxies:</strong> The use of VPNs, proxy servers, or ad-blockers to manipulate ad views or bypass regional restrictions is strictly prohibited.</li>
+                    <li><strong>Daily Limits:</strong> There is a maximum limit of <strong>50 ads per day</strong> per account to ensure fair distribution.</li>
+                    <li>Ad earnings may fluctuate daily based on advertiser rates and inventory.</li>
+                </ul>
+
+                <h2 id="section-6"><span class="num">6</span> Prohibited Activities</h2>
+                <p>Users are strictly forbidden from engaging in the following activities:</p>
+                <ul>
+                    <li>Creating multiple accounts to abuse the welcome bonus or referral systems.</li>
+                    <li>Using bots, macros, scripts, or automation tools to watch ads or perform follows.</li>
+                    <li>Submitting fraudulent follow proofs.</li>
+                    <li>Attempting to hack, bypass, or manipulate the Firebase points system.</li>
+                    <li>Harassing, threatening, or scamming other community members.</li>
+                    <li>Using the platform to promote illegal activities, adult content, or hate speech.</li>
+                    <li>Sharing account credentials with third parties.</li>
+                </ul>
+
+                <h2 id="section-7"><span class="num">7</span> Payment and Refund Terms</h2>
+                <p>For users who wish to bypass ads, we offer point packages for purchase.</p>
+                <ul>
+                    <li>Points can be purchased via manual payment requests handled through our official Telegram support.</li>
+                    <li>All transactions and pricing are conducted in <strong>Indian Rupees (INR)</strong>.</li>
+                    <li><strong>Non-Refundable:</strong> Purchased points are non-refundable once they have been successfully credited to your account.</li>
+                    <li>In the rare event of a technical error resulting in incorrect points being credited, please contact support and we will manually correct the balance.</li>
+                    <li>We reserve the right to refuse point sales or services to anyone at our sole discretion.</li>
+                </ul>
+
+                <h2 id="section-8"><span class="num">8</span> Disclaimer of Warranties</h2>
+                <p>The FollowXchange service is provided on an "AS IS" and "AS AVAILABLE" basis, without any warranties of any kind, either express or implied. We do not guarantee uninterrupted, secure, or error-free service. We do not guarantee specific follower growth results. Instagram follower counts may fluctuate due to Instagram's own internal algorithms, purges, and security actions, over which we have no control.</p>
+
+                <h2 id="section-9"><span class="num">9</span> Limitation of Liability</h2>
+                <p>To the maximum extent permitted by applicable law, FollowXchange shall not be liable for:</p>
+                <ul>
+                    <li>Any actions taken by Instagram against your account (including bans, shadow-bans, or restrictions).</li>
+                    <li>Lost followers due to Instagram algorithm changes or users breaking the 7-day rule.</li>
+                    <li>Content provided by third-party advertisement networks.</li>
+                </ul>
+                <p>In no event shall our total maximum aggregate liability exceed the total amount paid by you to us in the last <strong>30 days</strong> preceding the event giving rise to the claim.</p>
+
+                <h2 id="section-10"><span class="num">10</span> Intellectual Property</h2>
+                <p>The FollowXchange name, logos, website design, UI/UX, and proprietary codebase are the exclusive property of FollowXchange. Users cannot copy, reverse-engineer, or reproduce our platform design. By using our service, you grant us a limited license to display your public Instagram username on our platform solely for the purpose of fulfilling follow exchange orders.</p>
+
+                <h2 id="section-11"><span class="num">11</span> Governing Law and Jurisdiction</h2>
+                <p>These terms shall be governed by and construed in accordance with the laws of <strong>India</strong>. Any disputes arising out of or related to these Terms & Conditions or the FollowXchange platform shall be subject to the exclusive jurisdiction of the courts located in <strong>Odisha, India</strong>. Before pursuing legal action, users agree to attempt to resolve disputes amicably by contacting our support team first.</p>
+
+                <h2 id="section-12"><span class="num">12</span> Account Termination</h2>
+                <p>You may request to delete your account and all associated data at any time via your Profile settings. We may suspend or terminate your account without notice or liability for any reason, including without limitation if you breach the Terms. Upon termination, any unused points (whether earned or purchased) are immediately forfeited without compensation.</p>
+
+                <h2 id="section-13"><span class="num">13</span> Contact Information</h2>
+                <p>If you have any questions or concerns regarding these Terms & Conditions, please contact us:</p>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:[YOUR_EMAIL]">[YOUR_EMAIL]</a></li>
+                    <li><strong>Telegram:</strong> <a href="https://t.me/[YOUR_TELEGRAM]" target="_blank">@[YOUR_TELEGRAM]</a></li>
+                    <li><strong>Standard Response Time:</strong> 24 to 48 business hours.</li>
+                </ul>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca-policy.html">DMCA Policy</a>
+                <a href="copyright-policy.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <!-- Replace with your details -->
+                <a href="mailto:[YOUR_EMAIL]"><i class="fa-solid fa-envelope"></i> FollowXchange@gmail.com</a>
+                <a href="https://t.me/[YOUR_TELEGRAM]" target="_blank"><i class="fa-brands fa-telegram"></i> @FollowXchange</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Script for TOC -->
+    <script>
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

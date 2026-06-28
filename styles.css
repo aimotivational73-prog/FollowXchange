@@ -1,0 +1,324 @@
+/* ==========================================================================
+   1. CSS Variables & Reset
+   ========================================================================== */
+:root {
+    /* Color Palette */
+    --pink: #E1306C;
+    --purple: #833AB4;
+    --orange: #F77737;
+    --dark: #1a1a2e;
+    --light-bg: #fafafa;
+    --white: #ffffff;
+    --text-muted: #666666;
+    --danger: #ef4444;
+    --success: #10b981;
+
+    /* Instagram-style Gradient */
+    --gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 20px rgba(0, 0, 0, 0.08);
+    --shadow-hover: 0 15px 30px rgba(225, 48, 108, 0.15);
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-pill: 50px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--light-bg);
+    color: var(--dark);
+    line-height: 1.6;
+    font-size: 16px;
+}
+
+/* ==========================================================================
+   10. Navigation Bar (Sticky & Blurred)
+   ========================================================================== */
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 1000;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ==========================================================================
+   2. Headers & Gradients
+   ========================================================================== */
+.main-header {
+    background: var(--gradient);
+    color: var(--white);
+    padding: 4rem 1.5rem;
+    text-align: center;
+}
+
+.gradient-text {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ==========================================================================
+   5. Buttons
+   ========================================================================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    text-decoration: none;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* Primary Button (Gradient) */
+.btn-primary {
+    background: var(--gradient);
+    color: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--shadow-hover);
+    opacity: 0.95;
+}
+
+/* Secondary Button (Outline) */
+.btn-secondary {
+    background: transparent;
+    color: var(--dark);
+    border: 2px solid var(--purple);
+}
+
+.btn-secondary:hover {
+    background: var(--gradient);
+    color: var(--white);
+    border-color: transparent;
+}
+
+/* Danger Button (Red) */
+.btn-danger {
+    background: var(--danger);
+    color: var(--white);
+}
+
+.btn-danger:hover {
+    box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+/* ==========================================================================
+   3. Card Components
+   ========================================================================== */
+.card-container {
+    padding: 2rem 1.5rem;
+}
+
+.card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    margin-bottom: 1.5rem;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* ==========================================================================
+   9. Point Badges
+   ========================================================================== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-pill);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+.badge-points {
+    background: var(--gradient);
+    color: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ==========================================================================
+   6. Form Inputs & Animations
+   ========================================================================== */
+.form-group {
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    color: var(--dark);
+    background-color: var(--white);
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--pink);
+    box-shadow: 0 0 0 4px rgba(225, 48, 108, 0.15);
+}
+
+/* ==========================================================================
+   7. Loading Spinner
+   ========================================================================== */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(225, 48, 108, 0.2);
+    border-top-color: var(--pink);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==========================================================================
+   8. Toast Notifications
+   ========================================================================== */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    min-width: 250px;
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-md);
+    color: var(--white);
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+    animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.toast-success {
+    background-color: var(--success);
+}
+
+.toast-error {
+    background-color: var(--danger);
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   4. Mobile-First Responsive Design (320px to 1920px)
+   ========================================================================== */
+
+/* Layout Grids */
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+/* Tablets (768px and up) */
+@media (min-width: 768px) {
+    .navbar {
+        padding: 1rem 3rem;
+    }
+    
+    .main-header {
+        padding: 6rem 3rem;
+    }
+    
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .card-container {
+        padding: 3rem;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+}
+
+/* Desktops (1024px and up) */
+@media (min-width: 1024px) {
+    .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .main-header {
+        padding: 8rem 2rem;
+    }
+
+    .main-header h1 {
+        font-size: 3.5rem;
+    }
+}
+
+/* Large Screens (1440px to 1920px) */
+@media (min-width: 1440px) {
+    body {
+        font-size: 18px;
+    }
+
+    .card-container, .navbar-inner {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+}

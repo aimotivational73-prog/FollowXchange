@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMCA & Copyright Policy | FollowXchange</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="DMCA & Copyright Policy | FollowXchange">
+    <meta name="description" content="FollowXchange DMCA and Copyright Policy. Learn how to report intellectual property infringement and our compliance with the Indian IT Act 2000.">
+    <meta name="author" content="FollowXchange">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple));
+            --ig-gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--ig-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links a { 
+            color: var(--text-dark); text-decoration: none; font-weight: 600; 
+            font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .content-card { background: var(--white); padding: 3.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); text-align: center; }
+        .doc-title { font-size: 2.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.2; }
+        
+        .doc-meta { display: flex; justify-content: center; gap: 15px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 15px; border-radius: 50px; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.8rem; border-radius: 12px; margin-bottom: 3rem; }
+        .toc-box h4 { margin-bottom: 15px; color: var(--purple); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; display: inline-flex; gap: 8px; align-items: center;}
+        .toc-list a::before { content: '→'; color: var(--pink); font-size: 0.8rem; }
+        .toc-list a:hover { color: var(--pink); text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.6rem; margin: 2.5rem 0 1.2rem; color: var(--purple); padding-bottom: 5px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .policy-body h2 span.num { background: var(--purple); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 700; }
+        .policy-body h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: var(--text-dark); }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); text-align: justify; }
+        .policy-body ul, .policy-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body strong { color: var(--text-dark); font-weight: 600; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(225, 48, 108, 0.05); border-left: 4px solid var(--pink); padding: 1.5rem; border-radius: 0 10px 10px 0; margin: 2rem 0; color: var(--text-dark); }
+        .highlight-box.danger { background: rgba(239, 68, 68, 0.05); border-left-color: var(--danger); }
+        .highlight-box.info { background: rgba(59, 130, 246, 0.05); border-left-color: var(--info); }
+        .highlight-box i { margin-right: 8px; font-size: 1.2rem; }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 4rem 5% 2rem; margin-top: 4rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2.2rem; }
+            .toc-list { grid-template-columns: 1fr; }
+            .doc-meta { flex-direction: column; align-items: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Document Content -->
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">DMCA & Copyright Policy</h1>
+                <div class="doc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> Effective Date: June 27, 2026</span>
+                    <span><i class="fa-solid fa-gavel"></i> Global & India IT Act Compliant</span>
+                </div>
+            </div>
+
+            <div class="toc-box">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#section-1">1. Respect for Intellectual Property</a></li>
+                    <li><a href="#section-2">2. Reporting Infringement</a></li>
+                    <li><a href="#section-3">3. Our Response Process</a></li>
+                    <li><a href="#section-4">4. Counter Notification</a></li>
+                    <li><a href="#section-5">5. Platform Limitation</a></li>
+                    <li><a href="#section-6">6. Contact for DMCA Requests</a></li>
+                    <li><a href="#section-7">7. India Specific Note (IT Rules)</a></li>
+                </ul>
+            </div>
+
+            <div class="policy-body">
+
+                <h2 id="section-1"><span class="num">1</span> Our Respect for Intellectual Property</h2>
+                <p><strong>FollowXchange</strong> respects the intellectual property rights of others and expects our users to do the same. Although we operate primarily in India, we voluntarily comply with the <strong>Digital Millennium Copyright Act (DMCA)</strong> to accommodate our international user base, satisfy hosting and ad-network requirements, and demonstrate our commitment to protecting copyright owners worldwide. We will respond expeditiously to claims of copyright infringement committed using the FollowXchange platform.</p>
+
+                <h2 id="section-2"><span class="num">2</span> Reporting Infringement</h2>
+                <p>If you are a copyright owner, authorized to act on behalf of one, or authorized to act under any exclusive right under copyright, please report alleged copyright infringements taking place on or through FollowXchange by sending an email with the following information:</p>
+                <ul>
+                    <li>Your full legal name, telephone number, and email address.</li>
+                    <li>A precise description of the copyrighted work that you claim has been infringed.</li>
+                    <li>The exact URL or a detailed description of where the allegedly infringing material is located on our website.</li>
+                    <li>A statement that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law.</li>
+                    <li>A statement, made under penalty of perjury, that the above information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf.</li>
+                    <li>Your physical or electronic signature.</li>
+                </ul>
+
+                <h2 id="section-3"><span class="num">3</span> Our Response Process</h2>
+                <p>Once a complete and proper DMCA Takedown Notice is received, we will take the following actions:</p>
+                <ol>
+                    <li><strong>Review:</strong> Our legal team will review all valid complaints within <strong>5 business days</strong>.</li>
+                    <li><strong>Removal:</strong> If the complaint is deemed valid, the infringing content will be removed or access to it will be disabled within <strong>48 hours</strong> of the review's conclusion.</li>
+                    <li><strong>Notification:</strong> We will promptly notify the user who posted the allegedly infringing content that we have removed or disabled access to it.</li>
+                    <li><strong>Repeat Infringers:</strong> FollowXchange maintains a strict repeat infringer policy. We will terminate the accounts of users who are found to repeatedly violate the intellectual property rights of others.</li>
+                </ol>
+
+                <h2 id="section-4"><span class="num">4</span> Counter Notification</h2>
+                <p>If you believe that your content was removed (or access was disabled) by mistake or misidentification, you have the right to file a Counter Notice. Your Counter Notice must include:</p>
+                <ul>
+                    <li>Your physical or electronic signature.</li>
+                    <li>Identification of the material that was removed and the location where the material appeared before it was removed.</li>
+                    <li>A statement under penalty of perjury that you have a good faith belief that the material was removed or disabled as a result of mistake or misidentification.</li>
+                    <li>Your name, address, telephone number, and email address.</li>
+                </ul>
+                <p>If a valid Counter Notice is received, FollowXchange will send a copy to the original complaining party. Unless the copyright owner files an action seeking a court order against the content provider, the removed content may be restored in 10 to 14 business days.</p>
+
+                <div class="highlight-box danger" id="section-5">
+                    <i class="fa-solid fa-triangle-exclamation" style="color: var(--danger);"></i>
+                    <strong>IMPORTANT LIMITATION REGARDING INSTAGRAM:</strong><br><br>
+                    FollowXchange is a platform hosting <strong>user activity</strong>, not user content. <strong>We do not host, store, or display Instagram posts, photos, or videos.</strong> We only display public Instagram usernames as text-based references for our exchange community. If you have a copyright dispute regarding an actual photo or video posted on Instagram, you must submit your DMCA request directly to Instagram/Meta Platforms Inc.
+                </div>
+
+                <h2 id="section-6"><span class="num">6</span> Contact for DMCA Requests</h2>
+                <p>All copyright infringement notifications and counter-notifications should be sent to our designated Copyright Agent:</p>
+                <ul>
+                    <li><strong>Email:</strong> <a href="mailto:[YOUR_EMAIL]">[YOUR_EMAIL]</a></li>
+                    <li><strong>Subject Line:</strong> MUST read "DMCA Takedown Request" or "DMCA Counter Notice".</li>
+                </ul>
+
+                <div class="highlight-box info" id="section-7">
+                    <i class="fa-solid fa-scale-balanced" style="color: var(--info);"></i>
+                    <h3 style="margin: 0 0 10px 0; font-size: 1.1rem; color: var(--info);">7. India Specific Note (IT Act Compliance)</h3>
+                    <p style="margin: 0; font-size: 0.95rem; color: var(--text-dark);">
+                        In addition to the DMCA, FollowXchange operates in strict compliance with the <strong>Indian Information Technology Act, 2000</strong> and the <strong>Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021</strong>.
+                        <br><br>
+                        <strong>Grievance Officer:</strong><br>
+                        Name: [YOUR NAME]<br>
+                        Email: <a href="mailto:[YOUR_EMAIL]">[YOUR_EMAIL]</a><br><br>
+                        Pursuant to the IT Rules, our Grievance Officer will acknowledge your complaint within 24 hours and resolve it within <strong>15 days</strong>. For emergency complaints (such as the non-consensual sharing of intimate images), the response and removal time is strictly <strong>72 hours</strong>.
+                    </p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca.html">DMCA Policy</a>
+                <a href="copyright-policy.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <a href="mailto:[YOUR_EMAIL]"><i class="fa-solid fa-envelope"></i> FollowXchange@gmail.com</a>
+                <a href="https://t.me/[YOUR_TELEGRAM]" target="_blank"><i class="fa-brands fa-telegram"></i> @FollowXchangeBot</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Script for TOC -->
+    <script>
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

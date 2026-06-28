@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copyright Policy | FollowXchange</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Copyright Policy | FollowXchange">
+    <meta name="description" content="Read the FollowXchange Copyright Policy to understand our intellectual property rights, permitted uses, and how we handle user and third-party content.">
+    <meta name="author" content="FollowXchange">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple));
+            --ig-gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--ig-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links a { 
+            color: var(--text-dark); text-decoration: none; font-weight: 600; 
+            font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .content-card { background: var(--white); padding: 3.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); text-align: center; }
+        .doc-title { font-size: 2.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.2; }
+        
+        .doc-meta { display: flex; justify-content: center; gap: 15px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 15px; border-radius: 50px; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.8rem; border-radius: 12px; margin-bottom: 3rem; }
+        .toc-box h4 { margin-bottom: 15px; color: var(--purple); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; display: inline-flex; gap: 8px; align-items: center;}
+        .toc-list a::before { content: '→'; color: var(--pink); font-size: 0.8rem; }
+        .toc-list a:hover { color: var(--pink); text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.6rem; margin: 2.5rem 0 1.2rem; color: var(--purple); padding-bottom: 5px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .policy-body h2 span.num { background: var(--purple); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 700; }
+        .policy-body h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: var(--text-dark); }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); text-align: justify; }
+        .policy-body ul, .policy-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body strong { color: var(--text-dark); font-weight: 600; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(225, 48, 108, 0.05); border-left: 4px solid var(--pink); padding: 1.5rem; border-radius: 0 10px 10px 0; margin: 2rem 0; color: var(--text-dark); }
+        .highlight-box.danger { background: rgba(239, 68, 68, 0.05); border-left-color: var(--danger); }
+        .highlight-box.success { background: rgba(16, 185, 129, 0.05); border-left-color: var(--success); }
+        .highlight-box i { margin-right: 8px; font-size: 1.2rem; }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 4rem 5% 2rem; margin-top: 4rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2.2rem; }
+            .toc-list { grid-template-columns: 1fr; }
+            .doc-meta { flex-direction: column; align-items: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Document Content -->
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">Copyright Policy</h1>
+                <div class="doc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> Effective Date: June 27, 2026</span>
+                    <span><i class="fa-solid fa-copyright"></i> 2025 - Present</span>
+                </div>
+            </div>
+
+            <div class="toc-box">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#section-1">1. Our Intellectual Property</a></li>
+                    <li><a href="#section-2">2. What is Protected</a></li>
+                    <li><a href="#section-3">3. Permitted Use</a></li>
+                    <li><a href="#section-4">4. Prohibited Use</a></li>
+                    <li><a href="#section-5">5. User Content</a></li>
+                    <li><a href="#section-6">6. Reporting Infringement</a></li>
+                    <li><a href="#section-7">7. Third-Party Content</a></li>
+                    <li><a href="#section-8">8. Copyright Notice</a></li>
+                </ul>
+            </div>
+
+            <div class="policy-body">
+                
+                <p>This Copyright Policy establishes the intellectual property rights regarding the content, design, and branding of the <strong>FollowXchange</strong> platform (followxchange.netlify.app). We take the protection of our intellectual property seriously and respect the rights of our users and third-party partners.</p>
+
+                <h2 id="section-1"><span class="num">1</span> Our Intellectual Property</h2>
+                <p>The FollowXchange website design, underlying codebase, graphics, user interface, and logo are the exclusive property and copyright of FollowXchange. Our visual identity and brand name are fully protected under applicable intellectual property laws. <strong>All rights are reserved (© 2025 - Present).</strong></p>
+
+                <h2 id="section-2"><span class="num">2</span> What is Protected</h2>
+                <p>The following elements are strictly protected under our copyright:</p>
+                <ul>
+                    <li><strong>Website Design & Layout:</strong> The unique arrangement, color schemes (including our specific gradient patterns), and visual structure of our platform.</li>
+                    <li><strong>Logo & Branding:</strong> The FollowXchange text-based logo and any associated brand marks.</li>
+                    <li><strong>Written Content:</strong> All instructional text, policy documentation, marketing copy, and website copy found on the platform.</li>
+                    <li><strong>UI Elements:</strong> Custom buttons, forms, dashboards, and unique user interface components designed specifically for FollowXchange.</li>
+                </ul>
+
+                <h2 id="section-3"><span class="num">3</span> Permitted Use</h2>
+                <div class="highlight-box success">
+                    <i class="fa-solid fa-check-circle" style="color: var(--success);"></i>
+                    We love it when our community shares FollowXchange! The following uses are fully permitted and encouraged:
+                </div>
+                <ul>
+                    <li><strong>Personal Use:</strong> Users may take screenshots of their dashboards or platform pages for personal use or record-keeping.</li>
+                    <li><strong>Sharing Links:</strong> You are highly encouraged to share links to FollowXchange on social media, blogs, or via direct messaging.</li>
+                    <li><strong>Reviews & Tutorials:</strong> Writing articles, reviews, or creating video tutorials that mention our platform name and showcase the website interface is allowed and welcomed.</li>
+                </ul>
+
+                <h2 id="section-4"><span class="num">4</span> Prohibited Use</h2>
+                <div class="highlight-box danger">
+                    <i class="fa-solid fa-ban" style="color: var(--danger);"></i>
+                    <strong>Strictly Prohibited:</strong> You may not use, copy, reproduce, or modify our intellectual property without prior explicit written consent.
+                </div>
+                <p>The following actions represent copyright infringement and are strictly prohibited:</p>
+                <ul>
+                    <li>Copying, scraping, or reproducing our website design, HTML, CSS, or JavaScript code.</li>
+                    <li>Using the FollowXchange logo or branding for commercial purposes or in a way that suggests unauthorized affiliation.</li>
+                    <li>Creating similar websites or "clones" that copy our exact design, layout, or color schemes.</li>
+                    <li>Copying our written content and claiming it as your own on another platform.</li>
+                    <li>Scraping or harvesting user data, usernames, or platform statistics.</li>
+                </ul>
+
+                <h2 id="section-5"><span class="num">5</span> User Content</h2>
+                <p>FollowXchange does not claim ownership over your personal social media content:</p>
+                <ul>
+                    <li><strong>Your Content is Yours:</strong> Users retain full ownership of their own Instagram accounts, photos, and content.</li>
+                    <li><strong>Limited License:</strong> By using our platform to gain followers, you grant FollowXchange a limited, non-exclusive license to display your public Instagram username on our platform solely so that other users can locate and follow your account.</li>
+                </ul>
+
+                <h2 id="section-6"><span class="num">6</span> Reporting Copyright Infringement</h2>
+                <p>If you believe that your copyrighted work has been copied or used on FollowXchange in a way that constitutes copyright infringement, please contact us immediately. Send an email to <strong>[YOUR_EMAIL]</strong> and include the following information:</p>
+                <ol>
+                    <li>A clear description of the copyrighted work that you claim has been infringed.</li>
+                    <li>The exact location (URL or screenshot) of the infringing material on our platform.</li>
+                    <li>Your full name, address, telephone number, and email address.</li>
+                    <li>A statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner.</li>
+                </ol>
+
+                <h2 id="section-7"><span class="num">7</span> Third-Party Content</h2>
+                <p>FollowXchange hosts specific third-party content, the copyrights of which belong to their respective owners:</p>
+                <ul>
+                    <li><strong>Advertisements:</strong> Video and display advertisements shown on our platform are the intellectual property of the respective advertisers and are served via the Adsterra and Monetag networks.</li>
+                    <li><strong>Instagram Properties:</strong> "Instagram" is a registered trademark of Meta Platforms Inc. Any Instagram content, logos, or usernames displayed on our platform belong to Meta Platforms Inc. or the respective Instagram users. We use Instagram usernames purely as functional references for the exchange service.</li>
+                </ul>
+
+                <h2 id="section-8"><span class="num">8</span> Copyright Notice</h2>
+                <p>All pages across the FollowXchange platform are protected by this policy. The following notice applies to the entirety of the website:</p>
+                <div class="highlight-box" style="text-align: center; font-weight: 700; font-size: 1.1rem;">
+                    Copyright &copy; 2025 FollowXchange. All Rights Reserved.
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca-policy.html">DMCA Policy</a>
+                <a href="copyright.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <a href="mailto:[YOUR_EMAIL]"><i class="fa-solid fa-envelope"></i> FollowXchange@gmail.com</a>
+                <a href="https://t.me/[YOUR_TELEGRAM]" target="_blank"><i class="fa-brands fa-telegram"></i> @FollowXchangeBot</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Script for TOC -->
+    <script>
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Ads & Earn | FollowXchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ig-gradient: linear-gradient(135deg, #E1306C, #833AB4, #F77737);
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-muted: #666666;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            /* Footer padding fix */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 700;
+            background: var(--ig-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .points-badge {
+            background: var(--ig-gradient);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(225, 48, 108, 0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .points-badge.bump {
+            transform: scale(1.15);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        /* Progress Bar Section */
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .progress-bar-bg {
+            height: 12px;
+            background: #e2e8f0;
+            border-radius: 50px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--ig-gradient);
+            width: 0%;
+            border-radius: 50px;
+            transition: width 0.5s ease-out;
+        }
+
+        .stats-text {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-dark);
+        }
+
+        /* Action Area (Button & Timer) */
+        .action-area {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .btn-watch {
+            background: var(--ig-gradient);
+            color: var(--white);
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(225, 48, 108, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-watch:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(225, 48, 108, 0.4);
+        }
+
+        .btn-watch:disabled {
+            background: #cbd5e1;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Circular Timer */
+        .timer-container {
+            display: none; /* Hidden initially */
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .timer-svg {
+            transform: rotate(-90deg);
+        }
+
+        .timer-bg {
+            fill: none;
+            stroke: #e2e8f0;
+            stroke-width: 8;
+        }
+
+        .timer-progress {
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 314; /* 2 * pi * r (50) */
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 1s linear;
+        }
+
+        .timer-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .timer-msg {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Floating Points Animation */
+        .floating-points {
+            position: absolute;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--success);
+            opacity: 0;
+            pointer-events: none;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            50% { transform: translateY(-40px) scale(1.2); opacity: 0.8; }
+            100% { transform: translateY(-80px) scale(1); opacity: 0; }
+        }
+
+        /* Limit Reached */
+        .limit-msg {
+            display: none;
+            color: #E1306C;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 15px;
+        }
+
+        /* History Section */
+        .history-card {
+            text-align: left;
+        }
+
+        .history-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .history-list {
+            list-style: none;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: #f1f5f9;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
+        }
+
+        .history-time {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .history-amount {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        /* ================== NEW COMPONENTS CSS ================== */
+        
+        /* Universal Footer Styles */
+        .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
+        .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-brand p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.2rem; margin-right: 10px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { background: #E1306C; transform: translateY(-3px); }
+        .footer-links h4, .footer-contact h4 { color: #ffffff; margin-bottom: 1.2rem; font-size: 1.1rem; }
+        .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .link-grid a, .footer-contact a { color: #b2bec3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-contact a i { margin-right: 8px; color: #E1306C; }
+        .link-grid a:hover, .footer-contact a:hover { color: #E1306C; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; }
+        .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
+        .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E1306C" />
+          <stop offset="50%" stop-color="#833AB4" />
+          <stop offset="100%" stop-color="#F77737" />
+        </linearGradient>
+      </defs>
+    </svg>
+
+    <nav class="navbar">
+        <a href="dashboard.html" class="logo"><i class="fa-solid fa-arrow-left"></i> Back</a>
+        <div class="points-badge" id="pointsBadge">
+            <i class="fa-solid fa-coins"></i> <span id="totalPoints">...</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="progress-header">
+                <span>Today's Progress</span>
+                <span id="progressText">0/50 Ads</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <p class="stats-text" id="statsText">0 Points Earned Today</p>
+        </div>
+
+        <div class="card">
+            <h2>Watch & Earn</h2>
+            <p style="color: var(--text-muted); margin-bottom: 25px; font-size: 0.9rem;">
+                Watch a short ad for 30 seconds to earn 10 points!
+            </p>
+
+            <div class="action-area" id="actionArea">
+                <div id="floatingPoints" class="floating-points">+10 Points!</div>
+
+                <button class="btn-watch" id="watchBtn">
+                    <i class="fa-solid fa-play"></i> Watch Ad & Earn 10 Points
+                </button>
+
+                <div class="limit-msg" id="limitMsg">
+                    <i class="fa-solid fa-circle-check"></i> Daily Limit Reached (50/50)! Come back tomorrow.
+                </div>
+
+                <div id="timerWrapper" style="display: none; flex-direction: column; align-items: center;">
+                    <div class="timer-container" id="timerContainer">
+                        <svg class="timer-svg" width="120" height="120">
+                            <circle class="timer-bg" cx="60" cy="60" r="50"></circle>
+                            <circle class="timer-progress" id="timerProgress" cx="60" cy="60" r="50"></circle>
+                        </svg>
+                        <div class="timer-text" id="timerText">30</div>
+                    </div>
+                    <p class="timer-msg">Stay on this page until the timer finishes!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card history-card">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> Today's History</h3>
+            <ul class="history-list" id="historyList">
+            </ul>
+        </div>
+    </div>
+
+    <footer class="universal-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FollowXchange</h2>
+                <p>The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <div class="link-grid">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="dmca.html">DMCA Policy</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                    <a href="community-guidelines.html">Community Guidelines</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+                <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Bot</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="ig-disclaimer"><strong>Disclaimer:</strong> FollowXchange is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms Inc.</p>
+            <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            doc, getDoc, setDoc, writeBatch, increment, serverTimestamp 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Constants
+        const MAX_ADS_PER_DAY = 50;
+        const POINTS_PER_AD = 10;
+        const AD_DURATION = 30; // Seconds
+
+        // DOM Elements
+        const totalPointsEl = document.getElementById('totalPoints');
+        const pointsBadge = document.getElementById('pointsBadge');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const statsText = document.getElementById('statsText');
+        const watchBtn = document.getElementById('watchBtn');
+        const timerWrapper = document.getElementById('timerWrapper');
+        const timerContainer = document.getElementById('timerContainer');
+        const timerText = document.getElementById('timerText');
+        const timerProgress = document.getElementById('timerProgress');
+        const floatingPoints = document.getElementById('floatingPoints');
+        const limitMsg = document.getElementById('limitMsg');
+        const historyList = document.getElementById('historyList');
+
+        let currentUser = null;
+        let todayCount = 0;
+        let isWatching = false;
+
+        // Initialize Page
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserData();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Get Today's Date String (Local timezone)
+        function getTodayString() {
+            return new Date().toLocaleDateString('en-CA'); // e.g., "2026-06-27"
+        }
+
+        // Load and Sync User Data
+        async function loadUserData() {
+            try {
+                // Fetch User Profile (for points)
+                const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+                if (userDoc.exists()) {
+                    totalPointsEl.textContent = userDoc.data().points;
+                }
+
+                // Fetch Ads Watched logic
+                const adsDocRef = doc(db, "ads_watched", currentUser.uid);
+                const adsDoc = await getDoc(adsDocRef);
+                const todayStr = getTodayString();
+
+                if (adsDoc.exists()) {
+                    const data = adsDoc.data();
+                    // Midnight Reset Logic
+                    if (data.last_watched_date !== todayStr) {
+                        todayCount = 0;
+                    } else {
+                        todayCount = data.today_count || 0;
+                    }
+                } else {
+                    todayCount = 0; // First time ever
+                }
+
+                updateUI();
+            } catch (error) {
+                console.error("Error loading user data:", error);
+            }
+        }
+
+        // Update Progress UI
+        function updateUI() {
+            const percentage = (todayCount / MAX_ADS_PER_DAY) * 100;
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${todayCount}/${MAX_ADS_PER_DAY} Ads`;
+            statsText.textContent = `${todayCount * POINTS_PER_AD} Points Earned Today`;
+
+            if (todayCount >= MAX_ADS_PER_DAY) {
+                watchBtn.style.display = 'none';
+                limitMsg.style.display = 'block';
+            } else {
+                watchBtn.style.display = 'flex';
+                limitMsg.style.display = 'none';
+            }
+        }
+
+        // Watch Ad Logic
+        watchBtn.addEventListener('click', () => {
+            if (isWatching || todayCount >= MAX_ADS_PER_DAY) return;
+            
+            // 1. OPEN ADSTERRA LINK (Popup in new tab)
+            // ADSTERRA_AD_CODE_HERE
+            window.open('YOUR_ADSTERRA_DIRECT_LINK', '_blank');
+
+            // 2. Start UI Timer
+            startCountdown();
+        });
+
+        function startCountdown() {
+            isWatching = true;
+            watchBtn.style.display = 'none';
+            timerWrapper.style.display = 'flex';
+            timerContainer.style.display = 'block';
+            
+            let timeLeft = AD_DURATION;
+            timerText.textContent = timeLeft;
+            
+            // Circumference of r=50 circle is ~314
+            timerProgress.style.transition = 'none';
+            timerProgress.style.strokeDashoffset = '0';
+            
+            // Trigger reflow to restart transition
+            void timerProgress.offsetWidth; 
+            
+            timerProgress.style.transition = `stroke-dashoffset ${AD_DURATION}s linear`;
+            timerProgress.style.strokeDashoffset = '314';
+
+            const interval = setInterval(() => {
+                timeLeft--;
+                timerText.textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(interval);
+                    finishAd();
+                }
+            }, 1000);
+        }
+
+        async function finishAd() {
+            isWatching = false;
+            timerWrapper.style.display = 'none';
+            
+            // Show +10 animation
+            floatingPoints.style.animation = 'none';
+            void floatingPoints.offsetWidth; // Trigger reflow
+            floatingPoints.style.animation = 'floatUp 1.5s ease-out forwards';
+
+            // Bump badge
+            pointsBadge.classList.add('bump');
+            setTimeout(() => pointsBadge.classList.remove('bump'), 300);
+
+            // Add to UI History instantly
+            addHistoryItemUI();
+
+            // Update local state and UI
+            todayCount++;
+            const currentPoints = parseInt(totalPointsEl.textContent);
+            totalPointsEl.textContent = currentPoints + POINTS_PER_AD;
+            updateUI();
+
+            // Update Firestore securely using Batched Writes
+            try {
+                const batch = writeBatch(db);
+
+                // 1. Update Points in users collection
+                const userRef = doc(db, "users", currentUser.uid);
+                batch.update(userRef, {
+                    points: increment(POINTS_PER_AD)
+                });
+
+                // 2. Update Ads count
+                const adsRef = doc(db, "ads_watched", currentUser.uid);
+                batch.set(adsRef, {
+                    uid: currentUser.uid,
+                    ad_count: increment(1),
+                    today_count: todayCount,
+                    last_watched: serverTimestamp(),
+                    last_watched_date: getTodayString() // Stored for easy midnight reset check
+                }, { merge: true });
+
+                // 3. Log History
+                const txnId = `txn_${Date.now()}`;
+                const historyRef = doc(db, "points_history", txnId);
+                batch.set(historyRef, {
+                    txn_id: txnId,
+                    uid: currentUser.uid,
+                    points_change: POINTS_PER_AD,
+                    reason: "Watched Ad",
+                    created_at: serverTimestamp()
+                });
+
+                // Commit all changes simultaneously
+                await batch.commit();
+
+            } catch (error) {
+                console.error("Error updating database:", error);
+                alert("There was an issue saving your points. Please refresh the page.");
+                // Note: If you receive a permission error here, it means your Firestore rules
+                // strictly block users from updating the 'points' field directly. 
+                // In production, updating points should ideally be done via Firebase Cloud Functions.
+            }
+        }
+
+        function addHistoryItemUI() {
+            const timeStr = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const li = document.createElement('li');
+            li.className = 'history-item';
+            li.innerHTML = `
+                <span>Watched Ad <span class="history-time">(${timeStr})</span></span>
+                <span class="history-amount">+${POINTS_PER_AD}</span>
+            `;
+            // Add to top of list
+            historyList.insertBefore(li, historyList.firstChild);
+        }
+    </script>
+</body>
+</html>

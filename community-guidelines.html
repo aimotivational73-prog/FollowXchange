@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Guidelines | FollowXchange</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Community Guidelines | FollowXchange">
+    <meta name="description" content="Read the FollowXchange Community Guidelines. Learn how we keep our follow exchange safe, honest, and respectful for everyone.">
+    <meta name="author" content="FollowXchange">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple));
+            --ig-gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--ig-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links a { 
+            color: var(--text-dark); text-decoration: none; font-weight: 600; 
+            font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+
+        .content-card { background: var(--white); padding: 3.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); text-align: center; }
+        .doc-title { font-size: 2.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.2; }
+        
+        .doc-meta { display: flex; justify-content: center; gap: 15px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 15px; border-radius: 50px; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.8rem; border-radius: 12px; margin-bottom: 3rem; }
+        .toc-box h4 { margin-bottom: 15px; color: var(--purple); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; display: inline-flex; gap: 8px; align-items: center;}
+        .toc-list a::before { content: '→'; color: var(--pink); font-size: 0.8rem; }
+        .toc-list a:hover { color: var(--pink); text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.6rem; margin: 2.5rem 0 1.2rem; color: var(--purple); padding-bottom: 5px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .policy-body h2 span.num { background: var(--purple); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 700; }
+        .policy-body h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: var(--text-dark); }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); text-align: justify; }
+        .policy-body ul, .policy-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body strong { color: var(--text-dark); font-weight: 600; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(225, 48, 108, 0.05); border-left: 4px solid var(--pink); padding: 1.5rem; border-radius: 0 10px 10px 0; margin: 2rem 0; color: var(--text-dark); }
+        .highlight-box.danger { background: rgba(239, 68, 68, 0.05); border-left-color: var(--danger); }
+        .highlight-box.success { background: rgba(16, 185, 129, 0.05); border-left-color: var(--success); }
+        .highlight-box.warning { background: rgba(245, 158, 11, 0.05); border-left-color: var(--warning); }
+        .highlight-box.info { background: rgba(59, 130, 246, 0.05); border-left-color: var(--info); }
+        .highlight-box i { margin-right: 8px; font-size: 1.2rem; }
+
+        /* Consequences Grid */
+        .consequence-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 2rem; }
+        .c-card { background: var(--bg-color); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); }
+        .c-card h4 { font-size: 1.1rem; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .c-card p { margin: 0; font-size: 0.9rem; }
+        
+        .c-warning h4 { color: var(--warning); }
+        .c-deduct h4 { color: var(--orange); }
+        .c-suspend h4 { color: var(--pink); }
+        .c-ban h4 { color: var(--danger); }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 4rem 5% 2rem; margin-top: 4rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2.2rem; }
+            .toc-list { grid-template-columns: 1fr; }
+            .doc-meta { flex-direction: column; align-items: center; gap: 10px; }
+            .consequence-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Document Content -->
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">Community Guidelines</h1>
+                <div class="doc-meta">
+                    <span><i class="fa-solid fa-heart" style="color: var(--pink);"></i> Built with love for creators</span>
+                </div>
+            </div>
+
+            <p style="text-align: center; font-size: 1.1rem; color: var(--text-dark); margin-bottom: 2rem;">
+                👋 Welcome to FollowXchange! To keep our platform fair, safe, and effective for everyone, we ask all members to follow these simple guidelines.
+            </p>
+
+            <div class="toc-box">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#section-1">1. Be Respectful 🤝</a></li>
+                    <li><a href="#section-2">2. Be Honest 💯</a></li>
+                    <li><a href="#section-3">3. Follow The Rules ✅</a></li>
+                    <li><a href="#section-4">4. One Account Rule 👤</a></li>
+                    <li><a href="#section-5">5. No Automation 🤖</a></li>
+                    <li><a href="#section-6">6. Account Safety 🔒</a></li>
+                    <li><a href="#section-7">7. Advertising Conduct 📺</a></li>
+                    <li><a href="#section-8">8. Consequences for Violations ⚖️</a></li>
+                    <li><a href="#section-9">9. Reporting Bad Behavior 🚩</a></li>
+                    <li><a href="#section-10">10. Positive Community 🌟</a></li>
+                </ul>
+            </div>
+
+            <div class="policy-body">
+                
+                <h2 id="section-1"><span class="num">1</span> Be Respectful 🤝</h2>
+                <p>We are a community of creators helping each other grow. Treat all community members with kindness and respect.</p>
+                <ul>
+                    <li>No harassment, bullying, or threatening behavior toward other users.</li>
+                    <li>Absolutely no hate speech based on religion, gender, ethnicity, sexual orientation, or any other protected characteristic.</li>
+                    <li>Keep all communications friendly and constructive.</li>
+                </ul>
+
+                <h2 id="section-2"><span class="num">2</span> Be Honest 💯</h2>
+                <p>Honesty is the core of our exchange system. If you want real followers, you must provide real follows.</p>
+                <ul>
+                    <li><strong>Only submit real proof:</strong> When completing a follow task, only upload genuine screenshots of your action.</li>
+                    <li><strong>No fake screenshots:</strong> Submitting photoshopped, downloaded, or reused screenshots is strictly prohibited.</li>
+                    <li>Do not claim points for tasks or actions that you did not actually complete.</li>
+                </ul>
+
+                <h2 id="section-3"><span class="num">3</span> Follow The Rules ✅</h2>
+                <p>When you accept a task to follow someone, you are making a commitment to that user.</p>
+                <ul>
+                    <li>If you accept a follow task, you must follow through and complete it accurately.</li>
+                    <li><strong>The 7-Day Rule:</strong> You must remain following the account for a <strong>minimum of 7 days</strong>.</li>
+                    <li>Do not follow a user to claim your points and then immediately unfollow them. This is known as "Follow/Unfollow abuse" and our system tracks it!</li>
+                </ul>
+
+                <h2 id="section-4"><span class="num">4</span> One Account Rule 👤</h2>
+                <p>To keep the platform fair and prevent abuse of our points and referral systems, we enforce a strict account limit.</p>
+                <ul>
+                    <li>Each person is allowed <strong>only ONE account</strong>.</li>
+                    <li>Creating multiple or "burner" accounts to abuse the welcome bonus or farm points will result in a permanent ban of all associated accounts.</li>
+                    <li><em>Exception:</em> Family members living in the same household may have separate accounts, provided they use different devices, different email addresses, and different Instagram accounts.</li>
+                </ul>
+
+                <h2 id="section-5"><span class="num">5</span> No Automation 🤖</h2>
+                <p>FollowXchange is a platform for <em>real</em> people. Automated actions ruin the experience for everyone.</p>
+                <ul>
+                    <li>Do not use bots, scripts, or macros to complete follow tasks.</li>
+                    <li>Do not use automation tools or auto-clickers to watch ads.</li>
+                    <li>Do not use VPNs or proxy servers to manipulate your location or abuse the system.</li>
+                </ul>
+
+                <h2 id="section-6"><span class="num">6</span> Account Safety 🔒</h2>
+                <p>Your security is your responsibility. Keep your account safe!</p>
+                <ul>
+                    <li><strong>Never</strong> share your FollowXchange password with anyone.</li>
+                    <li>We will <strong>NEVER</strong> ask for your Instagram password. Ever.</li>
+                    <li>If you receive suspicious messages on Telegram or email claiming to be from FollowXchange asking for passwords or money, report them to our official admin immediately.</li>
+                </ul>
+
+                <h2 id="section-7"><span class="num">7</span> Advertising Conduct 📺</h2>
+                <p>Ads are how we keep FollowXchange free for everyone. Please respect the advertising ecosystem.</p>
+                <ul>
+                    <li>Watch video and display ads genuinely.</li>
+                    <li>If you ever have your own ads placed on the network, do not attempt to click your own ads.</li>
+                    <li><strong>Do not use ad-blockers</strong> while using FollowXchange. Ad-blockers prevent you from earning points and defeat the purpose of the free platform.</li>
+                </ul>
+
+                <h2 id="section-8"><span class="num">8</span> Consequences for Violations ⚖️</h2>
+                <p>We actively monitor the platform. If you break these guidelines, we will enforce the following consequences depending on the severity of the action:</p>
+
+                <div class="consequence-grid">
+                    <div class="c-card c-warning">
+                        <h4><i class="fa-solid fa-triangle-exclamation"></i> Warning</h4>
+                        <p>Issued for first-time minor offenses, such as uploading a blurry screenshot by mistake.</p>
+                    </div>
+                    <div class="c-card c-deduct">
+                        <h4><i class="fa-solid fa-minus-circle"></i> Points Deduction</h4>
+                        <p>Issued for repeated minor offenses or early unfollowing. We will deduct the points you wrongly earned.</p>
+                    </div>
+                    <div class="c-card c-suspend">
+                        <h4><i class="fa-solid fa-clock"></i> Temporary Suspension</h4>
+                        <p>Your account will be locked for a set period for major offenses, like consistently breaking the 7-day rule.</p>
+                    </div>
+                    <div class="c-card c-ban">
+                        <h4><i class="fa-solid fa-ban"></i> Permanent Ban</h4>
+                        <p>Immediate removal for severe violations: fraud, using multiple accounts, fake proofs, or extreme harassment.</p>
+                    </div>
+                </div>
+
+                <h2 id="section-9"><span class="num">9</span> Reporting Bad Behavior 🚩</h2>
+                <p>We rely on our community to help keep the platform clean.</p>
+                <ul>
+                    <li>If you spot a user using fake proofs, harassing others, or breaking rules, report them immediately to our admin via Telegram: <strong><a href="https://t.me/[YOUR_TELEGRAM]" target="_blank">@[YOUR_TELEGRAM]</a></strong>.</li>
+                    <li>Please provide the offending user's FollowXchange Username or Instagram Handle, along with a brief description or screenshot of the issue.</li>
+                    <li>We take all reports seriously and review them confidentially.</li>
+                </ul>
+
+                <h2 id="section-10"><span class="num">10</span> Positive Community 🌟</h2>
+                <p>FollowXchange is more than just a tool; it's a network of real creators!</p>
+                <ul>
+                    <li>Help new users understand how to use the platform if they ask for advice.</li>
+                    <li>Provide genuine engagement on Instagram! If you like the content of the person you are following, leave a like or a comment.</li>
+                    <li>Together, we can build the most trustworthy and effective follow exchange community on the internet!</li>
+                </ul>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca-policy.html">DMCA Policy</a>
+                <a href="copyright-policy.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <a href="mailto:[YOUR_EMAIL]"><i class="fa-solid fa-envelope"></i> FollowXchange@gmail.com</a>
+                <a href="https://t.me/[YOUR_TELEGRAM]" target="_blank"><i class="fa-brands fa-telegram"></i> @FollowXchangeBot</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Script for TOC -->
+    <script>
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | FollowXchange</title>
+    
+    <meta name="title" content="Login | FollowXchange">
+    <meta name="description" content="Log in to FollowXchange to manage your followers, watch ads, and earn points for real Instagram growth.">
+    <meta name="keywords" content="login, sign in, instagram followers, free followers, follow exchange, earn points">
+    <meta name="author" content="FollowXchange">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://followxchange.netlify.app/login.html">
+    <meta property="og:title" content="Login | FollowXchange">
+    <meta property="og:description" content="Log in to FollowXchange to manage your followers, watch ads, and earn points for real Instagram growth.">
+    <meta property="og:image" content="https://followxchange.netlify.app/assets/images/social-preview.jpg">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://followxchange.netlify.app/login.html">
+    <meta property="twitter:title" content="Login | FollowXchange">
+    <meta property="twitter:description" content="Log in to FollowXchange to manage your followers, watch ads, and earn points for real Instagram growth.">
+    <meta property="twitter:image" content="https://followxchange.netlify.app/assets/images/social-preview.jpg">
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#E1306C">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --ig-gradient: linear-gradient(135deg, #E1306C, #833AB4, #F77737);
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #333333;
+            --text-muted: #666666;
+            --error: #ef4444;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+        }
+
+        .auth-container {
+            background: var(--white);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top Gradient Bar */
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--ig-gradient);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--ig-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 5px;
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #E1306C;
+            box-shadow: 0 0 0 4px rgba(225, 48, 108, 0.1);
+        }
+
+        .form-group i {
+            position: absolute;
+            top: 38px;
+            left: 15px;
+            color: var(--text-muted);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+        }
+
+        .forgot-link {
+            color: #E1306C;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-submit {
+            background: var(--ig-gradient);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.2);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider:not(:empty)::before { margin-right: .5em; }
+        .divider:not(:empty)::after { margin-left: .5em; }
+
+        .btn-google {
+            background: var(--white);
+            color: var(--text-dark);
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-google img {
+            width: 20px;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .auth-footer a {
+            color: #833AB4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Message Box */
+        .message-box {
+            display: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .message-error {
+            background-color: #fee2e2;
+            color: var(--error);
+            border: 1px solid #fecaca;
+        }
+
+        .message-success {
+            background-color: #d1fae5;
+            color: var(--success);
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ================== NEW COMPONENTS CSS ================== */
+
+        /* Overrides to support Footer without breaking Auth box */
+        body {
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0;
+        }
+        .auth-container {
+            margin: 4rem 1rem;
+        }
+
+        /* Universal Footer Styles */
+        .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
+        .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-brand p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.2rem; margin-right: 10px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { background: #E1306C; transform: translateY(-3px); }
+        .footer-links h4, .footer-contact h4 { color: #ffffff; margin-bottom: 1.2rem; font-size: 1.1rem; }
+        .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .link-grid a, .footer-contact a { color: #b2bec3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-contact a i { margin-right: 8px; color: #E1306C; }
+        .link-grid a:hover, .footer-contact a:hover { color: #E1306C; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; }
+        .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
+        .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Welcome Back</h1>
+            <p>Log in to manage your followers</p>
+        </div>
+
+        <div id="messageBox" class="message-box"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Email Address</label>
+                <i class="fa-regular fa-envelope"></i>
+                <input type="email" id="email" placeholder="john@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="form-options">
+                <div class="checkbox-group">
+                    <input type="checkbox" id="rememberMe" checked>
+                    <label for="rememberMe">Remember me</label>
+                </div>
+                <a class="forgot-link" id="forgotPassword">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-submit" id="submitBtn">
+                <span id="btnText">Log In</span>
+                <div class="spinner" id="spinner"></div>
+            </button>
+        </form>
+
+        <div class="divider">OR</div>
+
+        <button class="btn btn-google" id="googleBtn">
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google">
+            Sign in with Google
+        </button>
+
+        <div class="auth-footer">
+            Don't have an account? <a href="register.html">Sign Up</a>
+        </div>
+    </div>
+
+    <footer class="universal-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FollowXchange</h2>
+                <p>The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <div class="link-grid">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="dmca.html">DMCA Policy</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                    <a href="community-guidelines.html">Community Guidelines</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+                <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Bot</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="ig-disclaimer"><strong>Disclaimer:</strong> FollowXchange is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms Inc.</p>
+            <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { 
+            signInWithEmailAndPassword, 
+            GoogleAuthProvider, 
+            signInWithPopup,
+            sendPasswordResetEmail,
+            setPersistence,
+            browserLocalPersistence,
+            browserSessionPersistence
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            doc, 
+            getDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // DOM Elements
+        const loginForm = document.getElementById('loginForm');
+        const googleBtn = document.getElementById('googleBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        const spinner = document.getElementById('spinner');
+        const messageBox = document.getElementById('messageBox');
+        const forgotPasswordLink = document.getElementById('forgotPassword');
+        const emailInput = document.getElementById('email');
+
+        // Show Message Helper
+        function showMessage(msg, type) {
+            messageBox.textContent = msg;
+            messageBox.className = `message-box message-${type}`;
+            messageBox.style.display = 'block';
+        }
+
+        function toggleLoading(isLoading) {
+            if(isLoading) {
+                btnText.textContent = "Authenticating...";
+                spinner.style.display = "block";
+                submitBtn.disabled = true;
+            } else {
+                btnText.textContent = "Log In";
+                spinner.style.display = "none";
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Validate Profile & Redirect Route
+        async function handleSuccessfulLogin(user) {
+            try {
+                const docRef = doc(db, "users", user.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    // Check if instagram_username exists and is not empty
+                    if (userData.instagram_username && userData.instagram_username.trim() !== "") {
+                        window.location.href = "dashboard.html";
+                    } else {
+                        // Incomplete profile (e.g. from Google Auth)
+                        window.location.href = "profile-setup.html";
+                    }
+                } else {
+                    // Just in case user auth exists but Firestore document doesn't
+                    window.location.href = "profile-setup.html";
+                }
+            } catch (error) {
+                console.error("Error fetching profile details:", error);
+                showMessage("Login successful, but failed to load profile data.", "error");
+                toggleLoading(false);
+            }
+        }
+
+        // Handle Email/Password Login
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = emailInput.value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            toggleLoading(true);
+
+            try {
+                // Set persistence based on "Remember Me" checkbox
+                const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+                await setPersistence(auth, persistenceType);
+
+                // Sign in
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                
+                // Show success and route them
+                showMessage("Login successful! Redirecting...", "success");
+                await handleSuccessfulLogin(userCredential.user);
+
+            } catch (error) {
+                console.error(error);
+                let errorMessage = "An error occurred during login.";
+                
+                // Firebase modern security groups wrong password & user not found into invalid-credential
+                if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
+                    errorMessage = "Invalid email or password.";
+                } else if (error.code === 'auth/too-many-requests') {
+                    errorMessage = "Too many failed attempts. Please try again later or reset password.";
+                }
+
+                showMessage(errorMessage, "error");
+                toggleLoading(false);
+            }
+        });
+
+        // Handle Google Sign-In
+        googleBtn.addEventListener('click', async () => {
+            const provider = new GoogleAuthProvider();
+            
+            try {
+                const result = await signInWithPopup(auth, provider);
+                showMessage("Google Login successful! Redirecting...", "success");
+                await handleSuccessfulLogin(result.user);
+            } catch (error) {
+                console.error(error);
+                if (error.code !== 'auth/popup-closed-by-user') {
+                    showMessage("Google Sign-In failed. Please try again.", "error");
+                }
+            }
+        });
+
+        // Handle Forgot Password
+        forgotPasswordLink.addEventListener('click', async () => {
+            const email = emailInput.value.trim();
+            
+            if (!email) {
+                showMessage("Please enter your email address in the input field to reset password.", "error");
+                return;
+            }
+
+            try {
+                await sendPasswordResetEmail(auth, email);
+                showMessage("Password reset email sent! Check your inbox.", "success");
+            } catch (error) {
+                console.error(error);
+                if (error.code === 'auth/user-not-found') {
+                    showMessage("No account found with this email.", "error");
+                } else {
+                    showMessage("Failed to send reset email. Please try again.", "error");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

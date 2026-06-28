@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Followers | FollowXchange</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --ig-gradient: linear-gradient(135deg, #E1306C, #833AB4, #F77737);
+            --bg-color: #f4f7f6;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --border: #dfe6e9;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            /* Footer layout fixes */
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .navbar-brand {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .points-badge {
+            background: var(--ig-gradient);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(225, 48, 108, 0.2);
+        }
+
+        /* Layout Grid */
+        .container {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            flex: 1;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0,0,0,0.02);
+            height: fit-content;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 15px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .form-control:focus {
+            border-color: #E1306C;
+            box-shadow: 0 0 0 4px rgba(225, 48, 108, 0.1);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 12px auto;
+        }
+
+        /* Order Summary & Validation */
+        .order-summary {
+            background: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .summary-cost {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--ig-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .eta-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .alert {
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-danger {
+            background: #ffeaa7;
+            color: #d63031;
+            border: 1px solid #ffeaa7;
+        }
+
+        .alert-danger a {
+            color: #d63031;
+            font-weight: 700;
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            background: var(--ig-gradient);
+            color: var(--white);
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 8px 20px rgba(225, 48, 108, 0.25);
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(225, 48, 108, 0.35);
+        }
+
+        .btn-submit:disabled {
+            background: #b2bec3;
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Orders List */
+        .order-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            padding-bottom: 5px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-btn.active {
+            color: var(--text-dark);
+            border-bottom-color: #E1306C;
+        }
+
+        .order-list {
+            list-style: none;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            background: var(--white);
+            transition: transform 0.2s;
+        }
+
+        .order-item:hover {
+            transform: scale(1.01);
+        }
+
+        .order-info h4 {
+            font-size: 1rem;
+            margin-bottom: 2px;
+        }
+
+        .order-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-pending { background: #ffeaa7; color: #fdcb6e; color: #d35400; }
+        .badge-completed { background: #d1fae5; color: var(--success); }
+
+        .btn-cancel {
+            background: none;
+            border: none;
+            color: var(--danger);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 5px;
+            display: inline-block;
+            text-decoration: underline;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-muted);
+            padding: 2rem 0;
+            font-size: 0.95rem;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .modal-card.show {
+            transform: scale(1);
+        }
+
+        .modal-card i {
+            font-size: 3rem;
+            color: #E1306C;
+            margin-bottom: 1rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+        
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-confirm { background: var(--ig-gradient); color: white; }
+        .btn-close { background: #e2e8f0; color: var(--text-dark); }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .container { grid-template-columns: 1fr; }
+        }
+
+        /* ================== NEW COMPONENTS CSS ================== */
+        
+        /* Universal Footer Styles */
+        .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
+        .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
+        .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
+        .footer-brand p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; color: white; font-size: 1.2rem; margin-right: 10px; transition: 0.3s; text-decoration: none; }
+        .social-links a:hover { background: #E1306C; transform: translateY(-3px); }
+        .footer-links h4, .footer-contact h4 { color: #ffffff; margin-bottom: 1.2rem; font-size: 1.1rem; }
+        .link-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .link-grid a, .footer-contact a { color: #b2bec3; text-decoration: none; font-size: 0.9rem; display: block; margin-bottom: 8px; transition: color 0.2s; }
+        .footer-contact a i { margin-right: 8px; color: #E1306C; }
+        .link-grid a:hover, .footer-contact a:hover { color: #E1306C; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.5rem; text-align: center; }
+        .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
+        .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: 1fr; gap: 2rem; }
+            .link-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="dashboard.html" class="navbar-brand"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+        <div class="points-badge">
+            <i class="fa-solid fa-coins"></i> <span id="navPoints">...</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div class="card">
+            <div class="card-title">
+                <i class="fa-solid fa-user-plus" style="color: #E1306C;"></i> New Order
+            </div>
+            
+            <form id="orderForm">
+                <div class="form-group">
+                    <label>Target Instagram Username</label>
+                    <input type="text" id="targetIg" class="form-control" placeholder="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Amount of Followers</label>
+                    <select id="followerPackage" class="form-control">
+                        <option value="10">10 Followers</option>
+                        <option value="25">25 Followers</option>
+                        <option value="50">50 Followers</option>
+                        <option value="100">100 Followers</option>
+                        <option value="250">250 Followers</option>
+                    </select>
+                </div>
+
+                <div class="order-summary">
+                    <p style="font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">Total Cost</p>
+                    <div class="summary-cost"><span id="costDisplay">100</span> Points</div>
+                    <div class="eta-text" id="etaDisplay"><i class="fa-solid fa-bolt"></i> Estimated Delivery: ~15 mins</div>
+                </div>
+
+                <div class="alert alert-danger" id="pointsWarning">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>Not enough points! <a href="wallet.html">Earn or Buy Points here.</a></div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="placeOrderBtn">Place Order</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="order-tabs">
+                <button class="tab-btn active" id="tabActive">Active Orders</button>
+                <button class="tab-btn" id="tabCompleted">History</button>
+            </div>
+
+            <ul class="order-list" id="activeOrdersList">
+                <li class="empty-state">Loading active orders...</li>
+            </ul>
+
+            <ul class="order-list" id="completedOrdersList" style="display: none;">
+                <li class="empty-state">Loading history...</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-card" id="modalCard">
+            <i class="fa-solid fa-circle-question"></i>
+            <h2>Confirm Order</h2>
+            <p style="margin-top: 10px; color: var(--text-muted);">
+                Spend <strong id="modalCost"></strong> points to get <strong id="modalAmount"></strong> followers for <strong id="modalIg"></strong>?
+            </p>
+            <div class="modal-actions">
+                <button class="modal-btn btn-close" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn btn-confirm" id="confirmOrderBtn">Yes, Place Order</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="universal-footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <h2>FollowXchange</h2>
+                <p>The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links">
+                <h4>Legal & Policies</h4>
+                <div class="link-grid">
+                    <a href="privacy-policy.html">Privacy Policy</a>
+                    <a href="terms-conditions.html">Terms & Conditions</a>
+                    <a href="disclaimer.html">Disclaimer</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="dmca.html">DMCA Policy</a>
+                    <a href="refund-policy.html">Refund Policy</a>
+                    <a href="community-guidelines.html">Community Guidelines</a>
+                </div>
+            </div>
+
+            <div class="footer-contact">
+                <h4>Support</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> Contact Us</a>
+                <a href="https://t.me/FollowXchangeBot" target="_blank"><i class="fa-brands fa-telegram"></i> Telegram Bot</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="ig-disclaimer"><strong>Disclaimer:</strong> FollowXchange is not affiliated with, endorsed by, or connected to Instagram or Meta Platforms Inc.</p>
+            <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { auth, db } from './js/firebase-config.js';
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            doc, getDoc, collection, query, where, orderBy, getDocs, 
+            writeBatch, serverTimestamp, deleteDoc 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Pricing Structure
+        const PRICING = {
+            10: 100,
+            25: 240,
+            50: 450,
+            100: 850,
+            250: 2000
+        };
+
+        // DOM Elements
+        const navPoints = document.getElementById('navPoints');
+        const orderForm = document.getElementById('orderForm');
+        const targetIg = document.getElementById('targetIg');
+        const followerPackage = document.getElementById('followerPackage');
+        const costDisplay = document.getElementById('costDisplay');
+        const etaDisplay = document.getElementById('etaDisplay');
+        const pointsWarning = document.getElementById('pointsWarning');
+        const placeOrderBtn = document.getElementById('placeOrderBtn');
+        
+        // Orders List DOM
+        const activeOrdersList = document.getElementById('activeOrdersList');
+        const completedOrdersList = document.getElementById('completedOrdersList');
+        const tabActive = document.getElementById('tabActive');
+        const tabCompleted = document.getElementById('tabCompleted');
+
+        // Modal DOM
+        const confirmModal = document.getElementById('confirmModal');
+        const modalCard = document.getElementById('modalCard');
+        const modalCost = document.getElementById('modalCost');
+        const modalAmount = document.getElementById('modalAmount');
+        const modalIg = document.getElementById('modalIg');
+        const confirmOrderBtn = document.getElementById('confirmOrderBtn');
+
+        let currentUser = null;
+        let currentPoints = 0;
+        let currentSelection = { amount: 10, cost: 100 };
+
+        // Initialize Page
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                currentUser = user;
+                await loadUserProfile();
+                await loadOrders();
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+
+        // 1. Load User Profile (Points & IG)
+        async function loadUserProfile() {
+            try {
+                const docRef = doc(db, "users", currentUser.uid);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    currentPoints = data.points || 0;
+                    navPoints.textContent = currentPoints.toLocaleString();
+                    targetIg.value = data.instagram_username || "";
+                    
+                    // Trigger UI validation
+                    updateCostUI();
+                }
+            } catch (error) {
+                console.error("Error loading user profile:", error);
+            }
+        }
+
+        // 2. Handle Form Changes (Dropdown)
+        followerPackage.addEventListener('change', updateCostUI);
+
+        function updateCostUI() {
+            const amount = parseInt(followerPackage.value);
+            const cost = PRICING[amount];
+            
+            currentSelection = { amount, cost };
+            costDisplay.textContent = cost;
+
+            // Generate fake dynamic ETA based on amount + random queue size
+            const baseTime = Math.ceil(amount * 1.2);
+            const queueDelay = Math.floor(Math.random() * 20) + 5;
+            etaDisplay.innerHTML = `<i class="fa-solid fa-bolt"></i> Estimated Delivery: ~${baseTime + queueDelay} mins`;
+
+            // Validate against current points
+            if (currentPoints < cost) {
+                pointsWarning.style.display = 'flex';
+                placeOrderBtn.disabled = true;
+            } else {
+                pointsWarning.style.display = 'none';
+                placeOrderBtn.disabled = false;
+            }
+        }
+
+        // 3. Form Submit -> Show Modal
+        orderForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if(currentPoints < currentSelection.cost) return;
+
+            modalAmount.textContent = currentSelection.amount;
+            modalCost.textContent = currentSelection.cost;
+            modalIg.textContent = '@' + targetIg.value.trim().replace('@', '');
+            
+            confirmModal.style.display = 'flex';
+            setTimeout(() => modalCard.classList.add('show'), 10);
+        });
+
+        // Expose close modal to global scope for HTML inline onclick
+        window.closeModal = function() {
+            modalCard.classList.remove('show');
+            setTimeout(() => confirmModal.style.display = 'none', 300);
+        }
+
+        // 4. Process the Order (Batched Write)
+        confirmOrderBtn.addEventListener('click', async () => {
+            confirmOrderBtn.textContent = 'Processing...';
+            confirmOrderBtn.disabled = true;
+
+            try {
+                const batch = writeBatch(db);
+                
+                // New Order ID Document
+                const orderRef = doc(collection(db, "follow_orders"));
+                
+                // Subtract Points Ref
+                const userRef = doc(db, "users", currentUser.uid);
+
+                // Points History Ref
+                const txnId = `txn_order_${Date.now()}`;
+                const historyRef = doc(db, "points_history", txnId);
+
+                // Add to Batch
+                batch.set(orderRef, {
+                    order_id: orderRef.id,
+                    buyer_uid: currentUser.uid,
+                    buyer_instagram: targetIg.value.trim().replace('@', ''),
+                    amount: currentSelection.amount,
+                    points_cost: currentSelection.cost,
+                    status: 'pending',
+                    created_at: serverTimestamp(),
+                    progress: 0
+                });
+
+                // IMPORTANT: Ensure your Firestore security rules allow the client to update points 
+                // in a batch, or use a Cloud Function for production safety.
+                batch.update(userRef, {
+                    points: currentPoints - currentSelection.cost
+                });
+
+                batch.set(historyRef, {
+                    txn_id: txnId,
+                    uid: currentUser.uid,
+                    points_change: -currentSelection.cost,
+                    reason: `Ordered ${currentSelection.amount} Followers`,
+                    created_at: serverTimestamp()
+                });
+
+                // Commit Transaction
+                await batch.commit();
+
+                // Success!
+                window.closeModal();
+                confirmOrderBtn.textContent = 'Yes, Place Order';
+                confirmOrderBtn.disabled = false;
+                
+                // Trigger Confetti
+                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+
+                // Refresh Data
+                await loadUserProfile();
+                await loadOrders();
+
+            } catch (error) {
+                console.error("Error placing order:", error);
+                alert("Failed to place order. Check your connection or refresh the page.");
+                confirmOrderBtn.textContent = 'Yes, Place Order';
+                confirmOrderBtn.disabled = false;
+            }
+        });
+
+        // 5. Load Active & Completed Orders
+        async function loadOrders() {
+            try {
+                const ordersRef = collection(db, "follow_orders");
+                const q = query(
+                    ordersRef, 
+                    where("buyer_uid", "==", currentUser.uid),
+                    orderBy("created_at", "desc")
+                );
+
+                const snapshot = await getDocs(q);
+                
+                activeOrdersList.innerHTML = '';
+                completedOrdersList.innerHTML = '';
+
+                let hasActive = false;
+                let hasCompleted = false;
+
+                snapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    const li = buildOrderListItem(data, docSnap.id);
+
+                    if (data.status === 'pending' || data.status === 'in-progress') {
+                        activeOrdersList.appendChild(li);
+                        hasActive = true;
+                    } else {
+                        completedOrdersList.appendChild(li);
+                        hasCompleted = true;
+                    }
+                });
+
+                if (!hasActive) activeOrdersList.innerHTML = '<li class="empty-state">No active orders right now.</li>';
+                if (!hasCompleted) completedOrdersList.innerHTML = '<li class="empty-state">No past orders found.</li>';
+
+            } catch (error) {
+                console.error("Error loading orders:", error);
+                if(error.message.includes("index")) {
+                     activeOrdersList.innerHTML = '<li class="empty-state">Database index building... check back in a few minutes.</li>';
+                }
+            }
+        }
+
+        // Helper: Build HTML for list item
+        function buildOrderListItem(orderData, docId) {
+            const li = document.createElement('li');
+            li.className = 'order-item';
+            
+            const isPending = orderData.status === 'pending';
+            const badgeClass = isPending ? 'badge-pending' : 'badge-completed';
+            
+            let cancelBtnHtml = '';
+            if (isPending) {
+                // Pass docId and cost to global cancel function
+                cancelBtnHtml = `<button class="btn-cancel" onclick="cancelOrder('${docId}', ${orderData.points_cost})">Cancel & Refund</button>`;
+            }
+
+            li.innerHTML = `
+                <div class="order-info">
+                    <h4>Get ${orderData.amount} Followers</h4>
+                    <p><i class="fa-brands fa-instagram"></i> @${orderData.buyer_instagram}</p>
+                    ${cancelBtnHtml}
+                </div>
+                <div style="text-align: right;">
+                    <span class="badge ${badgeClass}">${orderData.status}</span>
+                    <p style="font-size: 0.8rem; margin-top: 5px; color: var(--text-muted);">${orderData.points_cost} Pts</p>
+                </div>
+            `;
+            return li;
+        }
+
+        // 6. Cancel Order & Refund (Global function)
+        window.cancelOrder = async function(orderId, cost) {
+            if(!confirm(`Are you sure you want to cancel this order? ${cost} points will be refunded.`)) return;
+
+            try {
+                const batch = writeBatch(db);
+                
+                const orderRef = doc(db, "follow_orders", orderId);
+                const userRef = doc(db, "users", currentUser.uid);
+                
+                const txnId = `txn_refund_${Date.now()}`;
+                const historyRef = doc(db, "points_history", txnId);
+
+                // Delete order (or could update status to 'cancelled')
+                batch.delete(orderRef);
+                
+                // Refund Points
+                batch.update(userRef, {
+                    points: currentPoints + cost
+                });
+
+                // Add History
+                batch.set(historyRef, {
+                    txn_id: txnId,
+                    uid: currentUser.uid,
+                    points_change: cost,
+                    reason: `Refund for Cancelled Order`,
+                    created_at: serverTimestamp()
+                });
+
+                await batch.commit();
+                
+                // Refresh
+                await loadUserProfile();
+                await loadOrders();
+
+            } catch (error) {
+                console.error("Error cancelling order:", error);
+                alert("Could not cancel order.");
+            }
+        };
+
+        // Tabs Logic
+        tabActive.addEventListener('click', () => {
+            tabActive.classList.add('active');
+            tabCompleted.classList.remove('active');
+            activeOrdersList.style.display = 'block';
+            completedOrdersList.style.display = 'none';
+        });
+
+        tabCompleted.addEventListener('click', () => {
+            tabCompleted.classList.add('active');
+            tabActive.classList.remove('active');
+            completedOrdersList.style.display = 'block';
+            activeOrdersList.style.display = 'none';
+        });
+
+    </script>
+</body>
+</html>

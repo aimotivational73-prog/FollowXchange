@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Policy | FollowXchange</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Cookie Policy | FollowXchange">
+    <meta name="description" content="Learn how FollowXchange uses cookies for authentication, analytics, and advertising to provide you with the best experience.">
+    <meta name="author" content="FollowXchange">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --pink: #E1306C;
+            --purple: #833AB4;
+            --orange: #F77737;
+            --gradient: linear-gradient(135deg, var(--pink), var(--purple));
+            --ig-gradient: linear-gradient(135deg, var(--pink), var(--purple), var(--orange));
+            --bg-color: #f8f9fa;
+            --white: #ffffff;
+            --text-dark: #2d3436;
+            --text-muted: #636e72;
+            --border: #e2e8f0;
+            --info: #3498db;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { background-color: var(--bg-color); color: var(--text-dark); line-height: 1.8; font-size: 16px; }
+
+        /* ================= NAVBAR ================= */
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1rem 5%; background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .logo { font-size: 24px; font-weight: 700; background: var(--ig-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-decoration: none; }
+
+        .nav-links a { 
+            color: var(--text-dark); text-decoration: none; font-weight: 600; 
+            font-size: 0.95rem; display: flex; align-items: center; gap: 8px; transition: color 0.2s; 
+        }
+        .nav-links a:hover { color: var(--pink); }
+
+        /* ================= LAYOUT ================= */
+        .container { max-width: 900px; margin: 3rem auto; padding: 0 1.5rem; }
+        .content-card { background: var(--white); padding: 3.5rem; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.04); }
+
+        .doc-header { margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 2px solid var(--border); text-align: center; }
+        .doc-title { font-size: 2.8rem; font-weight: 800; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; line-height: 1.2; }
+        
+        .doc-meta { display: flex; justify-content: center; gap: 15px; font-size: 0.95rem; color: var(--text-muted); font-weight: 500; }
+        .doc-meta span { display: flex; align-items: center; gap: 6px; background: var(--bg-color); padding: 6px 15px; border-radius: 50px; }
+
+        /* Table of Contents */
+        .toc-box { background: #fdf2f6; border: 1px solid #fce4ec; padding: 1.8rem; border-radius: 12px; margin-bottom: 3rem; }
+        .toc-box h4 { margin-bottom: 15px; color: var(--purple); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; }
+        .toc-list { list-style: none; padding-left: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .toc-list li { margin-bottom: 4px; }
+        .toc-list a { color: var(--text-dark); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.2s; display: inline-flex; gap: 8px; align-items: center;}
+        .toc-list a::before { content: '→'; color: var(--pink); font-size: 0.8rem; }
+        .toc-list a:hover { color: var(--pink); text-decoration: underline; }
+
+        /* Body Formatting */
+        .policy-body h2 { font-size: 1.6rem; margin: 2.5rem 0 1.2rem; color: var(--purple); padding-bottom: 5px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px; }
+        .policy-body h2 span.num { background: var(--purple); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.1rem; font-weight: 700; }
+        .policy-body h3 { font-size: 1.2rem; margin: 1.5rem 0 0.8rem; color: var(--text-dark); }
+        .policy-body p { margin-bottom: 1.2rem; color: var(--text-muted); text-align: justify; }
+        .policy-body ul { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        .policy-body li { margin-bottom: 0.5rem; }
+        .policy-body a { color: var(--pink); font-weight: 600; text-decoration: none; }
+        .policy-body a:hover { text-decoration: underline; }
+
+        /* Custom Table Styling */
+        .cookie-table-wrapper { overflow-x: auto; margin: 2rem 0; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .cookie-table { width: 100%; border-collapse: collapse; text-align: left; background: var(--white); min-width: 700px; }
+        .cookie-table th, .cookie-table td { padding: 15px; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .cookie-table th { background: #fdf2f6; color: var(--purple); font-weight: 700; white-space: nowrap; }
+        .cookie-table tr:last-child td { border-bottom: none; }
+        .cookie-table tr:hover { background: var(--bg-color); }
+        .cookie-badge { padding: 4px 10px; border-radius: 50px; font-size: 0.75rem; font-weight: 700; }
+        .badge-essential { background: #e0f2fe; color: #0369a1; }
+        .badge-analytics { background: #fef08a; color: #a16207; }
+        .badge-advertising { background: #fce4ec; color: #be185d; }
+
+        /* Important Box */
+        .highlight-box { background: rgba(52, 152, 219, 0.05); border-left: 4px solid var(--info); padding: 1.5rem; border-radius: 0 10px 10px 0; margin: 2rem 0; color: var(--text-dark); }
+        .highlight-box i { margin-right: 8px; font-size: 1.2rem; color: var(--info); }
+
+        /* ================= COOKIE BANNER STYLES ================= */
+        .cookie-banner {
+            position: fixed; bottom: -100%; left: 0; width: 100%;
+            background: var(--white); box-shadow: 0 -5px 25px rgba(0,0,0,0.1);
+            z-index: 9999; padding: 1.5rem 5%;
+            display: flex; justify-content: space-between; align-items: center; gap: 20px;
+            transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-top: 3px solid var(--pink);
+        }
+        .cookie-banner.show { bottom: 0; }
+        .cookie-content { flex: 1; }
+        .cookie-content h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; }
+        .cookie-content p { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
+        .cookie-content a { color: var(--pink); text-decoration: underline; font-weight: 600; }
+        .cookie-actions { display: flex; gap: 10px; flex-shrink: 0; }
+        
+        .btn-cookie { padding: 10px 20px; border-radius: 50px; font-weight: 600; font-size: 0.9rem; cursor: pointer; border: none; transition: transform 0.2s; }
+        .btn-cookie:active { transform: scale(0.95); }
+        .btn-accept { background: var(--ig-gradient); color: white; box-shadow: 0 4px 15px rgba(225, 48, 108, 0.2); }
+        .btn-manage { background: var(--bg-color); color: var(--text-dark); border: 1px solid var(--border); }
+
+        /* ================= FOOTER ================= */
+        footer { background: var(--text-dark); color: white; padding: 4rem 5% 2rem; margin-top: 4rem; text-align: center; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 2rem; text-align: left; }
+        .footer-col h4 { margin-bottom: 1rem; color: var(--pink); }
+        .footer-col a { color: #b2bec3; text-decoration: none; display: block; margin-bottom: 8px; font-size: 0.9rem; transition: color 0.2s; }
+        .footer-col a:hover { color: white; }
+        .footer-bottom { border-top: 1px solid #4a4a4a; padding-top: 1.5rem; font-size: 0.85rem; color: #b2bec3; }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 768px) {
+            .content-card { padding: 2rem 1.5rem; }
+            .doc-title { font-size: 2.2rem; }
+            .toc-list { grid-template-columns: 1fr; }
+            .doc-meta { flex-direction: column; align-items: center; gap: 10px; }
+            .cookie-banner { flex-direction: column; text-align: center; padding: 1.5rem; }
+            .cookie-actions { width: 100%; flex-direction: column; }
+            .btn-cookie { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">FollowXchange</a>
+        <div class="nav-links">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Main Document Content -->
+        <main class="content-card">
+            
+            <div class="doc-header">
+                <h1 class="doc-title">Cookie Policy</h1>
+                <div class="doc-meta">
+                    <span><i class="fa-regular fa-calendar"></i> Effective Date: June 27, 2026</span>
+                    <span><i class="fa-solid fa-cookie-bite"></i> FollowXchange Technologies</span>
+                </div>
+            </div>
+
+            <div class="toc-box">
+                <h4><i class="fa-solid fa-list-ul"></i> Table of Contents</h4>
+                <ul class="toc-list">
+                    <li><a href="#section-1">1. What Are Cookies?</a></li>
+                    <li><a href="#section-2">2. Types of Cookies We Use</a></li>
+                    <li><a href="#section-3">3. How to Control Cookies</a></li>
+                    <li><a href="#section-4">4. Third-Party Cookies</a></li>
+                    <li><a href="#section-5">5. Cookie Consent</a></li>
+                    <li><a href="#section-6">6. Updates to This Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="policy-body">
+                
+                <p>At <strong>FollowXchange</strong>, we believe in being transparent about how we collect and use data related to you. This Cookie Policy applies to any FollowXchange product or service that links to this policy or incorporates it by reference.</p>
+
+                <h2 id="section-1"><span class="num">1</span> What Are Cookies?</h2>
+                <p>Cookies are small text files that are placed on your computer, smartphone, or other devices when you visit a website. They are widely used to make websites work more efficiently, improve the user experience, and provide analytical and advertising information to the owners of the site.</p>
+                <p>Cookies can be "Persistent" or "Session" cookies. Persistent cookies remain on your personal computer or mobile device when you go offline, while Session cookies are deleted as soon as you close your web browser.</p>
+
+                <h2 id="section-2"><span class="num">2</span> Types of Cookies We Use</h2>
+                <p>We use three main categories of cookies on FollowXchange. Below is a detailed breakdown of the cookies active on our platform:</p>
+
+                <div class="cookie-table-wrapper">
+                    <table class="cookie-table">
+                        <thead>
+                            <tr>
+                                <th>Cookie Name / Tech</th>
+                                <th>Category</th>
+                                <th>Purpose</th>
+                                <th>Duration</th>
+                                <th>Set By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Firebase Session Token</strong></td>
+                                <td><span class="cookie-badge badge-essential">Essential</span></td>
+                                <td>Maintains your secure login session and authentication state across pages.</td>
+                                <td>Session / Varies</td>
+                                <td>FollowXchange (Firebase)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CSRF Token</strong></td>
+                                <td><span class="cookie-badge badge-essential">Essential</span></td>
+                                <td>Protects the platform against Cross-Site Request Forgery (CSRF) security attacks.</td>
+                                <td>Session</td>
+                                <td>FollowXchange</td>
+                            </tr>
+                            <tr>
+                                <td><strong>_ga, _gat, _gid</strong></td>
+                                <td><span class="cookie-badge badge-analytics">Analytics</span></td>
+                                <td>Firebase/Google Analytics cookies used to track page views and feature usage to help us improve the platform.</td>
+                                <td>Up to 2 Years</td>
+                                <td>Google Analytics</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Adsterra Cookies</strong></td>
+                                <td><span class="cookie-badge badge-advertising">Advertising</span></td>
+                                <td>Serves relevant advertisements, limits the number of times you see an ad, and tracks ad performance.</td>
+                                <td>Varies</td>
+                                <td>Adsterra (3rd Party)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Monetag Cookies</strong></td>
+                                <td><span class="cookie-badge badge-advertising">Advertising</span></td>
+                                <td>Tracks user interaction with advertising formats to accurately reward users with points.</td>
+                                <td>Varies</td>
+                                <td>Monetag (3rd Party)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="highlight-box">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <strong>Note on Essential Cookies:</strong> Because Essential cookies are strictly necessary for the platform to function (such as keeping you logged in securely), they <strong>cannot be disabled</strong>. Without them, FollowXchange will not work.
+                </div>
+
+                <h2 id="section-3"><span class="num">3</span> How to Control Cookies</h2>
+                <p>You have the right to decide whether to accept or reject non-essential cookies. You can set or amend your web browser controls to accept or refuse cookies. If you choose to reject cookies, you may still use our website, but your access to some functionality and areas (such as earning points via ads) may be severely restricted or broken.</p>
+                <p>To learn how to manage cookies on popular browsers, please follow these official links:</p>
+                <ul>
+                    <li><a href="https://support.google.com/chrome/answer/95647" target="_blank">Google Chrome</a></li>
+                    <li><a href="https://support.mozilla.org/en-US/kb/enhanced-tracking-protection-firefox-desktop" target="_blank">Mozilla Firefox</a></li>
+                    <li><a href="https://support.apple.com/guide/safari/manage-cookies-and-website-data-sfri11471/mac" target="_blank">Apple Safari</a></li>
+                </ul>
+
+                <h2 id="section-4"><span class="num">4</span> Third-Party Cookies</h2>
+                <p>In addition to our own cookies, we may also use various third-party cookies to report usage statistics and deliver advertisements. These third-party services operate under their own independent privacy and cookie policies. We recommend reviewing them here:</p>
+                <ul>
+                    <li><a href="https://adsterra.com/privacy-policy/" target="_blank">Adsterra Privacy Policy</a></li>
+                    <li><a href="https://monetag.com/privacy-policy/" target="_blank">Monetag Privacy Policy</a></li>
+                    <li><a href="https://policies.google.com/privacy" target="_blank">Google & Firebase Privacy Policy</a></li>
+                </ul>
+
+                <h2 id="section-5"><span class="num">5</span> Cookie Consent</h2>
+                <p>When you first visit FollowXchange, a cookie consent banner will appear at the bottom of the screen. By clicking "Accept All" or by continuing to navigate and use the FollowXchange platform, you explicitly consent to the placement of Essential, Analytics, and Advertising cookies on your device as described in this policy. Your choice is saved in your browser's local storage.</p>
+
+                <h2 id="section-6"><span class="num">6</span> Updates to This Policy</h2>
+                <p>We may update this Cookie Policy from time to time in order to reflect changes to the cookies we use or for other operational, legal, or regulatory reasons. Please revisit this page regularly to stay informed about our use of cookies and related technologies. The date at the top of this policy indicates when it was last updated.</p>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>FollowXchange</h4>
+                <p style="color: #b2bec3; font-size: 0.9rem; line-height: 1.6; margin-bottom: 10px;">The premier platform to grow your authentic Instagram following safely and securely.</p>
+                <a href="index.html" style="color: var(--pink); font-weight: 600;"><i class="fa-solid fa-arrow-left"></i> Back to Main Site</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal Info</h4>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-conditions.html">Terms & Conditions</a>
+                <a href="refund-policy.html">Refund Policy</a>
+                <a href="cookie-policy.html">Cookie Policy</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Policies</h4>
+                <a href="disclaimer.html">Disclaimer</a>
+                <a href="dmca-policy.html">DMCA Policy</a>
+                <a href="copyright-policy.html">Copyright Policy</a>
+                <a href="community-guidelines.html">Community Guidelines</a>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <a href="mailto:support@followxchange.com"><i class="fa-solid fa-envelope"></i> support@followxchange.com</a>
+                <a href="https://t.me/followxchange_support" target="_blank"><i class="fa-brands fa-telegram"></i> @followxchange_support</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 FollowXchange. All Rights Reserved.
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         BONUS: COOKIE CONSENT BANNER COMPONENT
+         ========================================== -->
+    
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <h4><i class="fa-solid fa-cookie-bite" style="color: var(--orange);"></i> We use cookies</h4>
+            <p>FollowXchange uses essential cookies for authentication and third-party cookies for serving ads and analytics. By continuing, you agree to our <a href="cookie-policy.html">Cookie Policy</a>.</p>
+        </div>
+        <div class="cookie-actions">
+            <button class="btn-cookie btn-manage" onclick="window.location.href='cookie-policy.html'">Manage Cookies</button>
+            <button class="btn-cookie btn-accept" id="acceptCookiesBtn">Accept All</button>
+        </div>
+    </div>
+
+    <script>
+        // Smooth Scroll Script for TOC
+        document.querySelectorAll('.toc-list a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                const offsetTop = targetElement.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            });
+        });
+
+        // Cookie Consent Banner Logic
+        document.addEventListener("DOMContentLoaded", function() {
+            const cookieBanner = document.getElementById("cookieBanner");
+            const acceptBtn = document.getElementById("acceptCookiesBtn");
+
+            // Check if user has already accepted cookies
+            if (!localStorage.getItem("cookieConsent")) {
+                // Short delay before showing for smooth effect
+                setTimeout(() => {
+                    cookieBanner.classList.add("show");
+                }, 1000);
+            }
+
+            // Handle Accept Button Click
+            acceptBtn.addEventListener("click", function() {
+                localStorage.setItem("cookieConsent", "accepted");
+                cookieBanner.classList.remove("show");
+            });
+        });
+    </script>
+</body>
+</html>
