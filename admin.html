@@ -318,10 +318,14 @@
         
         let allUsersData = []; 
 
-
+        // Bhaai ka Jugaad (New Checking Code)
         onAuthStateChanged(auth, async (user) => {
-            if (!user || user.email !== ADMIN_EMAIL) {
-                alert("Unauthorized Access. Redirecting...");
+            if (!user) {
+                alert("Arey bhai, tum login hi nahi ho! Pehle login karo.");
+                window.location.href = 'login.html';
+            } else if (user.email !== ADMIN_EMAIL) {
+                // Ye line tumhe exact batayegi ki gadbad kahan hai!
+                alert("Error!\nTumhara Login Email: " + user.email + "\nAdmin Email Code me: " + ADMIN_EMAIL + "\n\nYe dono match nahi ho rahe isliye block hua!");
                 window.location.href = 'index.html';
             } else {
                 initAdminPanel();
