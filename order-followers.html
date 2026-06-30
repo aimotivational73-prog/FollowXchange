@@ -374,6 +374,41 @@
             .footer-container { grid-template-columns: 1fr; gap: 2rem; }
             .link-grid { grid-template-columns: 1fr; }
         }
+
+        /* Bottom Navbar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .nav-item i { font-size: 1.3rem; }
+        .nav-item.active { color: #E1306C; }
+
+        @media (min-width: 768px) {
+            .bottom-nav { display: none; }
+            body { padding-bottom: 2rem; }
+        }
     </style>
 </head>
 <body>
@@ -491,6 +526,27 @@
         </div>
     </footer>
 
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item" id="nav-home">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+        <a href="watch-ads.html" class="nav-item" id="nav-earn">
+            <i class="fa-solid fa-coins"></i> Earn
+        </a>
+        <a href="order-followers.html" class="nav-item" id="nav-order">
+            <i class="fa-solid fa-plus-minus"></i> Order
+        </a>
+        <a href="wallet.html" class="nav-item" id="nav-wallet">
+            <i class="fa-solid fa-wallet"></i> Wallet
+        </a>
+        <a href="profile.html" class="nav-item" id="nav-profile">
+            <i class="fa-solid fa-user"></i> Profile
+        </a>
+    </nav>
+    <script>
+        document.getElementById('nav-order').classList.add('active');
+    </script>
+
     <script type="module">
         import { auth, db } from './js/firebase-config.js';
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -499,7 +555,6 @@
             writeBatch, serverTimestamp, deleteDoc 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-
         const PRICING = {
             10: 100,
             25: 240,
@@ -507,7 +562,6 @@
             100: 850,
             250: 2000
         };
-
 
         const navPoints = document.getElementById('navPoints');
         const orderForm = document.getElementById('orderForm');
@@ -518,12 +572,10 @@
         const pointsWarning = document.getElementById('pointsWarning');
         const placeOrderBtn = document.getElementById('placeOrderBtn');
         
-
         const activeOrdersList = document.getElementById('activeOrdersList');
         const completedOrdersList = document.getElementById('completedOrdersList');
         const tabActive = document.getElementById('tabActive');
         const tabCompleted = document.getElementById('tabCompleted');
-
 
         const confirmModal = document.getElementById('confirmModal');
         const modalCard = document.getElementById('modalCard');
@@ -536,7 +588,6 @@
         let currentPoints = 0;
         let currentSelection = { amount: 10, cost: 100 };
 
-
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
@@ -546,7 +597,6 @@
                 window.location.href = 'login.html';
             }
         });
-
 
         async function loadUserProfile() {
             try {
@@ -559,14 +609,12 @@
                     navPoints.textContent = currentPoints.toLocaleString();
                     targetIg.value = data.instagram_username || "";
                     
-
                     updateCostUI();
                 }
             } catch (error) {
                 console.error("Error loading user profile:", error);
             }
         }
-
 
         followerPackage.addEventListener('change', updateCostUI);
 
@@ -577,11 +625,9 @@
             currentSelection = { amount, cost };
             costDisplay.textContent = cost;
 
-
             const baseTime = Math.ceil(amount * 1.2);
             const queueDelay = Math.floor(Math.random() * 20) + 5;
             etaDisplay.innerHTML = `<i class="fa-solid fa-bolt"></i> Estimated Delivery: ~${baseTime + queueDelay} mins`;
-
 
             if (currentPoints < cost) {
                 pointsWarning.style.display = 'flex';
@@ -591,7 +637,6 @@
                 placeOrderBtn.disabled = false;
             }
         }
-
 
         orderForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -605,12 +650,10 @@
             setTimeout(() => modalCard.classList.add('show'), 10);
         });
 
-
         window.closeModal = function() {
             modalCard.classList.remove('show');
             setTimeout(() => confirmModal.style.display = 'none', 300);
         }
-
 
         confirmOrderBtn.addEventListener('click', async () => {
             confirmOrderBtn.textContent = 'Processing...';
@@ -619,16 +662,12 @@
             try {
                 const batch = writeBatch(db);
                 
-
                 const orderRef = doc(collection(db, "follow_orders"));
                 
-
                 const userRef = doc(db, "users", currentUser.uid);
-
 
                 const txnId = `txn_order_${Date.now()}`;
                 const historyRef = doc(db, "points_history", txnId);
-
 
                 batch.set(orderRef, {
                     order_id: orderRef.id,
@@ -640,7 +679,6 @@
                     created_at: serverTimestamp(),
                     progress: 0
                 });
-
 
                 batch.update(userRef, {
                     points: currentPoints - currentSelection.cost
@@ -654,17 +692,13 @@
                     created_at: serverTimestamp()
                 });
 
-
                 await batch.commit();
-
 
                 window.closeModal();
                 confirmOrderBtn.textContent = 'Yes, Place Order';
                 confirmOrderBtn.disabled = false;
                 
-
                 confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-
 
                 await loadUserProfile();
                 await loadOrders();
@@ -676,7 +710,6 @@
                 confirmOrderBtn.disabled = false;
             }
         });
-
 
         async function loadOrders() {
             try {
@@ -719,7 +752,6 @@
             }
         }
 
-
         function buildOrderListItem(orderData, docId) {
             const li = document.createElement('li');
             li.className = 'order-item';
@@ -729,7 +761,6 @@
             
             let cancelBtnHtml = '';
             if (isPending) {
-
                 cancelBtnHtml = `<button class="btn-cancel" onclick="cancelOrder('${docId}', ${orderData.points_cost})">Cancel & Refund</button>`;
             }
 
@@ -747,7 +778,6 @@
             return li;
         }
 
-
         window.cancelOrder = async function(orderId, cost) {
             if(!confirm(`Are you sure you want to cancel this order? ${cost} points will be refunded.`)) return;
 
@@ -760,14 +790,11 @@
                 const txnId = `txn_refund_${Date.now()}`;
                 const historyRef = doc(db, "points_history", txnId);
 
-
                 batch.delete(orderRef);
                 
-
                 batch.update(userRef, {
                     points: currentPoints + cost
                 });
-
 
                 batch.set(historyRef, {
                     txn_id: txnId,
@@ -779,7 +806,6 @@
 
                 await batch.commit();
                 
-
                 await loadUserProfile();
                 await loadOrders();
 
@@ -788,7 +814,6 @@
                 alert("Could not cancel order.");
             }
         };
-
 
         tabActive.addEventListener('click', () => {
             tabActive.classList.add('active');

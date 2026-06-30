@@ -18,6 +18,7 @@
             --success: #00b894;
             --danger: #d63031;
             --border: #dfe6e9;
+            --nav-height: 65px;
         }
 
         * {
@@ -30,13 +31,12 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
-            /* Footer layout fixes */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding-bottom: calc(var(--nav-height) + 2rem);
         }
 
-        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -77,7 +77,6 @@
             width: 100%;
         }
 
-        /* Tabs */
         .tabs {
             display: flex;
             gap: 15px;
@@ -107,7 +106,6 @@
             box-shadow: 0 4px 10px rgba(225, 48, 108, 0.2);
         }
 
-        /* Task Cards */
         .task-list {
             display: flex;
             flex-direction: column;
@@ -186,7 +184,6 @@
 
         .btn-submit:hover { opacity: 0.9; }
 
-        /* Status Badges */
         .status-badge {
             padding: 6px 12px;
             border-radius: 50px;
@@ -204,7 +201,6 @@
             padding: 3rem 0;
         }
 
-        /* Modal for Upload */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -267,10 +263,7 @@
             .task-card { flex-direction: column; text-align: center; gap: 15px; }
             .task-info { flex-direction: column; }
         }
-
-        /* ================== NEW COMPONENTS CSS ================== */
         
-        /* Universal Footer Styles */
         .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
         .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
         .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
@@ -286,7 +279,38 @@
         .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
         .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
 
-        @media (max-width: 768px) {
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .nav-item i { font-size: 1.3rem; }
+        .nav-item.active { color: #E1306C; }
+
+        @media (min-width: 768px) {
+            .bottom-nav { display: none; }
+            body { padding-bottom: 2rem; }
             .footer-container { grid-template-columns: 1fr; gap: 2rem; }
             .link-grid { grid-template-columns: 1fr; }
         }
@@ -302,7 +326,6 @@
     </nav>
 
     <div class="container">
-        
         <div class="tabs">
             <button class="tab-btn active" id="tabTasks">Available Tasks</button>
             <button class="tab-btn" id="tabSubmissions">My Submissions</button>
@@ -375,14 +398,33 @@
         </div>
     </footer>
 
-    <script type="module">
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item" id="nav-home">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+        <a href="watch-ads.html" class="nav-item" id="nav-earn">
+            <i class="fa-solid fa-coins"></i> Earn
+        </a>
+        <a href="order-followers.html" class="nav-item" id="nav-order">
+            <i class="fa-solid fa-plus-minus"></i> Order
+        </a>
+        <a href="wallet.html" class="nav-item" id="nav-wallet">
+            <i class="fa-solid fa-wallet"></i> Wallet
+        </a>
+        <a href="profile.html" class="nav-item" id="nav-profile">
+            <i class="fa-solid fa-user"></i> Profile
+        </a>
+    </nav>
+    <script>
+        document.getElementById('nav-earn').classList.add('active');
+    </script>
 
+    <script type="module">
         import { auth, db } from './js/firebase-config.js';
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
-            collection, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, orderBy 
+            collection, query, where, getDocs, doc, setDoc, getDoc, serverTimestamp, orderBy, limit 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
 
         const CLOUDINARY_CLOUD_NAME = "dhlhljjdb"; 
         const CLOUDINARY_UPLOAD_PRESET = "followxchange_proofs"; 
@@ -429,7 +471,8 @@
                 tasksContainer.innerHTML = '<div class="empty-state">Loading tasks...</div>';
                 
                 const ordersRef = collection(db, "follow_orders");
-                const q = query(ordersRef, where("status", "in", ["pending", "in-progress"]));
+                // Removed the != operator and added a limit to prevent huge queries
+                const q = query(ordersRef, where("status", "in", ["pending", "in-progress"]), limit(25));
                 const snapshot = await getDocs(q);
 
                 const myProofsRef = collection(db, "follow_proofs");
@@ -444,6 +487,7 @@
                 snapshot.forEach(docSnap => {
                     const data = docSnap.data();
                     
+                    // The '!=' logic is now properly handled here in JavaScript
                     if (data.buyer_uid !== currentUser.uid && !completedTaskIds.has(docSnap.id)) {
                         taskCount++;
                         const avatarUrl = `https://ui-avatars.com/api/?name=${data.buyer_instagram}&background=random`;
@@ -476,7 +520,14 @@
 
             } catch (error) {
                 console.error("Error loading tasks:", error);
-                tasksContainer.innerHTML = '<div class="empty-state">Failed to load tasks.</div>';
+                if (error.code === 'permission-denied') {
+                    tasksContainer.innerHTML = '<div class="empty-state">Please log in to see tasks. Redirecting...</div>';
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    tasksContainer.innerHTML = '<div class="empty-state">Could not load tasks. Please refresh.</div>';
+                }
             }
         }
 
@@ -560,7 +611,6 @@
             }
         });
 
-
         confirmUploadBtn.addEventListener('click', async () => {
             if (!selectedFile || !selectedOrderId) return;
 
@@ -573,11 +623,9 @@
             confirmUploadBtn.disabled = true;
 
             try {
-
                 const formData = new FormData();
                 formData.append('file', selectedFile);
                 formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
-
 
                 const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
                 

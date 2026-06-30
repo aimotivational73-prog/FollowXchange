@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <title>Dashboard | FollowXchange</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -400,7 +405,7 @@
     <header class="top-bar">
         <a href="#" class="logo">FollowXchange</a>
         <div class="points-pill">
-            <i class="fa-solid fa-coins"></i> <span id="topPoints" class="skeleton" style="width: 40px;">0</span>
+            <i class="fa-solid fa-coins"></i> <span id="topPoints" class="skeleton" style="width: 40px;">0000</span>
         </div>
         <div class="user-menu">
             <div class="avatar skeleton skeleton-circle" id="userAvatar" onclick="toggleDropdown(event)">?</div>
@@ -423,17 +428,17 @@
             </div>
             <div class="stat-card">
                 <div class="stat-title">Followers Received</div>
-                <div class="stat-value skeleton" id="statReceived">0</div>
+                <div class="stat-value skeleton" id="statReceived">0000</div>
                 <div class="stat-trend" style="color:var(--text-muted)"><i class="fa-solid fa-user-plus"></i> All Time</div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">Follows Done</div>
-                <div class="stat-value skeleton" id="statDone">0</div>
+                <div class="stat-value skeleton" id="statDone">0000</div>
                 <div class="stat-trend" style="color:var(--text-muted)"><i class="fa-solid fa-check-double"></i> All Time</div>
             </div>
             <div class="stat-card">
                 <div class="stat-title">Est. Earnings (₹)</div>
-                <div class="stat-value skeleton" id="statEarnings">₹0</div>
+                <div class="stat-value skeleton" id="statEarnings">₹0.0</div>
                 <div class="stat-trend"><i class="fa-solid fa-money-bill-wave"></i> Value generated</div>
             </div>
         </div>
@@ -545,30 +550,34 @@
     </footer>
 
     <nav class="bottom-nav">
-        <a href="dashboard.html" class="nav-item active">
+        <a href="dashboard.html" class="nav-item" id="nav-home">
             <i class="fa-solid fa-house"></i> Home
         </a>
-        <a href="earn-by-following.html" class="nav-item">
+        <a href="watch-ads.html" class="nav-item" id="nav-earn">
             <i class="fa-solid fa-coins"></i> Earn
         </a>
-        <a href="order-followers.html" class="nav-item">
+        <a href="order-followers.html" class="nav-item" id="nav-order">
             <i class="fa-solid fa-plus-minus"></i> Order
         </a>
-        <a href="wallet.html" class="nav-item">
+        <a href="wallet.html" class="nav-item" id="nav-wallet">
             <i class="fa-solid fa-wallet"></i> Wallet
         </a>
-        <a href="#" class="nav-item" onclick="window.scrollTo(0,0); toggleDropdown(event); return false;">
+        <a href="profile.html" class="nav-item" id="nav-profile">
             <i class="fa-solid fa-user"></i> Profile
         </a>
     </nav>
+    <script>
+        document.getElementById('nav-home').classList.add('active');
+    </script>
 
     <script type="module">
         import { auth, db } from './js/firebase-config.js';
         import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
         import { 
-            doc, getDoc, collection, query, where, orderBy, limit, getDocs, getCountFromServer
+            doc, getDoc, collection, query, where, orderBy, limit, getDocs, getCountFromServer, onSnapshot
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
+        // NOTE: onSnapshot needs to be imported directly from Firestore module (imported below safely)
+        import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const topPoints = document.getElementById('topPoints');
         const userAvatar = document.getElementById('userAvatar');
@@ -587,15 +596,23 @@
 
         let currentUser = null;
 
+        // FIX B - pageshow event to reload Firebase data upon back navigation
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                if (auth.currentUser) {
+                    loadProfileRealtime(auth.currentUser.uid);
+                    loadAdProgressRealtime(auth.currentUser.uid);
+                }
+            }
+        });
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
                 
-
                 await Promise.all([
-                    loadProfileData(),
-                    loadAdProgress(),
+                    loadProfileRealtime(user.uid), // FIX C - switched to real-time sync
+                    loadAdProgressRealtime(user.uid),
                     loadRecentActivity(),
                     loadLeaderboard()
                 ]);
@@ -605,53 +622,52 @@
             }
         });
 
-
-        async function loadProfileData() {
-            try {
-                const docRef = doc(db, "users", currentUser.uid);
-                const snap = await getDoc(docRef);
-
-                if(snap.exists()) {
-                    const data = snap.data();
-                    
-
-                    [topPoints, statPoints, statReceived, statDone, statEarnings, userAvatar].forEach(el => el.classList.remove('skeleton'));
-                    
-                    const points = data.points || 0;
-                    topPoints.textContent = points.toLocaleString();
-                    statPoints.textContent = points.toLocaleString();
-                    
-                    statReceived.textContent = (data.total_followers_received || 0).toLocaleString();
-                    
-                    const followsDone = data.total_follows_done || 0;
-                    statDone.textContent = followsDone.toLocaleString();
-                    
-
-                    const estEarnings = (followsDone * 0.8).toFixed(1);
-                    statEarnings.textContent = `₹${estEarnings}`;
-
-
-                    const name = data.username || "?";
-                    userAvatar.textContent = name.charAt(0);
+        // FIX C - Changed to onSnapshot for real-time updates
+        function loadProfileRealtime(uid) {
+            const userRef = doc(db, "users", uid);
+            onSnapshot(userRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    updateProfileUI(docSnap.data());
                 }
-            } catch (error) {
-                console.error("Error loading profile:", error);
-            }
+            });
         }
 
+        function updateProfileUI(data) {
+            [topPoints, statPoints, statReceived, statDone, statEarnings, userAvatar].forEach(el => el.classList.remove('skeleton'));
+            
+            const points = data.points || 0;
+            topPoints.textContent = points.toLocaleString();
+            statPoints.textContent = points.toLocaleString();
+            
+            statReceived.textContent = (data.total_followers_received || 0).toLocaleString();
+            
+            const followsDone = data.total_follows_done || 0;
+            statDone.textContent = followsDone.toLocaleString();
+            
+            const estEarnings = (followsDone * 0.8).toFixed(1);
+            statEarnings.textContent = `₹${estEarnings}`;
 
-        async function loadAdProgress() {
-            try {
-                const adsDocRef = doc(db, "ads_watched", currentUser.uid);
-                const adsDoc = await getDoc(adsDocRef);
+            const name = data.username || "?";
+            userAvatar.textContent = name.charAt(0);
+        }
+
+        // FIX C & E - Real-time ads progress observer and date verification
+        function loadAdProgressRealtime(uid) {
+            const adsRef = doc(db, "ads_watched", uid);
+            onSnapshot(adsRef, (adsDoc) => {
                 const todayStr = new Date().toLocaleDateString('en-CA');
-                
                 let todayCount = 0;
+                
                 if (adsDoc.exists()) {
                     const data = adsDoc.data();
-                    if (data.last_watched_date === todayStr) {
+                    // FIX E - Check ads date on load, reset display if not today
+                    if (data.last_watched_date !== todayStr) {
+                        todayCount = 0;
+                    } else {
                         todayCount = data.today_count || 0;
                     }
+                } else {
+                    todayCount = 0;
                 }
 
                 adCountText.classList.remove('skeleton');
@@ -662,12 +678,8 @@
                 
                 const percentage = (todayCount / 50) * 100;
                 adProgressBar.style.width = `${Math.min(percentage, 100)}%`;
-
-            } catch (error) {
-                console.error("Error loading ads progress:", error);
-            }
+            });
         }
-
 
         async function loadRecentActivity() {
             try {
@@ -690,7 +702,6 @@
                 snapshot.forEach(docSnap => {
                     const data = docSnap.data();
                     
-
                     let iconClass = "fa-star";
                     let bgClass = "icon-ad";
                     const reasonLower = data.reason.toLowerCase();
@@ -703,13 +714,11 @@
                         iconClass = "fa-user-check"; bgClass = "icon-follow";
                     }
 
-
                     let timeStr = "Recently";
                     if(data.created_at) {
                         const d = data.created_at.toDate();
                         timeStr = `${d.getDate()}/${d.getMonth()+1} ${d.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}`;
                     }
-
 
                     const isPos = data.points_change > 0;
                     const amountClass = isPos ? "amount-pos" : "amount-neg";
@@ -734,7 +743,6 @@
                 }
             }
         }
-
 
         async function loadLeaderboard() {
             try {
@@ -768,14 +776,11 @@
                     rank++;
                 });
 
-
                 myRank.classList.remove('skeleton');
                 if (userInTop5) {
-
                     const rankIdx = Array.from(snapshot.docs).findIndex(d => d.id === currentUser.uid) + 1;
                     myRank.textContent = `#${rankIdx}`;
                 } else {
-
                     const higherPointsQuery = query(usersRef, where("points", ">", userPoints));
                     const countSnap = await getCountFromServer(higherPointsQuery);
                     const exactRank = countSnap.data().count + 1;
@@ -790,14 +795,12 @@
             }
         }
 
-
         window.toggleDropdown = function(event) {
             if (event) {
                 event.stopPropagation();
             }
             document.getElementById('profileDropdown').classList.toggle('show');
         }
-
 
         window.onclick = function(event) {
             if (!event.target.matches('.avatar')) {
@@ -810,7 +813,6 @@
                 }
             }
         }
-
 
         document.getElementById('logoutBtn').addEventListener('click', async (e) => {
             e.preventDefault();

@@ -18,6 +18,7 @@
             --success: #00b894;
             --danger: #d63031;
             --border: #dfe6e9;
+            --nav-height: 65px;
         }
 
         * {
@@ -30,12 +31,11 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
-
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding-bottom: calc(var(--nav-height) + 2rem);
         }
-
 
         .navbar {
             display: flex;
@@ -67,7 +67,6 @@
             width: 100%;
         }
 
-
         .card {
             background: var(--white);
             border-radius: 20px;
@@ -84,7 +83,6 @@
             align-items: center;
             gap: 10px;
         }
-
 
         .balance-card {
             background: var(--ig-gradient);
@@ -119,7 +117,6 @@
             margin: 10px 0;
             text-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
-
 
         .earn-links {
             display: grid;
@@ -160,7 +157,6 @@
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(225, 48, 108, 0.1);
         }
-
 
         .package-grid {
             display: grid;
@@ -215,7 +211,6 @@
             background: #0077b3;
         }
 
-
         .referral-box {
             display: flex;
             gap: 10px;
@@ -247,7 +242,6 @@
         .btn-copy:hover {
             opacity: 0.9;
         }
-
 
         .history-list {
             list-style: none;
@@ -296,7 +290,6 @@
             .btn-copy { padding: 12px; }
         }
 
-
         .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
         .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
         .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
@@ -312,9 +305,44 @@
         .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
         .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
 
+        /* Bottom Navbar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .nav-item i { font-size: 1.3rem; }
+        .nav-item.active { color: #E1306C; }
+
         @media (max-width: 768px) {
             .footer-container { grid-template-columns: 1fr; gap: 2rem; }
             .link-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (min-width: 768px) {
+            .bottom-nav { display: none; }
+            body { padding-bottom: 2rem; }
         }
     </style>
 </head>
@@ -328,7 +356,7 @@
         
         <div class="card balance-card">
             <div class="balance-label">Current Available Points</div>
-            <div class="balance-amount" id="pointsDisplay">0</div>
+            <div class="balance-amount" id="pointsDisplay">---</div>
             <div class="balance-label">Manage your balance & grow your account</div>
         </div>
 
@@ -441,17 +469,38 @@
         </div>
     </footer>
 
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item" id="nav-home">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+        <a href="watch-ads.html" class="nav-item" id="nav-earn">
+            <i class="fa-solid fa-coins"></i> Earn
+        </a>
+        <a href="order-followers.html" class="nav-item" id="nav-order">
+            <i class="fa-solid fa-plus-minus"></i> Order
+        </a>
+        <a href="wallet.html" class="nav-item" id="nav-wallet">
+            <i class="fa-solid fa-wallet"></i> Wallet
+        </a>
+        <a href="profile.html" class="nav-item" id="nav-profile">
+            <i class="fa-solid fa-user"></i> Profile
+        </a>
+    </nav>
+    <script>
+        document.getElementById('nav-wallet').classList.add('active');
+    </script>
+
     <script type="module">
         import { auth, db } from './js/firebase-config.js';
         import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // FIX 1 & 2: Modified Firestore imports to include onSnapshot and removed orderBy from query dependency
         import { 
-            doc, getDoc, collection, query, where, orderBy, limit, getDocs 
+            doc, collection, query, where, limit, getDocs, onSnapshot 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-
-        const ADMIN_TELEGRAM = "YOUR_TELEGRAM_USERNAME"; 
+        // FIX 3: Fixed Admin Telegram ID
+        const ADMIN_TELEGRAM = "FollowXchangeBot"; 
         const DOMAIN_URL = "https://followxchange.store/register";
-
 
         const pointsDisplay = document.getElementById('pointsDisplay');
         const referralInput = document.getElementById('referralInput');
@@ -461,7 +510,6 @@
 
         let currentUser = null;
         let userData = null;
-
 
         function animateValue(obj, start, end, duration) {
             let startTimestamp = null;
@@ -476,57 +524,64 @@
             window.requestAnimationFrame(step);
         }
 
-
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 currentUser = user;
-                await loadUserProfile();
+                loadUserProfileRealtime(); // Replaced with Realtime observer
                 await loadTransactionHistory();
             } else {
                 window.location.href = 'login.html';
             }
         });
 
-
-        async function loadUserProfile() {
-            try {
-                const docRef = doc(db, "users", currentUser.uid);
-                const docSnap = await getDoc(docRef);
-
+        // FIX 1: load profile via onSnapshot
+        function loadUserProfileRealtime() {
+            const docRef = doc(db, "users", currentUser.uid);
+            onSnapshot(docRef, (docSnap) => {
                 if (docSnap.exists()) {
                     userData = docSnap.data();
                     
-
-                    animateValue(pointsDisplay, 0, userData.points, 1500);
-
+                    if (pointsDisplay.textContent === '---') {
+                        animateValue(pointsDisplay, 0, userData.points, 1500);
+                    } else {
+                        pointsDisplay.innerHTML = userData.points.toLocaleString();
+                    }
 
                     const refCode = userData.instagram_username || userData.username.replace(/\s+/g, '').toLowerCase();
                     referralInput.value = `${DOMAIN_URL}?ref=${refCode}`;
 
-
                     setupTelegramLinks();
+                } else {
+                    pointsDisplay.textContent = "Error";
                 }
-            } catch (error) {
+            }, (error) => {
                 console.error("Error loading user profile:", error);
                 pointsDisplay.textContent = "Error";
-            }
-        }
-
-
-        function setupTelegramLinks() {
-            const safeUsername = userData.instagram_username || userData.username;
-            
-            buyLinks.forEach(link => {
-                const packageAmount = link.getAttribute('data-pkg');
-                const message = `Hi, I want to buy ${packageAmount} points for FollowXchange. My username is: ${safeUsername}.`;
-                
-
-                const encodedMessage = encodeURIComponent(message);
-                link.href = `https://t.me/${ADMIN_TELEGRAM}?text=${encodedMessage}`;
-                link.target = "_blank";
             });
         }
 
+        // FIX 3: Dynamic Telegram link function
+        function buildTelegramLink(points, price) { 
+            const igUser = userData?.instagram_username || 'unknown'; 
+            const msg = encodeURIComponent( 'Hi! I want to buy '+points+' Points for Rs '+price+ '. My IG username: @'+igUser ); 
+            return 'https://t.me/'+ADMIN_TELEGRAM+'?text='+msg; 
+        }
+
+        function setupTelegramLinks() {
+            const prices = {
+                "100": 10,
+                "500": 45,
+                "1000": 80,
+                "5000": 350
+            };
+            
+            buyLinks.forEach(link => {
+                const packageAmount = link.getAttribute('data-pkg');
+                const price = prices[packageAmount];
+                link.href = buildTelegramLink(packageAmount, price);
+                link.target = "_blank";
+            });
+        }
 
         copyBtn.addEventListener('click', () => {
             referralInput.select();
@@ -540,66 +595,66 @@
             }, 2000);
         });
 
-
+        // FIX 2: Modified transaction history to sort via JS, bypassing Firebase composite index requirements
         async function loadTransactionHistory() {
             try {
-
-                const historyRef = collection(db, "points_history");
                 const q = query(
-                    historyRef, 
-                    where("uid", "==", currentUser.uid),
-                    orderBy("created_at", "desc"),
-                    limit(20)
+                    collection(db, 'points_history'), 
+                    where('uid', '==', currentUser.uid),
+                    limit(30)
                 );
 
-                const querySnapshot = await getDocs(q);
-                
+                const snap = await getDocs(q);
                 historyList.innerHTML = ''; 
 
-                if (querySnapshot.empty) {
+                if (snap.empty) {
                     historyList.innerHTML = '<li class="loading-text">No recent transactions found.</li>';
                     return;
                 }
 
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    
-
-                    let dateStr = "Just now";
-                    if(data.created_at) {
-                        const dateObj = data.created_at.toDate();
-                        dateStr = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    }
-
-
-                    const isPositive = data.points_change > 0;
-                    const sign = isPositive ? '+' : '';
-                    const colorClass = isPositive ? 'positive' : 'negative';
-
-                    const li = document.createElement('li');
-                    li.className = 'history-item';
-                    li.innerHTML = `
-                        <div class="hist-info">
-                            <h4>${data.reason}</h4>
-                            <div class="hist-date">${dateStr}</div>
-                        </div>
-                        <div class="hist-amount ${colorClass}">
-                            ${sign}${data.points_change}
-                        </div>
-                    `;
-                    historyList.appendChild(li);
+                const txns = [];
+                snap.forEach(doc => txns.push(doc.data()));
+                
+                // Locally sort by descending created_at timestamp
+                txns.sort((a,b) => {
+                    const timeA = a.created_at ? a.created_at.seconds : 0;
+                    const timeB = b.created_at ? b.created_at.seconds : 0;
+                    return timeB - timeA;
                 });
+                
+                displayTransactions(txns.slice(0, 20));
 
             } catch (error) {
                 console.error("Error loading history:", error);
-                
-
-                if(error.message.includes("index")) {
-                    historyList.innerHTML = '<li class="loading-text" style="color: var(--danger);">Database index building. History will appear shortly. Check console for index link.</li>';
-                } else {
-                    historyList.innerHTML = '<li class="loading-text">Could not load transactions.</li>';
-                }
+                historyList.innerHTML = '<li class="loading-text">Could not load transactions.</li>';
             }
+        }
+
+        function displayTransactions(txns) {
+            txns.forEach((data) => {
+                let dateStr = "Just now";
+                if(data.created_at) {
+                    const dateObj = data.created_at.toDate();
+                    dateStr = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                }
+
+                const isPositive = data.points_change > 0;
+                const sign = isPositive ? '+' : '';
+                const colorClass = isPositive ? 'positive' : 'negative';
+
+                const li = document.createElement('li');
+                li.className = 'history-item';
+                li.innerHTML = `
+                    <div class="hist-info">
+                        <h4>${data.reason}</h4>
+                        <div class="hist-date">${dateStr}</div>
+                    </div>
+                    <div class="hist-amount ${colorClass}">
+                        ${sign}${data.points_change}
+                    </div>
+                `;
+                historyList.appendChild(li);
+            });
         }
     </script>
 </body>

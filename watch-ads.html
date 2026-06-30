@@ -8,6 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="/favicon.js"></script>
     
+    <script>
+        window.addEventListener('error', function(e) { 
+            if (e.target && e.target.src && (
+                e.target.src.includes('adsterra') || 
+                e.target.src.includes('effectivecpmnetwork') || 
+                e.target.src.includes('highperformanceformat')
+            )) { 
+                e.preventDefault(); 
+            } 
+        }, true);
+    </script>
+
     <style>
         :root {
             --ig-gradient: linear-gradient(135deg, #E1306C, #833AB4, #F77737);
@@ -16,6 +28,7 @@
             --text-dark: #333333;
             --text-muted: #666666;
             --success: #10b981;
+            --nav-height: 65px;
         }
 
         * {
@@ -28,10 +41,10 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-dark);
-            /* Footer padding fix */
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            padding-bottom: calc(var(--nav-height) + 2rem);
         }
 
         /* Navbar */
@@ -166,7 +179,7 @@
         /* Floating Top Right Timer */
         .floating-timer {
             position: fixed;
-            top: 85px; /* Below navbar */
+            top: 85px; 
             right: 5%;
             background: var(--ig-gradient);
             color: white;
@@ -206,7 +219,6 @@
             100% { transform: translateY(-80px) scale(1); opacity: 0; }
         }
 
-        /* Limit Reached */
         .limit-msg {
             display: none;
             color: #E1306C;
@@ -253,7 +265,7 @@
             font-weight: 700;
         }
 
-        /* Modals (Instruction Popup) */
+        /* Modals */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -298,7 +310,7 @@
             height: 16px;
         }
 
-        /* New Ad Placement Styles */
+        /* Ad Styles */
         .ad-label {
             font-size: 0.75rem;
             color: var(--text-muted);
@@ -312,10 +324,9 @@
             font-weight: 600;
         }
 
-        /* Desktop Only Ad Card (Inside History) */
         .desktop-ad-card {
             background: #f8f9fa;
-            border: 1px solid var(--border);
+            border: 1px solid #dfe6e9;
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 20px;
@@ -323,7 +334,6 @@
             display: block; 
         }
 
-        /* Sponsored Native Ad Card (Bottom) */
         .sponsored-ad-card {
             background: var(--white);
             border-radius: 20px;
@@ -342,7 +352,7 @@
             }
         }
 
-        /* Universal Footer Styles */
+        /* Universal Footer */
         .universal-footer { width: 100%; background: #1a1a2e; color: #ffffff; padding: 4rem 5% 1.5rem; font-family: 'Poppins', sans-serif; margin-top: auto; }
         .footer-container { display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 3rem; max-width: 1200px; margin: 0 auto 3rem; text-align: left; }
         .footer-brand h2 { font-size: 1.8rem; background: linear-gradient(135deg, #E1306C, #833AB4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
@@ -358,7 +368,39 @@
         .ig-disclaimer { font-size: 0.8rem; color: #a4b0be; margin-bottom: 10px; }
         .footer-bottom p:last-child { font-size: 0.9rem; color: #ffffff; margin: 0; }
 
-        @media (max-width: 768px) {
+        /* Bottom Navbar */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: var(--white);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-decoration: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .nav-item i { font-size: 1.3rem; }
+        .nav-item.active { color: #E1306C; }
+
+        @media (min-width: 768px) {
+            .bottom-nav { display: none; }
+            body { padding-bottom: 2rem; }
             .footer-container { grid-template-columns: 1fr; gap: 2rem; }
             .link-grid { grid-template-columns: 1fr; }
         }
@@ -437,19 +479,7 @@
             
             <div class="desktop-ad-card">
                 <div class="ad-label"><i class="fa-solid fa-ad"></i> Advertisement</div>
-                <div style="display:flex; justify-content:center;">
-
-                    <script>
-                      atOptions = {
-                        'key' : 'bcb9a00eead65ee1b8261d2f5c9f4e5e',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                      };
-                    </script>
-                    <script src="https://www.highperformanceformat.com/bcb9a00eead65ee1b8261d2f5c9f4e5e/invoke.js"></script>
-                </div>
+                <div id="bannerAdContainer" style="display:flex; justify-content:center; min-height: 250px;"></div>
             </div>
 
             <ul class="history-list" id="historyList">
@@ -458,8 +488,7 @@
         
         <div class="sponsored-ad-card" id="lazyNativeAd">
             <div class="ad-label"><i class="fa-solid fa-bullhorn"></i> Sponsored</div>
-            <div id="nativeAdWrapper" style="min-height: 50px;">
-                </div>
+            <div id="nativeAdWrapper" style="min-height: 50px;"></div>
         </div>
 
     </div>
@@ -500,6 +529,27 @@
             <p>&copy; 2026 FollowXchange. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <nav class="bottom-nav">
+        <a href="dashboard.html" class="nav-item" id="nav-home">
+            <i class="fa-solid fa-house"></i> Home
+        </a>
+        <a href="watch-ads.html" class="nav-item" id="nav-earn">
+            <i class="fa-solid fa-coins"></i> Earn
+        </a>
+        <a href="order-followers.html" class="nav-item" id="nav-order">
+            <i class="fa-solid fa-plus-minus"></i> Order
+        </a>
+        <a href="wallet.html" class="nav-item" id="nav-wallet">
+            <i class="fa-solid fa-wallet"></i> Wallet
+        </a>
+        <a href="profile.html" class="nav-item" id="nav-profile">
+            <i class="fa-solid fa-user"></i> Profile
+        </a>
+    </nav>
+    <script>
+        document.getElementById('nav-earn').classList.add('active');
+    </script>
 
     <script type="module">
         import { auth, db } from './js/firebase-config.js';
@@ -632,12 +682,15 @@
             instructionText.style.fontWeight = '600';
             instructionText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Ad opened in new tab. Please wait here until timer finishes...';
             
-
             floatingTimer.style.display = 'flex';
             
-
-            const AD_LINK = 'https://www.effectivecpmnetwork.com/sxukxa3e?key=35a8a5808cc7d8a985ba0776162aeb95'; 
-            window.open(AD_LINK, '_blank');
+            // Try-Catch block to ensure Ad Blockers don't stop the reward timer
+            try {
+                const AD_LINK = 'https://www.effectivecpmnetwork.com/sxukxa3e?key=35a8a5808cc7d8a985ba0776162aeb95'; 
+                window.open(AD_LINK, '_blank');
+            } catch (e) {
+                console.warn("Ad blocked, but timer continues.", e);
+            }
             
             let timeLeft = AD_DURATION;
             floatTime.textContent = timeLeft;
@@ -648,7 +701,7 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(interval);
-                    finishAd();
+                    finishAd(); // Completely independent reward execution
                 }
             }, 1000);
         }
@@ -656,17 +709,14 @@
         async function finishAd() {
             isWatching = false;
             
-
             floatingTimer.style.display = 'none';
             
             instructionText.style.color = 'var(--text-muted)';
             instructionText.style.fontWeight = 'normal';
             
-
             floatingPoints.style.animation = 'none';
             void floatingPoints.offsetWidth; 
             floatingPoints.style.animation = 'floatUp 1.5s ease-out forwards';
-
 
             pointsBadge.classList.add('bump');
             setTimeout(() => pointsBadge.classList.remove('bump'), 300);
@@ -725,6 +775,30 @@
     </script>
     
     <script>
+        // Global Safe Loader Function
+        function loadAdSafely(containerId, adCode) { 
+            const container = document.getElementById(containerId); 
+            if (!container) return; 
+            try { 
+                container.innerHTML = adCode; 
+            } catch(e) { 
+                container.innerHTML = 'Advertisement placeholder'; 
+            } 
+            setTimeout(() => { 
+                const iframe = container.querySelector('iframe'); 
+                if (!iframe || iframe.clientHeight < 10) { 
+                    container.innerHTML = '<div style="padding: 20px; color: #999; border: 1px dashed #ccc; border-radius: 10px;">Sponsored Content placeholder</div>'; 
+                } 
+            }, 5000); 
+        }
+
+        // Apply to Banner Ad using secure iframe srcdoc strategy
+        document.addEventListener("DOMContentLoaded", function() {
+            const bannerCode = "<iframe srcdoc=\"<script>atOptions = {'key' : 'bcb9a00eead65ee1b8261d2f5c9f4e5e','format' : 'iframe','height' : 250,'width' : 300,'params' : {}};<\\/script><script src='https://www.highperformanceformat.com/bcb9a00eead65ee1b8261d2f5c9f4e5e/invoke.js'><\\/script>\" width=\"300\" height=\"250\" frameborder=\"0\" scrolling=\"no\"></iframe>";
+            loadAdSafely('bannerAdContainer', bannerCode);
+        });
+
+        // Lazy Native Ad Loading Logic
         document.addEventListener("DOMContentLoaded", function() {
             const lazyAdContainer = document.getElementById('lazyNativeAd');
             const nativeAdWrapper = document.getElementById('nativeAdWrapper');
@@ -751,7 +825,6 @@
             observer.observe(lazyAdContainer);
         });
     </script>
-
 
     <script src="https://pl30108021.effectivecpmnetwork.com/29/3c/d7/293cd78bcdab5c8f4fcc0245925202d6.js"></script>
 
